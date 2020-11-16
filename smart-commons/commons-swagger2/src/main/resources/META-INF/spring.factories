@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.sct.commons.swagger2.SwaggerConfiguration,\
+com.sct.commons.swagger2.CrossConfiguration
+

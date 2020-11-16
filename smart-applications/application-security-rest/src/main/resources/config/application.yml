@@ -1,0 +1,57 @@
+server:
+  servlet:
+    session:
+      timeout: PT12H
+  compression:
+    enabled: true
+    min-response-size: 1024
+
+#logging:
+#  level:
+#    root: DEBUG
+#    org.springframework.web: DEBUG
+#    org.springframework.security: DEBUG
+#    org.springframework.security.oauth2: DEBUG
+
+security:
+  jwk-set-uri: http://localhost:8090/auth/realms/oauth2-sample/protocol/openid-connect/certs
+  datasource:
+    url: jdbc:mysql://192.168.1.21:3306/irdb?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+    username: irsoft
+    password: irsoft
+    driver: com.mysql.cj.jdbc.Driver
+    max-active: 20
+    validation-query: SELECT 1
+
+spring:
+  application: application-business
+  messages:
+    basename: messages,i18n/messages
+  datasource:
+    url: ${security.datasource.url}
+    username: ${security.datasource.username}
+    password: ${security.datasource.password}
+    driver-class-name: ${security.datasource.driver}
+    max-active: ${security.datasource.max-active}
+    max-wait: 10000
+    min-idle: 5
+    initial-size: 5
+    validation-query: ${security.datasource.validation-query}
+    time-between-eviction-runs-millis: 18800
+    jdbc-interceptors: ConnectionState;SlowQueryReport(threshold=50)
+    type: com.alibaba.druid.pool.DruidDataSource
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${security.jwk-set-uri}
+
+mybatis:
+  scanner:
+    base-package: com.hios.platform.security.common.db.mapper
+  factor:
+    config-location: classpath:config/mybatis-base-config.xml
+    mapper-locations: classpath:mapper/*.xml
+  druid:
+    enable: true
+

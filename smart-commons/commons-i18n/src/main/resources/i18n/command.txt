@@ -1,0 +1,4 @@
+native2ascii -encoding UTF-8 example_tips.properties example_tips_zh.properties
+native2ascii -encoding UTF-8 example_tips.properties example_tips_zh_CN.properties
+native2ascii -encoding UTF-8 example_tips_en.properties example_tips_en_EN.properties
+native2ascii -encoding UTF-8 example_tips_en.properties example_tips_en_US.properties
