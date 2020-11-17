@@ -19,5 +19,10 @@
         <module>commons-swagger2</module>
         <module>commons-i18n</module>
         <module>commons-constants</module>
+        <module>commons-file</module>
+        <module>commons-db-autoconfigure</module>
+        <module>commons-db-driver-dependency</module>
+        <module>commons-logback</module>
+        <module>commons-cache</module>
     </modules>
 </project>

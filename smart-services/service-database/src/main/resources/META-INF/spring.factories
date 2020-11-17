@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.sct.service.database.security.service.AuthorityUserDetailsService,\
+com.sct.service.database.security.service.DefaultUsernameResolver
+

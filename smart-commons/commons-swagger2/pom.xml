@@ -6,6 +6,7 @@
         <artifactId>smart-commons</artifactId>
         <groupId>com.sct</groupId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,6 +15,13 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!-- -->
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>commons-constants</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>

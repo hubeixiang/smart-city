@@ -15,6 +15,12 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!-- smart commons -->
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>commons-constants</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- spring & spring boot-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -36,4 +42,15 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 </project>

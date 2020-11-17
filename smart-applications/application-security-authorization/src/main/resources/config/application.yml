@@ -47,11 +47,12 @@ spring:
           jwk-set-uri: ${security.jwk-set-uri}
 
 mybatis:
+  config-location: classpath:config/mybatis-base-config.xml
+  mapper-locations: classpath:mapper/*.xml
   scanner:
-    base-package: com.hios.platform.security.common.db.mapper
+    enable: true
+    base-package: com.sct.service.database.mapper
   factor:
+    enable: false
     config-location: classpath:config/mybatis-base-config.xml
     mapper-locations: classpath:mapper/*.xml
-  druid:
-    enable: true
-

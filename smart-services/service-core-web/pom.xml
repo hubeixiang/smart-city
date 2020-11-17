@@ -14,10 +14,53 @@
     <artifactId>service-core-web</artifactId>
 
     <dependencies>
+        <!-- sct service -->
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>service-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>service-core-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- sct commons -->
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>commons-utils</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.sct</groupId>
             <artifactId>commons-swagger2</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>commons-file</artifactId>
+        </dependency>
+
+        <!-- other -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>commons-utils</artifactId>
+        </dependency>
     </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 
 </project>

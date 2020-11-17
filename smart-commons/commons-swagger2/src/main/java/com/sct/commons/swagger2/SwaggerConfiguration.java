@@ -1,5 +1,6 @@
 package com.sct.commons.swagger2;
 
+import com.sct.commons.constants.ConstantCommonAutoConfigure;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -17,19 +18,19 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfiguration {
-    @Value("${swagger.rest.package:com.sct}")
+    @Value("${" + ConstantCommonAutoConfigure.Swagger2.SWAGGER2_PREFIX + ".rest.package:com.sct}")
     private String restPackage;
-    @Value("${swagger.rest.title:Restful接口描述}")
+    @Value("${" + ConstantCommonAutoConfigure.Swagger2.SWAGGER2_PREFIX + ".rest.title:Restful接口描述}")
     private String restTitle;
-    @Value("${swagger.rest.desc:Java后台服务提供的Restful接口}")
+    @Value("${" + ConstantCommonAutoConfigure.Swagger2.SWAGGER2_PREFIX + ".rest.desc:Java后台服务提供的Restful接口}")
     private String restDesc;
-    @Value("${swagger.rest.version:1.0.0}")
+    @Value("${" + ConstantCommonAutoConfigure.Swagger2.SWAGGER2_PREFIX + ".rest.version:1.0.0}")
     private String restVersion;
-    @Value("${swagger.contact.name:sct}")
+    @Value("${" + ConstantCommonAutoConfigure.Swagger2.SWAGGER2_PREFIX + ".contact.name:sct}")
     private String contactName;
-    @Value("${swagger.contact.url:www.sct.com}")
+    @Value("${" + ConstantCommonAutoConfigure.Swagger2.SWAGGER2_PREFIX + ".contact.url:www.sct.com}")
     private String contactUrl;
-    @Value("${swagger.contact.email:xxx@263.com}")
+    @Value("${" + ConstantCommonAutoConfigure.Swagger2.SWAGGER2_PREFIX + ".contact.email:xxx@263.com}")
     private String contactEmail;
 
     @Bean

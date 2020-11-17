@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="defaultStatementTimeout" value="60"/>
+        <setting name="cacheEnabled" value="false"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="defaultExecutorType" value="REUSE"/><!-- REUSE executor reuses prepared statements. -->
+        <setting name="logImpl" value="Slf4j"/>
+        <setting name="callSettersOnNulls" value="true"/>
+        <!--
+        <setting name="defaultScriptingLanguage" value="com.sven.wms.db.handler.xmltagls.CustomXMLLanguageDriver"/>
+        -->
+    </settings>
+    <typeAliases>
+    </typeAliases>
+    <typeHandlers>
+        <typeHandler jdbcType="VARCHAR" handler="com.sct.service.database.mybatis.LargeStringTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.InstantTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.LocalDateTimeTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.LocalDateTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.LocalTimeTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.OffsetDateTimeTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.OffsetTimeTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.ZonedDateTimeTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.YearTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.MonthTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.YearMonthTypeHandler"/>
+        <typeHandler handler="org.apache.ibatis.type.JapaneseDateTypeHandler"/>
+    </typeHandlers>
+
+    <mappers>
+        <!--        <mapper resource="mapper/BaseMapper.xml"/>-->
+        <!--        <mapper resource="mapper/SimpleGenericMapper.xml"/>-->
+    </mappers>
+</configuration>

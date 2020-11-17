@@ -18,6 +18,8 @@
         <module>service-database</module>
         <module>service-core</module>
         <module>service-core-web</module>
+        <module>service-core-api</module>
+        <module>service-users</module>
     </modules>
 
     <dependencyManagement>
@@ -40,6 +42,26 @@
             <dependency>
                 <groupId>com.sct</groupId>
                 <artifactId>commons-i18n</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sct</groupId>
+                <artifactId>commons-file</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sct</groupId>
+                <artifactId>commons-db-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sct</groupId>
+                <artifactId>commons-logback</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sct</groupId>
+                <artifactId>commons-cache</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

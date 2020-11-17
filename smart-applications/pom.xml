@@ -37,6 +37,11 @@
                 <artifactId>service-core-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.sct</groupId>
+                <artifactId>commons-logback</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

@@ -15,7 +15,8 @@ server:
 
 security:
   jwk-set-uri: http://localhost:8090/auth/realms/oauth2-sample/protocol/openid-connect/certs
-  datasource:
+datasource:
+  jdbc:
     url: jdbc:mysql://192.168.1.21:3306/irdb?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
     username: irsoft
     password: irsoft
@@ -26,17 +27,17 @@ security:
 spring:
   application: application-business
   messages:
-    basename: messages,i18n/messages
+    basename: i18n/sct_messages
   datasource:
-    url: ${security.datasource.url}
-    username: ${security.datasource.username}
-    password: ${security.datasource.password}
-    driver-class-name: ${security.datasource.driver}
-    max-active: ${security.datasource.max-active}
+    url: ${datasource.jdbc.url}
+    username: ${datasource.jdbc.username}
+    password: ${datasource.jdbc.password}
+    driver-class-name: ${datasource.jdbc.driver}
+    max-active: ${datasource.jdbc.max-active}
     max-wait: 10000
     min-idle: 5
     initial-size: 5
-    validation-query: ${security.datasource.validation-query}
+    validation-query: ${datasource.jdbc.validation-query}
     time-between-eviction-runs-millis: 18800
     jdbc-interceptors: ConnectionState;SlowQueryReport(threshold=50)
     type: com.alibaba.druid.pool.DruidDataSource
@@ -47,11 +48,12 @@ spring:
           jwk-set-uri: ${security.jwk-set-uri}
 
 mybatis:
+  config-location: classpath:config/mybatis-base-config.xml
+  mapper-locations: classpath:mapper/*.xml
   scanner:
-    base-package: com.hios.platform.security.common.db.mapper
+    enable: true
+    base-package: com.sct.service.database.mapper
   factor:
+    enable: false
     config-location: classpath:config/mybatis-base-config.xml
     mapper-locations: classpath:mapper/*.xml
-  druid:
-    enable: true
-

@@ -21,15 +21,39 @@
             <artifactId>service-core</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>service-users</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- dependency commons -->
         <dependency>
             <groupId>com.sct</groupId>
+            <artifactId>commons-db-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
             <artifactId>commons-utils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>commons-i18n</artifactId>
         </dependency>
 
         <!-- dependency other -->
 
     </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 
 </project>

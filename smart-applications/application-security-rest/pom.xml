@@ -28,6 +28,14 @@
             <groupId>com.sct</groupId>
             <artifactId>service-database</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>service-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>commons-logback</artifactId>
+        </dependency>
 
         <!-- spring dependency -->
         <dependency>
@@ -38,6 +46,12 @@
 
     <build>
         <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>config/**/*.*</exclude>
+                </excludes>
+            </resource>
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>

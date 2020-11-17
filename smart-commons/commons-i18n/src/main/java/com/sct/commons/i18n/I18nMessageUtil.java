@@ -61,12 +61,4 @@ public class I18nMessageUtil {
     public String getMessage(MessageSourceResolvable resolvable, Locale locale) throws NoSuchMessageException {
         return this.i18nMessageSource.getMessage(resolvable, locale);
     }
-
-    public String getExampleMessage() {
-        return this.i18nMessageSource.getMessage(ExampleConstants.TIPS_EXAMPLE_TIP);
-    }
-
-    public String getExampleMessage(Locale locale) {
-        return this.i18nMessageSource.getMessage(ExampleConstants.TIPS_EXAMPLE_TIP, locale);
-    }
 }

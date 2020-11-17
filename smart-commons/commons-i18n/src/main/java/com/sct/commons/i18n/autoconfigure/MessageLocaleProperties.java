@@ -1,9 +1,10 @@
 package com.sct.commons.i18n.autoconfigure;
 
+import com.sct.commons.constants.ConstantCommonAutoConfigure;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@ConfigurationProperties(prefix = "hsven.locale")
+@ConfigurationProperties(prefix = ConstantCommonAutoConfigure.I18N.I18N_PROPERTIES)
 @Component
 public class MessageLocaleProperties {
     private String language;

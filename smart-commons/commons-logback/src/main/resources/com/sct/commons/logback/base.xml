@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+    <include resource="com/sct/commons/logback/defaults.xml"/>
+    <include resource="com/sct/commons/logback/console-appender.xml"/>
+    <include resource="com/sct/commons/logback/file-appender.xml"/>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="FILE-ERROR"/>
+    </root>
+</included>
