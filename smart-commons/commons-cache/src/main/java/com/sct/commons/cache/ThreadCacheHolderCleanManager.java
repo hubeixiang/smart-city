@@ -2,7 +2,7 @@ package com.sct.commons.cache;
 
 import com.sct.commons.cache.api.IStatusHolderService;
 
-public class ThreadCacheHolderCleanManager {
+public final class ThreadCacheHolderCleanManager {
     private static ThreadCacheHolderCleanManager instance;
     private static ThreadCacheHolderClean threadCacheHolderClean;
 

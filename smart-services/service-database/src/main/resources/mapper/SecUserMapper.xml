@@ -151,6 +151,14 @@
     from sec_user
     where user_id = #{userId,jdbcType=VARCHAR} and deleted_time is null
   </select>
+    <select id="selectByUserIdOrCellPhomeOrEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+   select user_id, login_id, user_name, user_status, deleted_time, password, password_raw,
+    create_time, modified_time, valid_start_time, valid_end_time, pwd_must_change, pwd_expire_date,
+    login_failed_times, login_lock_time, user_email, user_mobile, user_phone, memo, dept_id,
+    title_id
+    from sec_user
+    where (login_id = #{userId,jdbcType=VARCHAR} || user_mobile = #{userId,jdbcType=VARCHAR} || user_email = #{userId,jdbcType=VARCHAR} ) and deleted_time is null order  by user_id
+  </select>
     <select id="selectByUserMobile" parameterType="java.lang.String" resultMap="BaseResultMap">
    select user_id, login_id, user_name, user_status, deleted_time, password, password_raw,
     create_time, modified_time, valid_start_time, valid_end_time, pwd_must_change, pwd_expire_date,

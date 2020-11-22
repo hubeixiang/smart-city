@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.sct.service.oauth2.core.autoconfigure.Oauth2CommonConfigAutoconfigure
+

@@ -14,7 +14,6 @@ server:
 #    org.springframework.security.oauth2: DEBUG
 
 security:
-  jwk-set-uri: http://localhost:8090/auth/realms/oauth2-sample/protocol/openid-connect/certs
   datasource:
     url: jdbc:mysql://192.168.1.21:3306/irdb?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
     username: irsoft
@@ -26,7 +25,7 @@ security:
 spring:
   application: application-business
   messages:
-    basename: messages,i18n/messages
+    basename: messages,i18n/sct_messages,i18n/screen-message
   datasource:
     url: ${security.datasource.url}
     username: ${security.datasource.username}
@@ -44,7 +43,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: ${security.jwk-set-uri}
+          jwk-set-uri: http://localhost:8090/auth/realms/oauth2-sample/protocol/openid-connect/certs
 
 mybatis:
   config-location: classpath:config/mybatis-base-config.xml
@@ -56,3 +55,46 @@ mybatis:
     enable: false
     config-location: classpath:config/mybatis-base-config.xml
     mapper-locations: classpath:mapper/*.xml
+
+ilogin:
+  loginform:
+    loginPageUrl:  /login-embed/loginView
+    loginErrorPageUrl: /login-error
+    loginDefaultSucessUrl:  /index
+    defaultLoginPostUrl: /login
+    sessionInvalidPageUrl: ${login.loginform.loginErrorPageUrl}
+  oauthClient:
+    clientId: hios-client-embed
+    clientSecret: secret_hios
+    clientScope: read,write
+  captcha:
+    enable: true
+    timeout: 300
+  password:
+    active: true
+    enable: true
+    type: sct
+  sms:
+    active: false
+    enable: true
+    timeout: 300
+    mobile-message-format: 登录验证码:%s,有效时间5分钟
+    smsLoginPostUrl:  /login-mobile
+  session-manager-config:
+    max-mum-sessions: -1
+    max-sessions-prevents-login: false
+    security-with-resource-server: true
+  throttle:
+    throttle-sign-in:
+      threshold: -1
+      range-seconds: -1
+      lock-seconds: -1
+      password-expire-days: 90
+  auth-provider[0]:
+    name: username
+    enable: true
+    order: 1
+  auth-provider[1]:
+    name: sms
+    enable: true
+    order: 2

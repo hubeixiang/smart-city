@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <title th:if="${page_title}" th:text="${page_title}">Spring Security OAuth 2.0 Authorization Server Sample Default</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}" />
+  <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+  <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+  <script th:src="@{/webjars/jsencrypt/bin/jsencrypt.min.js}"></script>
+  <style type="text/css">
+    .container {
+      width: 500px;
+      height: 400px;
+    }
+    .container>h1 {
+      font-weight: bold;
+      color: #0691fd;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .container>.welcome {
+      position: relative;
+      height: 20px;
+    }
+    .container>.welcome>.line {
+      position: absolute;
+      width: 100%;
+      top: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+    .container>.welcome>.text {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+    }
+    .container>.welcome>.text>p {
+      padding: 0 5px;
+      background: #fff;
+      color: #555555;
+      display: inline-block;
+    }
+    .container>.error {
+      color: #a94442;
+      background-color: #f2dede;
+      border-color: #ebccd1;
+      padding: 7px 10px;
+      margin: 5px 15px;
+      border-radius: 3px;
+    }
+    .container>.nav.nav-tabs {
+      /* visibility: hidden; */
+      display: none;
+    }
+    .tab-content .list-group-item {
+      border: none;
+    }
+    .tab-content .captcha-img {
+      position: absolute;
+      z-index: 3;
+      top: 1px;
+      right: 1px;
+    }
+    .tab-content .captcha-img>img {
+      height: 32px;
+    }
+    .tab-content button[type="submit"] {
+      /* background: #0165b3; */
+      color: white;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <button type="button" rel="drevil" class="btn btn-link" data-container="body" data-toggle="popover"
+      data-placement="bottom"></button>
+    <h1 th:if="${header_title}" th:text="${header_title}">Login</h1>
+    <div class="welcome" th:if="${header_welcome}">
+      <div class="line"></div>
+      <div class="text">
+        <p th:text="${header_welcome}">welcome</p>
+      </div>
+    </div>
+    <p th:if="${loginError}" class="error">
+      <td th:text="${errorInfo}">${errorInfo}</td>
+    </p>
+    <ul class="nav nav-tabs">
+      <li th:each="webTab:${LONGIN_TAB}" th:class="${webTab.activeClass}">
+        <a th:href="${webTab.href}" data-toggle="tab" th:text="${webTab.tipText}"></a>
+      </li>
+    </ul>
+    <div id="mytab-content" class="tab-content">
+      <div th:if="${login_user}" th:class="${login_user_tab_class}" id="login_user">
+        <li class="list-group-item">
+          <div id="login-password">
+            <form th:action="@{/login}" method="post">
+              <div class="form-row" th:if="${box_Username}">
+                <div class="form-group input-group">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                  <input type="text" class="form-control required" id="username" size="25" name="username"
+                    th:placeholder="${box_Username}">
+                </div>
+              </div>
+              <div class="form-row" th:if="${box_Password}">
+                <div class="form-group input-group">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                  <input type="password" class="form-control required" id="password" size="25" name="password"
+                    th:placeholder="${box_Password}">
+                  <input style="display: none" type="publickey" id="publickey" name="publickey" th:value="${publickey}" />
+                </div>
+              </div>
+              <div class="form-row" th:if="${box_verifyCode}">
+                <div class="form-group input-group">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-ok-sign"></i></span>
+                  <input type="text" class="form-control required captcha-input" id="captchaCode" size="10"
+                    name="captchaCode" th:placeholder="${box_verifyCode}">
+                  <div class="captcha-img" id="captchaImg">
+                    <img th:src="@{/code/captcha}" alt="" onclick="this.src = this.src"/>
+                  </div>
+                </div>
+              </div>
+              <p th:if="${iframeSaveRequestLoginID}">
+                <input type="hidden" name="iframeSaveRequestLoginID" th:value="${iframeSaveRequestLoginID}">
+              </p>
+              <p th:if="${loginPageControlIDforalongtimeID}">
+                <input type="hidden" name="loginPageControlIDforalongtimeID"
+                  th:value="${loginPageControlIDforalongtimeID}">
+              </p>
+              <button type="submit" class="btn btn-primary btn-block" onclick="jsencryptEncoder()" th:if="${submit_tip}"
+                th:text="${submit_tip}">Sign in
+              </button>
+            </form>
+          </div>
+        </li>
+      </div>
+      <div th:if="${login_sms}" th:class="${login_sms_tab_class}" id="login_sms">
+        <li class="list-group-item">
+          <div id="login-sms">
+            <form th:action="@{/login-mobile}" method="post">
+              <table>
+                <tr>
+                  <td th:text="${loginMobile_PhoneTip}"></td>
+                  <td><input type="text" id="mobile" name="mobile" th:value="${loginMobile_PhoneTip_Value}" />
+                  </td>
+                </tr>
+                <tr>
+                  <td th:text="${loginMobile_SmsCodeTip}"></td>
+                  <td>
+                    <input type="text" id="smsVerifyCode" name="smsVerifyCode" />
+                    <a onclick="smsCodeSend()"><span th:text="${loginMobile_SendSmsCodeTip}"></span></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <p th:if="${iframeSaveRequestLoginID}">
+                      <input type="hidden" name="iframeSaveRequestLoginID" th:value="${iframeSaveRequestLoginID}" />
+                    </p>
+                    <p th:if="${loginPageControlIDforalongtimeID}">
+                      <input type="hidden" name="loginPageControlIDforalongtimeID"
+                        th:value="${loginPageControlIDforalongtimeID}" />
+                    </p>
+                    <button type="submit" class="btn btn-primary" th:if="${submit_tip}" th:text="${submit_tip}">
+                      Sign in
+                    </button>
+                  </td>
+                </tr>
+              </table>
+            </form>
+          </div>
+        </li>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript"  data-th-inline="javascript">
+    var sendSmsUrl = "code/sms";
+    var smsCodeSend_Mobile_Not_NULL = /*[[${screenSmsCodeSendMobile_not_null}]]*/ 'moblie number can\'t empty',
+            smsCodeSend_Error = /*[[${screenSmsCodeSendError}]]*/ 'sms send error';
+    $(function () { $("[data-toggle='popover']").popover(); });
+
+    function jsencryptEncoder() {
+      var encrypt = new JSEncrypt();
+      encrypt.setPublicKey($("#publickey").val());
+      var password = $("#password").val();
+
+      $("#password").val(encrypt.encrypt("" + password));
+    };
+
+    function smsCodeSend() {
+      var mobile = $("#mobile").val();
+      if (mobile == undefined || mobile == '') {
+        alert(smsCodeSend_Mobile_Not_NULL);
+        return;
+      }
+      var url = sendSmsUrl + "?mobile=" +  mobile;
+      $.ajax({
+        url: url,
+        methd: 'get',
+        success: function (args) {
+          alert(args);
+        },
+        error: function (args) {
+          alert(smsCodeSend_Error + ":" + args);
+        }
+      });
+    }
+
+    var strContent = '<div>' +
+      '<p style="font-weight:bold;color:red;">当使用Chrome浏览器80版本以上时,按照如下设置</p>' +
+      '<p>下面两个命令都是在,Chrome浏览器中打开用命令</p>' +
+      '<p>1. chrome://flags/#same-site-by-default-cookies </p>' +
+      '<p>2. chrome://flags/#cookies-without-same-site-must-be-secure </p>' +
+      '<p>设置为 Disabled ，重启浏览器</p>' +
+      '</div>';
+
+    $("[rel=drevil]").popover({
+      trigger: 'manual',
+      placement: 'bottom', //placement of the popover. also can use top, bottom, left or right
+      //天title : '<div style="text-align:center; color:red; text-decoration:underline; font-size:14px;"> Muah ha ha</div>', //this is the top title bar of the popover. add some basic css
+      html: 'true', //needed to show html of course
+      animation: false,
+      //content : '<div id="popOverBox"><img src="http://www.hd-report.com/wp-content/uploads/2008/08/mr-evil.jpg" width="251" height="201" /></div>', //this is the content of the html box. add the image here or anything you want really.
+      content: strContent
+    }).on("mouseenter", function () {
+      var _this = this;
+      $(this).popover("show");
+      $(this).siblings(".popover").on("mouseleave", function () {
+        $(_this).popover('hide');
+      });
+    }).on("mouseleave", function () {
+      var _this = this;
+      setTimeout(function () {
+        if (!$(".popover:hover").length) {
+          $(_this).popover("hide")
+        }
+      }, 300);
+    });
+  </script>
+</body>
+
+</html>

@@ -25,6 +25,8 @@
         <resource.delimiter>@</resource.delimiter>
 
         <spring-boot.version>2.3.0.RELEASE</spring-boot.version>
+        <spring-security-jwt.version>1.1.0.RELEASE</spring-security-jwt.version>
+        <nimbus-jose-jwt.version>8.2.1</nimbus-jose-jwt.version>
     </properties>
 
     <scm>

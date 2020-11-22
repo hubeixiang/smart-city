@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 每种缓存需要定时清理缓存过期数据的holder,都使用此线程进行定期清理过期数据
  */
-public class ThreadCacheHolderClean implements Runnable {
+public final class ThreadCacheHolderClean implements Runnable {
     private static Logger logger = LoggerFactory.getLogger(ThreadCacheHolderClean.class);
     private final DelegateStatusHolderService delegateStatusHolderService = new DelegateStatusHolderService();
     private final String threadName;

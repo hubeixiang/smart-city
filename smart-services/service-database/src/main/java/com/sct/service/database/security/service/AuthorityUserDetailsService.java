@@ -40,7 +40,7 @@ public class AuthorityUserDetailsService implements UserDetailsService {
      * 按照不同的查询方式拼接username来区分从数据库中查询的检索主键信息
      * loginid:username 按照登录名查找
      * cellphone:username 按照手机号进行查找
-     * userid:username 按照用户表的自增主键进行查找
+     * userid:username 按照用户表的自增主键进行查找, 默认查找方式
      *
      * @param username
      * @return
@@ -52,7 +52,7 @@ public class AuthorityUserDetailsService implements UserDetailsService {
         String findKey = resolverResult.getResult();
         UsernameResolverEnum usernameResolverEnum = resolverResult.getUsernameResolverEnum();
         if (usernameResolverEnum == null) {
-            usernameResolverEnum = UsernameResolverEnum.loginid;
+            usernameResolverEnum = UsernameResolverEnum.userid;
         }
         AuthorityUser authorityUser = null;
         switch (usernameResolverEnum) {
@@ -64,6 +64,9 @@ public class AuthorityUserDetailsService implements UserDetailsService {
                 break;
             case userid:
                 authorityUser = secUserMapper.selectByUserId(findKey);
+                break;
+            case mix_3:
+                authorityUser = secUserMapper.selectByUserIdOrCellPhomeOrEmail(findKey);
                 break;
             default:
                 String msg = I18nMessageUtil.getInstance().getMessage("AuthorityUserDetailsService.NOT_FOUND_UsernameResolverEnum", usernameResolverEnum.toString());

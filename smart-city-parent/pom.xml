@@ -19,6 +19,12 @@
         <!-- swagger -->
         <swagger.version>3.0.0</swagger.version>
         <xiaoymin.swagger-bootstrap-ui.version>1.9.6</xiaoymin.swagger-bootstrap-ui.version>
+
+        <!-- bootstrap & webjar -->
+        <bootstrap.version>3.3.7-1</bootstrap.version>
+        <jquery.version>3.4.1</jquery.version>
+        <jsencrypt.version>2.3.0</jsencrypt.version>
+
         <!-- office -->
         <!-- xml -->
         <office-dom4j.verison>1.6.1</office-dom4j.verison>
@@ -64,6 +70,43 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security.oauth</groupId>
+                <artifactId>spring-security-oauth2</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security.oauth.boot</groupId>
+                <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-jwt</artifactId>
+                <version>${spring-security-jwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>${nimbus-jose-jwt.version}</version>
+            </dependency>
+
+            <!-- themeleaf web js  -->
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>bootstrap</artifactId>
+                <version>${bootstrap.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>jquery</artifactId>
+                <version>${jquery.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars.bower</groupId>
+                <artifactId>jsencrypt</artifactId>
+                <version>${jsencrypt.version}</version>
             </dependency>
 
             <!-- swagger2 -->

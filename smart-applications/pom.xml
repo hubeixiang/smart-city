@@ -24,6 +24,16 @@
         <dependencies>
             <dependency>
                 <groupId>com.sct</groupId>
+                <artifactId>service-oauth2-authorization</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sct</groupId>
+                <artifactId>service-oauth2-resourceserver</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sct</groupId>
                 <artifactId>service-database</artifactId>
                 <version>${project.version}</version>
             </dependency>

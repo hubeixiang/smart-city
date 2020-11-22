@@ -39,6 +39,10 @@
             <groupId>com.sct</groupId>
             <artifactId>commons-file</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>commons-cache</artifactId>
+        </dependency>
 
         <!-- other -->
         <dependency>
@@ -47,9 +51,11 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.sct</groupId>
-            <artifactId>commons-utils</artifactId>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
         </dependency>
+
+
     </dependencies>
 
     <build>

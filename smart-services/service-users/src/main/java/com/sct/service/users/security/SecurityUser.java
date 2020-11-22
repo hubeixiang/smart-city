@@ -8,10 +8,12 @@ import java.util.Collection;
 
 /**
  * 安全管理保存在session中的用户实体
+ * 此实体继承User,并将User中的username替换为userid
  */
 public class SecurityUser extends User {
     private String userId;
     private String loginId;
+    private String securityUserName;
     private LocalDateTime loginTime = LocalDateTime.now();
     private UserEntity userEntity;
     //登录时登录附加信息,一般是存储改用户当前的登录方式
@@ -23,9 +25,10 @@ public class SecurityUser extends User {
 
     public SecurityUser(String userId, String loginId, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities
             , UserEntity userEntity) {
-        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+        super(userId, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.userId = userId;
         this.loginId = loginId;
+        this.securityUserName = username;
         this.userEntity = userEntity;
     }
 
@@ -48,7 +51,8 @@ public class SecurityUser extends User {
         sb.append(super.toString()).append(": ");
         sb.append("userId: ").append(this.userId).append("; ");
         sb.append("loginId: ").append(this.loginId).append("; ");
-        sb.append("Username: ").append(this.getUsername()).append("; ");
+        sb.append("securityUserName: ").append(this.securityUserName).append("; ");
+        sb.append("userName: ").append(this.getUsername()).append("; ");
         sb.append("loginTime: ").append(this.loginTime).append("; ");
         sb.append("Password: [PROTECTED]; ");
         sb.append("Enabled: ").append(this.isEnabled()).append("; ");
@@ -82,6 +86,10 @@ public class SecurityUser extends User {
 
     public String getLoginId() {
         return loginId;
+    }
+
+    public String getSecurityUserName() {
+        return securityUserName;
     }
 
     public LocalDateTime getLoginTime() {

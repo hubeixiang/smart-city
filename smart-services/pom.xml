@@ -20,6 +20,10 @@
         <module>service-core-web</module>
         <module>service-core-api</module>
         <module>service-users</module>
+        <module>service-oauth2-resourceserver</module>
+        <module>service-oauth2-authorization</module>
+        <module>service-oauth2-core</module>
+        <module>service-security-support-password</module>
     </modules>
 
     <dependencyManagement>

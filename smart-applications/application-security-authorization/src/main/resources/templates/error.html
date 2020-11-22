@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title th:if="${page_title}" th:text="${page_title}">Spring Security OAuth 2.0 Authorization Server Sample</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.css"
+          th:href="@{/webjars/bootstrap/css/bootstrap.css}"/>
+</head>
+<body>
+<div class="container">
+    <h1 th:if="${header_title}" th:text="${header_title}">Login</h1>
+    <p th:if="${error}" style="font-weight:bold;color:red;">
+    <td th:text="${errorInfo}">${errorInfo}</td>
+    </p>
+</div>
+</body>
+</html>

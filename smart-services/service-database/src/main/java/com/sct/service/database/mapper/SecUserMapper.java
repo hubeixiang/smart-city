@@ -62,6 +62,8 @@ public interface SecUserMapper {
 
     AuthorityUser selectByUserId(String userId);
 
+    AuthorityUser selectByUserIdOrCellPhomeOrEmail(String userId);
+
     /**
      * 按照手机号进行登录
      *
