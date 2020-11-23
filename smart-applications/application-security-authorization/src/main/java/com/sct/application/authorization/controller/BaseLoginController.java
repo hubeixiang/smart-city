@@ -13,6 +13,7 @@ import com.sct.application.authorization.properties.OauthClient;
 import com.sct.application.authorization.support.session.CustomSessionRegistry;
 import com.sct.commons.i18n.I18nMessageUtil;
 import com.sct.commons.utils.web.WebUtil;
+import com.sct.service.users.security.SecurityUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +86,11 @@ public abstract class BaseLoginController {
 
     private String getUserName() {
         Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (object instanceof UserDetails) {
+        if (object instanceof SecurityUser) {
+            SecurityUser securityUser = (SecurityUser) object;
+            String username = securityUser.getSecurityUserName();
+            return username;
+        } else if (object instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) object;
             String username = userDetails.getUsername();
             return username;

@@ -12,6 +12,7 @@ import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.UUID;
 
 public class SctPasswordEncoder extends AbstractPasswordEncoder {
     private static final Logger logger = LoggerFactory.getLogger(SctPasswordEncoder.class);
@@ -53,6 +54,10 @@ public class SctPasswordEncoder extends AbstractPasswordEncoder {
         SctPasswordEncoder hiosPasswordEncoder = new SctPasswordEncoder();
         boolean ok = hiosPasswordEncoder.matches("Aa123456", "ZGY2MTk2ZWZkZjhlNjk2MDYxZTZlMmU0ZTE1ZWIyNjRjZWZhMjQ2NzJmZGI3MzFlMTAyZDRjNjhkYjgyM2EzMA==");
         System.out.println(ok);
+        System.out.println(UUID.randomUUID().toString());
+        String password = hiosPasswordEncoder.encode("abc123xyz");
+        System.out.println(password);
+        System.out.println(hiosPasswordEncoder.matches("abc123xyz", password));
     }
 
     /**

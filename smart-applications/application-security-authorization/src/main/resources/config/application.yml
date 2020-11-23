@@ -15,9 +15,9 @@ server:
 
 security:
   datasource:
-    url: jdbc:mysql://192.168.1.21:3306/irdb?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
-    username: irsoft
-    password: irsoft
+    url: jdbc:mysql://123.57.174.82:4306/scdb?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+    username: scdb
+    password: scoptr
     driver: com.mysql.cj.jdbc.Driver
     max-active: 20
     validation-query: SELECT 1
