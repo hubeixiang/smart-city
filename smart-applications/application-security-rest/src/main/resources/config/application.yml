@@ -14,14 +14,14 @@ server:
 #    org.springframework.security.oauth2: DEBUG
 
 security:
-  jwk-set-uri: http://localhost:8090/auth/realms/oauth2-sample/protocol/openid-connect/certs
   datasource:
-    url: jdbc:mysql://123.57.174.82:4306/scdb?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
-    username: scdb
-    password: scoptr
     driver: com.mysql.cj.jdbc.Driver
     max-active: 20
     validation-query: SELECT 1
+  oauth2:
+    resource:
+      jwk:
+        key-set-uri: ${security.jwk-set-uri}
 
 spring:
   application: application-business
@@ -40,11 +40,6 @@ spring:
     time-between-eviction-runs-millis: 18800
     jdbc-interceptors: ConnectionState;SlowQueryReport(threshold=50)
     type: com.alibaba.druid.pool.DruidDataSource
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: ${security.jwk-set-uri}
 
 mybatis:
   config-location: classpath:config/mybatis-base-config.xml

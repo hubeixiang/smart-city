@@ -14,12 +14,7 @@ server:
 #    org.springframework.security.oauth2: DEBUG
 
 security:
-  jwk-set-uri: http://localhost:8090/auth/realms/oauth2-sample/protocol/openid-connect/certs
-datasource:
-  jdbc:
-    url: jdbc:mysql://123.57.174.82:4306/scdb?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
-    username: scdb
-    password: scoptr
+  datasource:
     driver: com.mysql.cj.jdbc.Driver
     max-active: 20
     validation-query: SELECT 1

@@ -54,15 +54,16 @@ public class UserAuthorizationController extends BaseLoginController {
     @ResponseBody
     public Object online(final HttpServletRequest request,
                          final HttpServletResponse response) {
+        String path = "/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path + "/user/online/count";
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             logout(request);
-            throw new AuthenticationServiceException(String.format("Missing [%s]", "Authentication"));
+            throw new AuthenticationServiceException(String.format("%s Missing [%s]", path, "Authentication"));
         }
 
         if (authentication.getPrincipal() == null) {
             logout(request);
-            throw new AuthenticationServiceException(String.format("Missing [%s]", "Authentication Principal"));
+            throw new AuthenticationServiceException(String.format("%s Missing [%s]", path, "Authentication Principal"));
         }
         Map<String, Integer> map = new HashMap<>();
         int size = customSessionRegistry.online();
@@ -73,18 +74,19 @@ public class UserAuthorizationController extends BaseLoginController {
     @GetMapping(path = {"/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path + "/user/info"}, produces = WebConstants.WEB_PRODUCES)
     public Object user(final HttpServletRequest request,
                        final HttpServletResponse response) {
-        logger.info(String.format("/oauth2/user"));
+        String path = "/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path + "/user/info";
+        logger.info(String.format(path));
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             logout(request);
-            logger.info(String.format("/oauth2/user Missing [%s]", "Authentication"));
+            logger.info(String.format("%s Missing [%s]", path, "Authentication"));
             throw new AuthenticationServiceException(String.format("Missing [%s]", "Authentication"));
         }
 
         if (authentication.getPrincipal() == null) {
             logout(request);
-            logger.info(String.format("/oauth2/user Missing [%s]", "Authentication Principal"));
+            logger.info(String.format("%s Missing [%s]", path, "Authentication Principal"));
             throw new AuthenticationServiceException(String.format("Missing [%s]", "Authentication Principal"));
         }
         String userId = getUserId(authentication);
@@ -100,7 +102,7 @@ public class UserAuthorizationController extends BaseLoginController {
         }
 
         if (currentUser == null) {
-            logger.info(String.format("/oauth2/user Failed to retrieve user profile."));
+            logger.info(String.format("%s Failed to retrieve user profile.", path));
             throw new RuntimeException("Failed to retrieve user profile.");
         }
 

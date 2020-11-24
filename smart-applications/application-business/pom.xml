@@ -22,6 +22,10 @@
         <!-- sct dependency -->
         <dependency>
             <groupId>com.sct</groupId>
+            <artifactId>service-oauth2-resourceserver</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
             <artifactId>service-core-web</artifactId>
         </dependency>
         <dependency>
@@ -42,6 +46,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>

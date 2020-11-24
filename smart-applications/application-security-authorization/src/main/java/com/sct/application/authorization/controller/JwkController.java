@@ -16,6 +16,7 @@
 package com.sct.application.authorization.controller;
 
 import com.nimbusds.jose.jwk.JWKSet;
+import com.sct.service.oauth2.core.constants.Oauth2Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +30,7 @@ public class JwkController {
     @Autowired
     private JWKSet jwkSet;
 
-    @GetMapping(value = "/oauth2/keys", produces = "application/json; charset=UTF-8")
+    @GetMapping(value = "/" + Oauth2Constants.Oauth2_Context_Path + "/keys", produces = "application/json; charset=UTF-8")
     public String keys() {
         return this.jwkSet.toString();
     }

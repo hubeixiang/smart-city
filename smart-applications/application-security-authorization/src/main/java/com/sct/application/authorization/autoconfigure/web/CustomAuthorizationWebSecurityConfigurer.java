@@ -28,6 +28,7 @@ import com.sct.application.authorization.support.session.CustomSessionInformatio
 import com.sct.application.authorization.support.session.CustomSessionRegistry;
 import com.sct.application.authorization.util.SecurityServiceConstants;
 import com.sct.commons.utils.JsonUtils;
+import com.sct.service.oauth2.core.constants.Oauth2Constants;
 import com.sct.service.sucurity.support.password.factory.SctPasswordEncoderFactories;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -125,7 +126,7 @@ public class CustomAuthorizationWebSecurityConfigurer extends WebSecurityConfigu
         http.headers().frameOptions().disable();
         http.authorizeRequests()
                 //定义不用验证的url
-                .antMatchers("/", "/oauth2/keys", "/favicon.ico", "/**/*.js", "/**/*.css", "/webjars/**", "/welcome", "/welcome0", "/welcome1", "/static/**", "/code/**", "/actuator/**", "/anonymous/**").permitAll()
+                .antMatchers("/", String.format("/%s/keys", Oauth2Constants.Oauth2_Context_Path), "/favicon.ico", "/**/*.js", "/**/*.css", "/webjars/**", "/welcome", "/welcome0", "/welcome1", "/static/**", "/code/**", "/actuator/**", "/anonymous/**").permitAll()
                 //登录与登录失败调转url不用验证
                 // 自定义页面的路径不用验证
                 .antMatchers(HttpMethod.GET, "/login").permitAll()
