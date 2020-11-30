@@ -116,7 +116,7 @@ public class UserProfileController extends BaseLoginController {
         Object principal = authentication.getPrincipal();
         String userId = null;
         if (principal instanceof SecurityUser) {
-            userId = ((SecurityUser) principal).getUserId();
+            userId = ((SecurityUser) principal).getUserPkId();
         } else if (principal instanceof org.springframework.security.core.userdetails.User) {
             userId = ((org.springframework.security.core.userdetails.User) principal).getUsername();
         } else {

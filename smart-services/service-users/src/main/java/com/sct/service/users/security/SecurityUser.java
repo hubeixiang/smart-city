@@ -11,7 +11,7 @@ import java.util.Collection;
  * 此实体继承User,并将User中的username替换为userid
  */
 public class SecurityUser extends User {
-    private String userId;
+    private String userPkId;
     private String loginId;
     private String securityUserName;
     private LocalDateTime loginTime = LocalDateTime.now();
@@ -19,14 +19,14 @@ public class SecurityUser extends User {
     //登录时登录附加信息,一般是存储改用户当前的登录方式
     private Object loginAdditional;
 
-    public SecurityUser(String userId, String loginId, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-        this(userId, loginId, username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities, null);
+    public SecurityUser(String userPkId, String loginId, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+        this(userPkId, loginId, username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities, null);
     }
 
-    public SecurityUser(String userId, String loginId, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities
+    public SecurityUser(String userPkId, String loginId, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities
             , UserEntity userEntity) {
-        super(userId, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-        this.userId = userId;
+        super(userPkId, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+        this.userPkId = userPkId;
         this.loginId = loginId;
         this.securityUserName = username;
         this.userEntity = userEntity;
@@ -34,13 +34,13 @@ public class SecurityUser extends User {
 
     @Override
     public int hashCode() {
-        return userId.hashCode();
+        return userPkId.hashCode();
     }
 
     @Override
     public boolean equals(Object rhs) {
         if (rhs instanceof SecurityUser) {
-            return userId.equals(((SecurityUser) rhs).userId);
+            return userPkId.equals(((SecurityUser) rhs).userPkId);
         }
         return false;
     }
@@ -49,7 +49,7 @@ public class SecurityUser extends User {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(super.toString()).append(": ");
-        sb.append("userId: ").append(this.userId).append("; ");
+        sb.append("userPkId: ").append(this.userPkId).append("; ");
         sb.append("loginId: ").append(this.loginId).append("; ");
         sb.append("securityUserName: ").append(this.securityUserName).append("; ");
         sb.append("userName: ").append(this.getUsername()).append("; ");
@@ -80,8 +80,8 @@ public class SecurityUser extends User {
         return sb.toString();
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserPkId() {
+        return userPkId;
     }
 
     public String getLoginId() {

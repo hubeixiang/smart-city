@@ -12,7 +12,7 @@ public class WelcomeController {
         return "application rest welcome:" + System.currentTimeMillis();
     }
 
-    @GetMapping("/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path + "/welcome")
+    @GetMapping(path = {"/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path + "/welcome", "/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path_None_Auth + "/welcome"})
     public String resourceserverWelcome() {
         return "application resource server rest welcome:" + System.currentTimeMillis();
     }

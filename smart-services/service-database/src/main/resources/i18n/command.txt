@@ -1,0 +1,3 @@
+native2ascii -encoding UTF-8 sct_messages_users.properties sct_messages_users.properties
+native2ascii -encoding UTF-8 sct_messages_users_en.properties sct_messages_users_en.properties
+native2ascii -encoding UTF-8 sct_messages_users_zh.properties sct_messages_users_zh.properties

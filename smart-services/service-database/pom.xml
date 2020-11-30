@@ -18,6 +18,11 @@
         <!-- dependency services -->
         <dependency>
             <groupId>com.sct</groupId>
+            <artifactId>service-database-entity</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
             <artifactId>service-core</artifactId>
             <version>${project.version}</version>
         </dependency>

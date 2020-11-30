@@ -65,11 +65,13 @@ public class CustomUsernamePasswordAuthenticationFilter extends
     public static final String SPRING_SECURITY_FORM_PASSWORD_KEY = "password";
     public static final String SPRING_SECURITY_FORM_PASSWORD_PUBLIC_KEY = "publickey";
     public static final String SPRING_SECURITY_FORM_CAPTCHA_CODE_KEY = "captchaCode";
+    public static final String SPRING_SECURITY_FORM_USER_TYPE = "userType";
 
     private String usernameParameter = SPRING_SECURITY_FORM_USERNAME_KEY;
     private String passwordParameter = SPRING_SECURITY_FORM_PASSWORD_KEY;
     private String passwordPublicKeyParameter = SPRING_SECURITY_FORM_PASSWORD_PUBLIC_KEY;
     private String captchaCodeParameter = SPRING_SECURITY_FORM_CAPTCHA_CODE_KEY;
+    private String userTypeParameter = SPRING_SECURITY_FORM_USER_TYPE;
     private boolean postOnly = true;
     private boolean captchaEnable = true;
 
@@ -92,6 +94,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends
 
         String username = obtainUsername(request);
         String password = obtainPassword(request);
+        String userType = obtainUserType(request);
         String passwordPublicKey = obtainPasswordPublicKey(request);
         if (captchaEnable) {
             //如果验证码生效,请先验证图片验证码是否正确
@@ -140,7 +143,16 @@ public class CustomUsernamePasswordAuthenticationFilter extends
 
         username = username.trim();
 
-        username = new DefaultUsernameResolver().assemble(username, UsernameResolverEnum.mix_3);
+        if (StringUtils.isNotEmpty(userType)) {
+            if (userType.equalsIgnoreCase("manager")) {
+                username = new DefaultUsernameResolver().assemble(username, UsernameResolverEnum.manager_mix_3);
+            } else {
+                username = new DefaultUsernameResolver().assemble(username, UsernameResolverEnum.mix_3);
+            }
+        } else {
+            //为空就默认是普通用户
+            username = new DefaultUsernameResolver().assemble(username, UsernameResolverEnum.mix_3);
+        }
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
                 username, password);
 
@@ -188,6 +200,10 @@ public class CustomUsernamePasswordAuthenticationFilter extends
 
     protected String obtainCaptchaCode(HttpServletRequest request) {
         return request.getParameter(captchaCodeParameter);
+    }
+
+    protected String obtainUserType(HttpServletRequest request) {
+        return request.getParameter(userTypeParameter);
     }
 
     /**
@@ -256,6 +272,10 @@ public class CustomUsernamePasswordAuthenticationFilter extends
 
     public void setCaptchaEnable(boolean captchaEnable) {
         this.captchaEnable = captchaEnable;
+    }
+
+    public void setUserTypeParameter(String userTypeParameter) {
+        this.userTypeParameter = userTypeParameter;
     }
 
     public String getMessage(String code) {

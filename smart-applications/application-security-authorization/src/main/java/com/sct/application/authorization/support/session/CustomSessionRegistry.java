@@ -93,7 +93,7 @@ public class CustomSessionRegistry {
                 String key = null;
                 if (loggedUser instanceof SecurityUser) {
                     SecurityUser securityUser = (SecurityUser) loggedUser;
-                    key = String.format("userId=%s,userName=%s", securityUser.getUserId(), securityUser.getSecurityUserName());
+                    key = String.format("userId=%s,userName=%s", securityUser.getUserPkId(), securityUser.getSecurityUserName());
                 } else {
                     key = String.format("userName=%s", loggedUser.getUsername());
                 }
@@ -178,7 +178,7 @@ public class CustomSessionRegistry {
                     final User loggedUser = (User) principal;
                     if (loggedUser instanceof SecurityUser && isCustomUser) {
                         SecurityUser customUser = (SecurityUser) loggedUser;
-                        if (authSecurityUser.getUserId().equals(customUser.getUserId())) {
+                        if (authSecurityUser.getUserPkId().equals(customUser.getUserPkId())) {
                             delete(principal, sessionId);
                         }
                     } else {

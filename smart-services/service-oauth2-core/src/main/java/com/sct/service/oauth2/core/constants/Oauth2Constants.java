@@ -9,4 +9,8 @@ public final class Oauth2Constants {
      * oauth2.0 resourceserver侧访问的url
      */
     public final static String Oauth2_ResourceServer_Context_Path = "resourceserver";
+    /**
+     * oauth2.0 resourceserver侧访问的url对应的不走oauth2.0访问的路
+     */
+    public final static String Oauth2_ResourceServer_Context_Path_None_Auth = "service";
 }

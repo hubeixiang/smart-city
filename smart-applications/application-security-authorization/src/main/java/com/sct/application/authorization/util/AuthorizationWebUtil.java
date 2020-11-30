@@ -31,7 +31,7 @@ public class AuthorizationWebUtil {
     private static String getPrincipal(Object principal) {
         String userId;
         if (principal instanceof SecurityUser) {
-            userId = ((SecurityUser) principal).getUserId();
+            userId = ((SecurityUser) principal).getUserPkId();
         } else if (principal instanceof Principal) {
             userId = ((Principal) principal).getName();
         } else if (principal instanceof User) {

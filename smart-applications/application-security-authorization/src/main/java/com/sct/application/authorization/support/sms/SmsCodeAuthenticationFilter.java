@@ -20,7 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
     public static final String COREQI_FORM_MOBILE_KEY = "mobile";
+    public static final String COREQI_FORM_USER_TYPE_KEY = "userType";
     private String mobileParameter = COREQI_FORM_MOBILE_KEY;    //请求中携带手机号的参数名称
+    private String userTypeParameter = COREQI_FORM_USER_TYPE_KEY;    //请求中携带手机号的参数名称
     private boolean postOnly = true;    //指定当前过滤器是否只处理POST请求
 
     public SmsCodeAuthenticationFilter() {
@@ -33,6 +35,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         } else {
             String mobile = this.obtainMobile(request);
+            String userType = this.obtainUserType(request);
             if (mobile == null) {
                 mobile = "";
             }
@@ -40,7 +43,16 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
             validate(mobile, new ServletWebRequest(request));
 
             //增加查询类型
-            mobile = new DefaultUsernameResolver().assemble(mobile, UsernameResolverEnum.cellphone);
+            if (org.apache.commons.lang3.StringUtils.isNotEmpty(userType)) {
+                if (userType.equalsIgnoreCase("manager")) {
+                    mobile = new DefaultUsernameResolver().assemble(mobile, UsernameResolverEnum.manager_cellPhone);
+                } else {
+                    mobile = new DefaultUsernameResolver().assemble(mobile, UsernameResolverEnum.cellPhone);
+                }
+            } else {
+                //为空就默认是普通用户
+                mobile = new DefaultUsernameResolver().assemble(mobile, UsernameResolverEnum.cellPhone);
+            }
             SmsCodeAuthenticationToken authRequest = new SmsCodeAuthenticationToken(mobile);
             this.setDetails(request, authRequest);
             return this.getAuthenticationManager().authenticate(authRequest);
@@ -55,6 +67,10 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
      */
     protected String obtainMobile(HttpServletRequest request) {
         return request.getParameter(this.mobileParameter);
+    }
+
+    protected String obtainUserType(HttpServletRequest request) {
+        return request.getParameter(this.userTypeParameter);
     }
 
     /**
@@ -78,6 +94,11 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
     public void setMobileParameter(String mobileParameter) {
         Assert.hasText(mobileParameter, "mobile parameter must not be empty or null");
         this.mobileParameter = mobileParameter;
+    }
+
+    public void setUserTypeParameter(String userTypeParameter) {
+        Assert.hasText(mobileParameter, "userType parameter must not be empty or null");
+        this.userTypeParameter = userTypeParameter;
     }
 
     private void validate(String mobile, ServletWebRequest request) {

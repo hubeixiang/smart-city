@@ -1,0 +1,6 @@
+native2ascii -encoding UTF-8 sct_messages.properties sct_messages.properties
+native2ascii -encoding UTF-8 sct_messages_en.properties sct_messages_en.properties
+native2ascii -encoding UTF-8 sct_messages_zh.properties sct_messages_zh.properties
+native2ascii -encoding UTF-8 screen-messages.properties screen-messages.properties
+native2ascii -encoding UTF-8 screen-messages_en.properties screen-messages_en.properties
+native2ascii -encoding UTF-8 screen-messages_zh.properties screen-messages_zh.properties
