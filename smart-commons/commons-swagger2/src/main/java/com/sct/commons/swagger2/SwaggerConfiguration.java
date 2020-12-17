@@ -2,9 +2,9 @@ package com.sct.commons.swagger2;
 
 import com.sct.commons.constants.ConstantCommonAutoConfigure;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -14,7 +14,8 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@ConditionalOnMissingBean(SwaggerConfiguration.class)
+import java.util.function.Predicate;
+
 @Configuration
 @EnableSwagger2
 public class SwaggerConfiguration {
@@ -32,6 +33,16 @@ public class SwaggerConfiguration {
     private String contactUrl;
     @Value("${" + ConstantCommonAutoConfigure.Swagger2.SWAGGER2_PREFIX + ".contact.email:xxx@263.com}")
     private String contactEmail;
+    @Value("${" + ConstantCommonAutoConfigure.Swagger2.SWAGGER2_PREFIX + ".path.selector:}")
+    private String pathSelector;
+
+    public Predicate<String> pathPredicate() {
+        if (StringUtils.isEmpty(pathSelector)) {
+            return PathSelectors.any();
+        } else {
+            return PathSelectors.regex(".*\\/" + pathSelector + "\\/.+").negate();
+        }
+    }
 
     @Bean
     public Docket createRestApi() {
@@ -39,7 +50,7 @@ public class SwaggerConfiguration {
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(restPackage))
-                .paths(PathSelectors.any())
+                .paths(pathPredicate())
                 .build();
     }
 

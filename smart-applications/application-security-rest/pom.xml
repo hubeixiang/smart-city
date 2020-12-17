@@ -26,6 +26,10 @@
         </dependency>
         <dependency>
             <groupId>com.sct</groupId>
+            <artifactId>service-security-support-password</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
             <artifactId>service-core-web</artifactId>
         </dependency>
         <dependency>

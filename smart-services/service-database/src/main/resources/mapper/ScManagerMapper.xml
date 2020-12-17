@@ -34,6 +34,17 @@
     delete from sc_manager
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+    <delete id="deleteByPrimaryKeys">
+        delete from sc_manager
+        <where>
+            <if test="ids != null and ids.size() > 0">
+                and id in
+                <foreach collection="ids" index="index" item="id" open="(" separator="," close=")">
+                    #{id,jdbcType=VARCHAR}
+                </foreach>
+            </if>
+        </where>
+    </delete>
     <insert id="insert" parameterType="com.sct.service.database.entity.ScManager">
     insert into sc_manager (id, wx_id, user_id,
       user_name, sex, password, 
@@ -56,7 +67,6 @@
       user_id = #{userId,jdbcType=VARCHAR},
       user_name = #{userName,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=BIT},
-      password = #{password,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       card_id = #{cardId,jdbcType=VARCHAR},
@@ -77,40 +87,110 @@
         from sc_manager
         where id = #{id,jdbcType=VARCHAR}
     </select>
+    <update id="updatePasswordById">
+        update sc_manager set password = #{password,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR} and is_valid = 1
+    </update>
+    <update id="updateIsValidById">
+        update sc_manager set is_valid = #{valid,jdbcType=INTEGER}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
     <select id="selectByLoginId" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="allColumns"></include>
         from sc_manager
-        where user_id = #{value,jdbcType=VARCHAR}
+        where user_id = #{value,jdbcType=VARCHAR} and is_valid = 1
     </select>
     <select id="selectByMobile" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="allColumns"></include>
         from sc_manager
-        where mobile = #{value,jdbcType=VARCHAR}
+        where mobile = #{value,jdbcType=VARCHAR} and is_valid = 1
     </select>
     <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="allColumns"></include>
         from sc_manager
-        where email = #{value,jdbcType=VARCHAR}
+        where email = #{value,jdbcType=VARCHAR} and is_valid = 1
     </select>
     <select id="selectBywxid" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="allColumns"></include>
         from sc_manager
-        where wx_id = #{id,jdbcType=VARCHAR}
+        where wx_id = #{id,jdbcType=VARCHAR} and is_valid = 1
+    </select>
+    <select id="selectByCardId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="allColumns"></include>
+        from sc_manager
+        where card_id = #{id,jdbcType=VARCHAR} and is_valid = 1
     </select>
     <select id="selectByMixed" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="allColumns"></include>
         from sc_manager
         where user_id = #{value,jdbcType=VARCHAR} || mobile = #{value,jdbcType=VARCHAR} || email =
-        #{value,jdbcType=VARCHAR}
+        #{value,jdbcType=VARCHAR} and is_valid = 1
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
         select
         <include refid="allColumns"></include>
         from sc_manager
+    </select>
+    <sql id="queryCondition">
+        <if test="condition.userName !=null and condition.userName != ''">
+            and user_name like '%${condition.userName}%'
+        </if>
+        <if test="condition.sex !=null">
+            and sex = #{condition.sex}
+        </if>
+        <if test="condition.mobile !=null and condition.mobile != '' ">
+            and mobile = #{condition.mobile}
+        </if>
+        <if test="condition.email !=null and condition.email != '' ">
+            and email = #{condition.email}
+        </if>
+        <if test="condition.cardId !=null and condition.cardId != '' ">
+            and card_Id = #{condition.cardId}
+        </if>
+        <if test="condition.gridLevel !=null">
+            and grid_level = #{condition.gridLevel}
+        </if>
+        <if test="condition.gridId !=null">
+            and grid_id = #{condition.gridId}
+        </if>
+        <if test="condition.isValid !=null">
+            <choose>
+                <when test="condition.isValid == true">
+                    and is_valid = 1
+                </when>
+                <when test="condition.isValid == false">
+                    and is_valid = 0
+                </when>
+            </choose>
+        </if>
+    </sql>
+    <select id="selectConditionCount" resultType="int">
+        select count(*) from sc_manager
+        <where>
+            <include refid="queryCondition"></include>
+        </where>
+    </select>
+    <select id="selectConditionPage" resultMap="BaseResultMap">
+        select
+        <include refid="allColumns"/>
+        from sc_manager
+        <where>
+            <include refid="queryCondition"/>
+        </where>
+        limit ${qPaging.startIndex},${qPaging.endIndex}
+    </select>
+    <select id="selectCondition" resultMap="BaseResultMap">
+        select
+        <include refid="allColumns"/>
+        from sc_manager
+        <where>
+            <include refid="queryCondition"/>
+        </where>
     </select>
 </mapper>

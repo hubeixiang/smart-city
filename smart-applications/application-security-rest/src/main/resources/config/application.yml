@@ -26,7 +26,7 @@ security:
 spring:
   application: application-business
   messages:
-    basename: messages,i18n/messages
+    basename: messages,i18n/messages,i18n/sct_messages_users,i18n/sct_messages_exception
   datasource:
     url: ${security.datasource.url}
     username: ${security.datasource.username}

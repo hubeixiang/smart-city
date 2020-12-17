@@ -23,11 +23,6 @@
         </dependency>
         <dependency>
             <groupId>com.sct</groupId>
-            <artifactId>service-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sct</groupId>
             <artifactId>service-users</artifactId>
             <version>${project.version}</version>
         </dependency>

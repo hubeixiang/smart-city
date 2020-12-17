@@ -20,9 +20,17 @@
             <groupId>com.sct</groupId>
             <artifactId>commons-utils</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>service-database</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- dependency other -->
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

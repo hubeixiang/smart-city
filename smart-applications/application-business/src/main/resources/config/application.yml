@@ -22,7 +22,7 @@ security:
 spring:
   application: application-business
   messages:
-    basename: i18n/sct_messages
+    basename: messages,i18n/messages,i18n/sct_messages_users,i18n/sct_messages_exception
   datasource:
     url: ${datasource.jdbc.url}
     username: ${datasource.jdbc.username}
