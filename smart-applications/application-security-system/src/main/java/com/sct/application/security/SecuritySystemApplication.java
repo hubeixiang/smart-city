@@ -6,8 +6,8 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.sct"})
-public class SecurityRestApplication {
+public class SecuritySystemApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SecurityRestApplication.class, args);
+        SpringApplication.run(SecuritySystemApplication.class, args);
     }
 }

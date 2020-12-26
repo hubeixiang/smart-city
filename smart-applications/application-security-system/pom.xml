@@ -10,12 +10,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.sct</groupId>
-    <artifactId>application-security-rest</artifactId>
+    <artifactId>application-security-system</artifactId>
     <packaging>jar</packaging>
     <description>系统的用户安全维护相关的工程</description>
 
     <properties>
-        <start-class>com.sct.application.security.SecurityRestApplication</start-class>
+        <start-class>com.sct.application.security.SecuritySystemApplication</start-class>
     </properties>
 
     <dependencies>

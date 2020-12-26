@@ -17,7 +17,7 @@
     <modules>
         <module>application-security-authorization</module>
         <module>application-business</module>
-        <module>application-security-rest</module>
+        <module>application-security-system</module>
     </modules>
 
     <dependencyManagement>
