@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -94,9 +95,9 @@ public class ExceWriteHelper {
 
     public static void addHSSFRichTextString(HSSFWorkbook workbook, HSSFRow row, int colIndex) {
         HSSFFont redFont = (HSSFFont) workbook.createFont();
-        redFont.setColor(HSSFColor.RED.index);// 红色
+        redFont.setColor((short)Color.RED.getRGB());// 红色
         HSSFFont blueFont = (HSSFFont) workbook.createFont();
-        redFont.setColor(HSSFColor.BLUE.index);// 蓝色
+        redFont.setColor((short)Color.BLUE.getRGB());// 蓝色
 //创建一个单元格
         HSSFCell hssfCell = row.createCell(colIndex);
 //创建富文本字符串，内容为：Hello，World！

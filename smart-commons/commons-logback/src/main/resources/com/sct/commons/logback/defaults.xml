@@ -4,6 +4,6 @@
 
     <property resource="${LOGBACK_PROPERTIES:-config/logback.properties}"/>
     <property name="LOG_DIR" value="./logs/"/>
-    <property name="LOG_FILE" value="${LOG_DIR}${logback.project:-application-sct}"/>
+    <property name="LOG_FILE" value="${LOG_DIR}${project:-application-sct}"/>
     <property name="CONSOLE_LOG_CHARSET" value="${console.log.charset:-utf8}"/>
 </included>

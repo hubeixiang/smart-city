@@ -4,6 +4,9 @@ import com.sct.commons.file.FileConstants;
 import com.sct.commons.file.exception.FileUtilException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
@@ -11,6 +14,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class WebHttpServletResponseUtil {
@@ -69,5 +76,18 @@ public class WebHttpServletResponseUtil {
             } catch (IOException e) {
             }
         }
+    }
+
+    public static ResponseEntity<?> stream(String name, byte[] bytes) throws UnsupportedEncodingException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment", new String(name.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
+        headers.setContentType(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE));
+        List<String> exposedHeaders = new ArrayList<>();
+        exposedHeaders.add("filename");
+        headers.setAccessControlExposeHeaders(exposedHeaders);
+        headers.set("filename", URLEncoder.encode(name, "UTF-8"));
+        return ResponseEntity.ok().headers(headers)
+                .contentLength(bytes.length)
+                .body(bytes);
     }
 }

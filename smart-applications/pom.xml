@@ -18,6 +18,9 @@
         <module>application-security-authorization</module>
         <module>application-business</module>
         <module>application-security-system</module>
+        <module>application-sms</module>
+        <module>application-business-summary</module>
+        <module>tomcat-webtools</module>
     </modules>
 
     <dependencyManagement>
@@ -55,6 +58,31 @@
             <dependency>
                 <groupId>com.sct</groupId>
                 <artifactId>commons-logback</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sct</groupId>
+                <artifactId>commons-ftp</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sct</groupId>
+                <artifactId>commons-swagger2</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sct</groupId>
+                <artifactId>commons-excel</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sct</groupId>
+                <artifactId>commons-file</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sct</groupId>
+                <artifactId>commons-utils</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

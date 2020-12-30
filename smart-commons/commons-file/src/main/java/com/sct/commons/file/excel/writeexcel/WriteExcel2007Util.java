@@ -1,6 +1,7 @@
 package com.sct.commons.file.excel.writeexcel;
 
 
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -46,7 +47,7 @@ public class WriteExcel2007Util {
             XSSFCell cell = titleRow.createCell(k); //2007格式,创建一个单元格
 
             cell.setCellStyle(titleStyleMap.get(k));//设置标题样式
-            cell.setCellType(XSSFCell.CELL_TYPE_STRING);
+            cell.setCellType(CellType.STRING);
             cell.setCellValue(new XSSFRichTextString(headInfo.get(k))); // 为单元格赋值
             sheet.setColumnWidth(k, (short) 5000);//设置列宽
         }

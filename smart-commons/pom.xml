@@ -24,5 +24,7 @@
         <module>commons-db-driver-dependency</module>
         <module>commons-logback</module>
         <module>commons-cache</module>
+        <module>commons-ftp</module>
+        <module>commons-excel</module>
     </modules>
 </project>

@@ -1,7 +1,6 @@
 package com.sct.commons.file.excel.writeexcel;
 
 
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -12,6 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -132,12 +132,12 @@ public class WriteImportTemplateExcel2007Util {
         normalXSSFCellStyle = HeadTypeUtil.createDataXSSFCellStyle(workBook, normalHeadType);
 
         HeadType redFontHeadType = new HeadType();
-        redFontHeadType.setCellStyle(HeadType.COLOR_NONE, HSSFColor.RED.index, true);
+        redFontHeadType.setCellStyle(HeadType.COLOR_NONE, (short) Color.RED.getRGB(), true);
         redFontXSSFCellStyle = HeadTypeUtil.createDataXSSFCellStyle(workBook, redFontHeadType);
         XSSFFont xssfTitleFont = workBook.createFont();
         xssfTitleFont.setFontName("宋体");
         xssfTitleFont.setBold(true);
-        xssfTitleFont.setColor(HSSFColor.RED.index);
+        xssfTitleFont.setColor((short) Color.RED.getRGB());
         redFontXSSFCellStyle.setFont(xssfTitleFont);
     }
 }

@@ -29,17 +29,25 @@
         <!-- xml -->
         <office-dom4j.verison>1.6.1</office-dom4j.verison>
         <!-- excel -->
-        <office-poi.version>3.15</office-poi.version>
+        <office-poi.version>4.1.0</office-poi.version>
+        <office-jxls.version>2.7.0</office-jxls.version>
+        <office-jxls-poi.version>1.2.0</office-jxls-poi.version>
+        <office-jxls-jexcel.version>1.0.9</office-jxls-jexcel.version>
 
         <joda-time.version>2.7</joda-time.version>
         <fastjson.version>1.2.47</fastjson.version>
         <pinyin4j.version>2.5.0</pinyin4j.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
+        <commons-io.version>2.6</commons-io.version>
         <commons-compress.version>1.20</commons-compress.version>
         <commons-codec.version>1.14</commons-codec.version>
         <commons-lang3.version>3.11</commons-lang3.version>
         <commons-collections4.version>4.0</commons-collections4.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
+
+        <!-- ftp -->
+        <jsch.version>0.1.55</jsch.version>
+        <commons-net.version>3.7</commons-net.version>
     </properties>
 
     <dependencies>
@@ -150,7 +158,13 @@
                 <artifactId>dom4j</artifactId>
                 <version>${office-dom4j.verison}</version>
             </dependency>
-            <!-- excel -->
+
+            <!-- Excel -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${office-poi.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi-ooxml</artifactId>
@@ -158,11 +172,32 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.poi</groupId>
-                <artifactId>poi</artifactId>
+                <artifactId>poi-ooxml-schemas</artifactId>
                 <version>${office-poi.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.jxls</groupId>
+                <artifactId>jxls</artifactId>
+                <version>${office-jxls.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jxls</groupId>
+                <artifactId>jxls-poi</artifactId>
+                <version>${office-jxls-poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jxls</groupId>
+                <artifactId>jxls-jexcel</artifactId>
+                <version>${office-jxls-jexcel.version}</version>
+            </dependency>
+
             <!-- apache commons -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-compress</artifactId>
@@ -206,6 +241,18 @@
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
                 <version>${commons-fileupload.version}</version>
+            </dependency>
+
+            <!-- ftp -->
+            <dependency>
+                <groupId>com.jcraft</groupId>
+                <artifactId>jsch</artifactId>
+                <version>${jsch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>${commons-net.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

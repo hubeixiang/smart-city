@@ -1,0 +1,101 @@
+server:
+  servlet:
+    session:
+      timeout: PT12H
+  compression:
+    enabled: true
+    min-response-size: 1024
+
+#logging:
+#  level:
+#    root: DEBUG
+#    org.springframework.web: DEBUG
+#    org.springframework.security: DEBUG
+#    org.springframework.security.oauth2: DEBUG
+
+security:
+  datasource:
+    driver: com.mysql.cj.jdbc.Driver
+    max-active: 20
+    validation-query: SELECT 1
+  oauth2:
+    resource:
+      jwk:
+        key-set-uri: ${security.jwk-set-uri}
+
+spring:
+  application: application-business
+  messages:
+    basename: i18n/sct_messages,i18n/sct_messages_users,i18n/screen-message
+  datasource:
+    url: ${security.datasource.url}
+    username: ${security.datasource.username}
+    password: ${security.datasource.password}
+    driver-class-name: ${security.datasource.driver}
+    max-active: ${security.datasource.max-active}
+    max-wait: 10000
+    min-idle: 5
+    initial-size: 5
+    validation-query: ${security.datasource.validation-query}
+    time-between-eviction-runs-millis: 18800
+    jdbc-interceptors: ConnectionState;SlowQueryReport(threshold=50)
+    type: com.alibaba.druid.pool.DruidDataSource
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${security.jwk-set-uri}
+
+mybatis:
+  config-location: classpath:config/mybatis-base-config.xml
+  mapper-locations: classpath:mapper/*.xml
+  scanner:
+    enable: true
+    base-package: com.sct.service.database.mapper
+  factor:
+    enable: false
+    config-location: classpath:config/mybatis-base-config.xml
+    mapper-locations: classpath:mapper/*.xml
+
+ilogin:
+  loginform:
+    loginPageUrl:  /login-embed/loginView
+    loginErrorPageUrl: /login-error
+    loginDefaultSucessUrl:  /index
+    defaultLoginPostUrl: /login
+    sessionInvalidPageUrl: ${login.loginform.loginErrorPageUrl}
+  oauthClient:
+    clientId: hios-client-embed
+    clientSecret: secret_hios
+    clientScope: read,write
+  captcha:
+    enable: true
+    timeout: 300
+  password:
+    active: true
+    enable: true
+    type: sct
+  sms:
+    active: false
+    enable: true
+    timeout: 300
+    mobile-message-format: 登录验证码:%s,有效时间5分钟
+    smsLoginPostUrl:  /login-mobile
+  session-manager-config:
+    max-mum-sessions: -1
+    max-sessions-prevents-login: false
+    security-with-resource-server: true
+  throttle:
+    throttle-sign-in:
+      threshold: -1
+      range-seconds: -1
+      lock-seconds: -1
+      password-expire-days: 90
+  auth-provider[0]:
+    name: username
+    enable: true
+    order: 1
+  auth-provider[1]:
+    name: sms
+    enable: true
+    order: 2

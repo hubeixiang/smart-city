@@ -198,33 +198,46 @@ public class SimpleFileUtil {
      * @return 是否写入成功
      */
     public static boolean write(String absolutePathFile, byte[] content, boolean isAppend) {
-        BufferedInputStream bi = null;
+        BufferedInputStream bi = new BufferedInputStream(new ByteArrayInputStream(content));
+        return write(absolutePathFile, bi, isAppend);
+    }
+
+    /**
+     * 将二进制数组写入文件
+     * author:123 create at 2015年7月9日 上午9:22:30
+     *
+     * @param absolutePathFile 文件路径及名字
+     * @param input            输入流
+     * @param isAppend         是否增量写入文件
+     * @return 是否写入成功
+     */
+    public static boolean write(String absolutePathFile, InputStream input, boolean isAppend) {
         try {
             File file = new File(absolutePathFile);
             FileOutputStream fos = new FileOutputStream(file, isAppend);
-            bi = new BufferedInputStream(new ByteArrayInputStream(content));
             byte[] byteff = new byte[_1024];
             int size;
-            while ((size = bi.read(byteff)) != -1) {
+            while ((size = input.read(byteff)) != -1) {
                 fos.write(byteff, 0, size);
             }
             fos.flush();
             fos.close();
             return true;
         } catch (IOException io) {
-            logger.error("write byte[] Exception.absolutePathFile=" + absolutePathFile, io);
+            logger.error("write input[] Exception.absolutePathFile=" + absolutePathFile, io);
         } finally {
-            if (bi != null) {
+            if (input != null) {
                 try {
-                    bi.close();
+                    input.close();
                 } catch (IOException e) {
                 } finally {
-                    bi = null;
+                    input = null;
                 }
             }
         }
         return false;
     }
+
 
     /**
      * 将指定的json串写入指定的文件中
