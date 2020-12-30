@@ -12,9 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 文件Bean工具类
+ * 文件转换工具类
  *
- * @author Lupeng 2019-11-07
  */
 public class WrapperUtil {
     private static Logger logger = LoggerFactory.getLogger(WrapperUtil.class);
