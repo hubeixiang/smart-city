@@ -5,9 +5,9 @@ import com.sct.commons.file.location.FileLocationManager;
 import com.sct.commons.file.location.FileNameDescribe;
 import com.sct.commons.utils.JsonUtils;
 import com.sct.commons.utils.id.IDGenerator;
+import com.sct.commons.web.core.response.HttpResultEntity;
 import com.sct.service.core.api.service.file.ServiceFileLocationApi;
 import com.sct.service.core.web.controller.WebConstants;
-import com.sct.service.core.web.controller.base.RestFulResponseError;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -63,7 +63,7 @@ public class FileOperationController {
             return new ResponseEntity<>(uploadFiles, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("{} response error : code={} txt={} error:", path, HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
-            return new ResponseEntity<>(new RestFulResponseError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()),
+            return new ResponseEntity<>(HttpResultEntity.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()),
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -43,6 +43,10 @@
             <groupId>com.sct</groupId>
             <artifactId>commons-cache</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>commons-web-core</artifactId>
+        </dependency>
 
         <!-- other -->
         <dependency>
