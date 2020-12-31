@@ -79,6 +79,7 @@ ilogin:
     active: false
     enable: true
     timeout: 300
+    sms-gateway-url: 'http://127.0.0.1:18885/sms/send/code'
     mobile-message-format: 登录验证码:%s,有效时间5分钟
     smsLoginPostUrl:  /login-mobile
   session-manager-config:

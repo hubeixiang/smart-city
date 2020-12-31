@@ -153,7 +153,13 @@
             url: url,
             methd: 'get',
             success: function (args) {
-                alert(args);
+                if(args.code == 1){
+                    if(args.message != undefined || args.message != '') {
+                        alert(args.message);
+                    }
+                }else{
+                    alert(args.message);
+                }
             },
             error: function (args) {
                 alert(smsCodeSend_Error + ":" + args);

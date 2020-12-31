@@ -7,6 +7,8 @@ public class SmsCode {
     private boolean active = false;
     //短信验证码登录时超时时间,0为不设置
     private int timeout = 0;
+    //短信网关地址
+    private String smsGatewayUrl;
     /**
      * 手机号码短信登录时提交短信验证码并进行验证处理登录的url
      */
@@ -35,6 +37,14 @@ public class SmsCode {
 
     public void setTimeout(int timeout) {
         this.timeout = timeout;
+    }
+
+    public String getSmsGatewayUrl() {
+        return smsGatewayUrl;
+    }
+
+    public void setSmsGatewayUrl(String smsGatewayUrl) {
+        this.smsGatewayUrl = smsGatewayUrl;
     }
 
     public String getSmsLoginPostUrl() {

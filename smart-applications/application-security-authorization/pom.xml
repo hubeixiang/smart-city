@@ -35,6 +35,10 @@
         </dependency>
         <dependency>
             <groupId>com.sct</groupId>
+            <artifactId>commons-web-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
             <artifactId>service-database</artifactId>
         </dependency>
         <dependency>

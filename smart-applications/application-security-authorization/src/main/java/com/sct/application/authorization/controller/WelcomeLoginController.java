@@ -1,11 +1,19 @@
 package com.sct.application.authorization.controller;
 
+import com.sct.commons.web.core.handler.HttpResultEntityHandler;
+import com.sct.commons.web.core.handler.RestTemplateRequestHandler;
+import com.sct.commons.web.core.response.HttpResultEntity;
 import com.sct.service.core.web.captcha.CaptchaCodeInfo;
 import com.sct.service.core.web.captcha.CaptchaCodeUtil;
 import com.sct.service.core.web.smscode.SmsGenerateUtil;
 import com.sct.service.core.web.smscode.cache.SmsInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
@@ -16,16 +24,22 @@ import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.UriTemplateHandler;
 import org.thymeleaf.util.DateUtils;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 @Controller
 public class WelcomeLoginController extends BaseLoginController {
@@ -34,6 +48,9 @@ public class WelcomeLoginController extends BaseLoginController {
     private String loginPageUrl;
 
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @PostConstruct
     public void init() {
@@ -95,22 +112,48 @@ public class WelcomeLoginController extends BaseLoginController {
     }
 
     @GetMapping("/code/sms")
-    @ResponseBody
-    public String createSmsCode(Model model, HttpServletRequest request, HttpServletResponse response) throws ServletRequestBindingException {
+    public HttpEntity<HttpResultEntity> createSmsCode(Model model, HttpServletRequest request, HttpServletResponse response) throws ServletRequestBindingException {
         String mobile = ServletRequestUtils.getRequiredStringParameter(request, "mobile");
         if (org.apache.commons.lang3.StringUtils.isEmpty(mobile)) {
             throw new RuntimeException(getMessage("screen.sms.code.send.mobile_not_null"));
         }
         SmsInfo smsInfo = SmsGenerateUtil.createSmsCode(mobile);
-        SmsGenerateUtil.cacheSimpleObject(smsInfo, iLoginProperties.getSms().getTimeout());
-
         String tipSms = iLoginProperties.getSms().getMobileMessageFormat();
         if (org.apache.commons.lang3.StringUtils.isNotEmpty(tipSms)) {
             tipSms = String.format(tipSms, smsInfo.getCode());
         } else {
             tipSms = smsInfo.getCode();
         }
-        return tipSms;
+        HttpResultEntity httpResultEntity = sendSms(mobile, tipSms);
+        if (httpResultEntity.getCode() == HttpResultEntity.Code.SUCCESS) {
+            SmsGenerateUtil.cacheSimpleObject(smsInfo, iLoginProperties.getSms().getTimeout());
+        }
+        return ResponseEntity.ok(httpResultEntity);
+    }
+
+    private HttpResultEntity sendSms(String mobile, String smsContext) {
+        String url = iLoginProperties.getSms().getSmsGatewayUrl();
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
+
+        UriTemplateHandler uriBuilder = restTemplate.getUriTemplateHandler();
+        URI uri = uriBuilder.expand(builder.toUriString());
+
+        HttpHeaders httpHeaders = RestTemplateRequestHandler.createHttpHeaders(null);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        Map<String, String> body = new HashMap<>();
+        body.put("mobile", mobile);
+        body.put("smsContext", smsContext);
+        HttpEntity httpEntity = new HttpEntity(body, httpHeaders);
+
+        HttpResultEntity result = HttpResultEntityHandler.handler(
+                () -> restTemplate.postForEntity(uri, httpEntity, HttpResultEntity.class),
+                (t) -> HttpResultEntity.of(HttpResultEntity.Code.SUCCESS, smsContext),
+                (t, u) -> HttpResultEntity.failure(t.getMessage(), null),
+                (e) -> {
+                    logger.error(String.format("url=%s Exception:%s", uri, e.getMessage()), e);
+                    return HttpResultEntity.failure(e.getMessage(), null);
+                });
+        return result;
     }
 
 
