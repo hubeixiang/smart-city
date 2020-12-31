@@ -69,6 +69,11 @@
                 <artifactId>commons-cache</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.sct</groupId>
+                <artifactId>commons-web-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

@@ -26,5 +26,6 @@
         <module>commons-cache</module>
         <module>commons-ftp</module>
         <module>commons-excel</module>
+        <module>commons-web-core</module>
     </modules>
 </project>

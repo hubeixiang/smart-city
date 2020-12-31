@@ -40,6 +40,10 @@
             <groupId>com.sct</groupId>
             <artifactId>commons-logback</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>commons-web-core</artifactId>
+        </dependency>
 
         <!-- spring dependency -->
         <dependency>
