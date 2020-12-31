@@ -12,3 +12,9 @@ server:
 #    org.springframework.web: DEBUG
 #    org.springframework.security: DEBUG
 #    org.springframework.security.oauth2: DEBUG
+
+sms:
+  url: ''
+  user-account: ''
+  password: ''
+  ecname: ''
