@@ -1,10 +1,10 @@
 package com.sct.webtools.controller;
 
+import com.sct.commons.web.core.response.HttpResultEntity;
 import com.sct.webtools.constants.ApiConstants;
 import com.sct.webtools.file.StaticFileServiceImpl;
 import com.sct.webtools.model.DeleteFilesParam;
 import com.sct.webtools.model.UploadFilesParam;
-import com.sct.webtools.response.ResultEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -39,7 +39,7 @@ public class StaticFileWebOptController extends ValidateParameController {
         try {
             validDeleteFilesParam(params);
             String basePath = initBasePath(httpRequest);
-            ResultEntity resultEntity = ResultEntity.ok();
+            HttpResultEntity resultEntity = HttpResultEntity.ok();
             staticFileServiceImpl.delete(basePath, params.getFiles());
             logger.info("[delete] response:{}", resultEntity);
             responseEntity = ResponseEntity.ok(resultEntity);
@@ -67,7 +67,7 @@ public class StaticFileWebOptController extends ValidateParameController {
             validUploadFilesParam(params);
 
             String basePath = initBasePath(httpRequest);
-            ResultEntity resultEntity = ResultEntity.ok();
+            HttpResultEntity resultEntity = HttpResultEntity.ok();
             staticFileServiceImpl.upload(basePath, params);
             logger.info("[upload] finish,cost:{}ms", (System.currentTimeMillis() - begin));
             responseEntity = ResponseEntity.ok(resultEntity);

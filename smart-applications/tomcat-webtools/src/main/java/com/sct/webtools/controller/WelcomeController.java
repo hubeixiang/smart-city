@@ -1,6 +1,6 @@
 package com.sct.webtools.controller;
 
-import com.sct.webtools.response.ResultEntity;
+import com.sct.commons.web.core.response.HttpResultEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -30,7 +30,7 @@ public class WelcomeController {
         ResponseEntity<?> responseEntity = null;
         try {
             logger.info("[test]");
-            ResultEntity result = ResultEntity.of(ResultEntity.Code.SUCCESS, "服务可用");
+            HttpResultEntity result = HttpResultEntity.of(HttpResultEntity.Code.SUCCESS, "服务可用");
             responseEntity = ResponseEntity.ok(result);
         } catch (Exception e) {
             logger.error("[test] error:{}", ExceptionUtils.getStackTrace(e));

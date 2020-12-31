@@ -1,8 +1,8 @@
 package com.sct.application.security.advice;
 
+import com.sct.commons.web.core.response.HttpResultEntity;
 import com.sct.service.core.web.exception.APIException;
 import com.sct.service.core.web.exception.ExceptionCode;
-import com.sct.service.core.web.response.ResponseError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -18,21 +18,21 @@ public class ExceptionControllerAdvice {
     private static Logger logger = LoggerFactory.getLogger(ExceptionControllerAdvice.class);
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public HttpEntity<ResponseError> IllegalArgumentExceptionHandler(IllegalArgumentException e, WebRequest request) {
+    public HttpEntity<HttpResultEntity> IllegalArgumentExceptionHandler(IllegalArgumentException e, WebRequest request) {
         logRequestExceptionError(request, e);
-        return new ResponseEntity<>(new ResponseError(ExceptionCode.SERVER_API_PARAMETER_ERROR, "Parameter Error", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(HttpResultEntity.of(ExceptionCode.SERVER_API_PARAMETER_ERROR, "Parameter Error", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(APIException.class)
-    public HttpEntity<ResponseError> APIExceptionHandler(APIException e, WebRequest request) {
+    public HttpEntity<HttpResultEntity> APIExceptionHandler(APIException e, WebRequest request) {
         logRequestExceptionError(request, e);
-        return new ResponseEntity<>(new ResponseError(e.getCode(), e.getMessage(), e.getData()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(HttpResultEntity.of(e.getCode(), e.getMessage(), e.getData()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public HttpEntity<ResponseError> RuntimeExceptionHandler(RuntimeException e, WebRequest request) {
+    public HttpEntity<HttpResultEntity> RuntimeExceptionHandler(RuntimeException e, WebRequest request) {
         logRequestExceptionError(request, e);
-        return new ResponseEntity<>(new ResponseError(ExceptionCode.SERVER_API_Unrecognized_ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(HttpResultEntity.of(ExceptionCode.SERVER_API_Unrecognized_ERROR, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private void logRequestExceptionError(WebRequest request, Throwable throwable) {
