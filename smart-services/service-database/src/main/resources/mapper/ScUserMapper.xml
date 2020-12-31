@@ -126,19 +126,19 @@
     </select>
 
     <sql id="queryCondition">
-        <if test="condition.userName !=null">
+        <if test="condition.userName !=null and condition.userName != ''">
             and user_name like '%${condition.userName}%'
         </if>
         <if test="condition.sex !=null">
             and sex = #{condition.sex}
         </if>
-        <if test="condition.mobile !=null">
+        <if test="condition.mobile !=null and condition.mobile != ''">
             and mobile = #{condition.mobile}
         </if>
-        <if test="condition.email !=null">
+        <if test="condition.email !=null and condition.email != ''">
             and email = #{condition.email}
         </if>
-        <if test="condition.cardId !=null">
+        <if test="condition.cardId !=null and condition.cardId !=''">
             and card_Id = #{condition.cardId}
         </if>
         <if test="condition.gridId !=null">
