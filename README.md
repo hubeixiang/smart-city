@@ -11,3 +11,7 @@
 * smart-applications
     智慧城市后台服务对外提供restFul接口服务的应用
     最终的打包使用spring-boot-maven-plugin进行打包,打包为整体jar,使用spring-boot引导启动的服务jar包
+
+## 开发说明
+
+在develop分支上开发
