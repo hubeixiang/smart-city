@@ -8,8 +8,7 @@ public class ScUserCondition {
     private String mobile;
     private String email;
     private String cardId;
-    private Integer gridId;
-    private Boolean isValid;
+    private Boolean validStatus;
 
     public static void checkSQLinjectionException(ScUserCondition condition) {
         if (checkSQLinjection(condition)) {
@@ -69,19 +68,11 @@ public class ScUserCondition {
         this.cardId = cardId;
     }
 
-    public Integer getGridId() {
-        return gridId;
+    public Boolean getValidStatus() {
+        return validStatus;
     }
 
-    public void setGridId(Integer gridId) {
-        this.gridId = gridId;
-    }
-
-    public Boolean getValid() {
-        return isValid;
-    }
-
-    public void setValid(Boolean valid) {
-        isValid = valid;
+    public void setValidStatus(Boolean validStatus) {
+        this.validStatus = validStatus;
     }
 }

@@ -162,15 +162,12 @@
         <if test="condition.cardId !=null and condition.cardId !=''">
             and card_Id = #{condition.cardId}
         </if>
-        <if test="condition.gridId !=null">
-            and grid_id = #{condition.gridId}
-        </if>
-        <if test="condition.isValid !=null">
+        <if test="condition.validStatus !=null">
             <choose>
-                <when test="condition.isValid == true">
+                <when test="condition.validStatus == true">
                     and valid_status = 1
                 </when>
-                <when test="condition.isValid == false">
+                <when test="condition.validStatus == false">
                     and valid_status = 0
                 </when>
             </choose>
