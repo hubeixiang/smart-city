@@ -25,6 +25,7 @@
         <module>service-oauth2-core</module>
         <module>service-security-support-password</module>
         <module>service-database-entity</module>
+        <module>service-main</module>
     </modules>
 
     <dependencyManagement>

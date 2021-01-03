@@ -20,6 +20,10 @@
     <dependencies>
         <dependency>
             <groupId>com.sct</groupId>
+            <artifactId>service-main</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
             <artifactId>commons-logback</artifactId>
         </dependency>
         <dependency>
