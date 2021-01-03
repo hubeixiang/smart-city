@@ -144,11 +144,11 @@ public class CustomUsernamePasswordAuthenticationFilter extends
         username = username.trim();
 
         if (StringUtils.isNotEmpty(userType)) {
-            if (userType.equalsIgnoreCase("manager")) {
-                username = new DefaultUsernameResolver().assemble(username, UsernameResolverEnum.manager_mix_3);
-            } else {
-                username = new DefaultUsernameResolver().assemble(username, UsernameResolverEnum.mix_3);
-            }
+//            if (userType.equalsIgnoreCase("manager")) {
+//                username = new DefaultUsernameResolver().assemble(username, UsernameResolverEnum.manager_mix_3);
+//            } else {
+            username = new DefaultUsernameResolver().assemble(username, UsernameResolverEnum.mix_3);
+//            }
         } else {
             //为空就默认是普通用户
             username = new DefaultUsernameResolver().assemble(username, UsernameResolverEnum.mix_3);

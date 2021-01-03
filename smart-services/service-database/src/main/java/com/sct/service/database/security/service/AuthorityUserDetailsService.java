@@ -1,9 +1,7 @@
 package com.sct.service.database.security.service;
 
 import com.sct.commons.i18n.I18nMessageUtil;
-import com.sct.service.database.entity.ScManager;
 import com.sct.service.database.entity.ScUser;
-import com.sct.service.database.mapper.ScManagerMapper;
 import com.sct.service.database.mapper.ScUserMapper;
 import com.sct.service.users.data.entity.AuthorityUser;
 import com.sct.service.users.security.SecurityUser;
@@ -33,8 +31,6 @@ public class AuthorityUserDetailsService implements UserDetailsService {
 
     @Autowired
     private ScUserMapper scUserMapper;
-    @Autowired
-    private ScManagerMapper scManagerMapper;
 
     @Autowired
     private UsernameResolver usernameResolver;
@@ -60,13 +56,8 @@ public class AuthorityUserDetailsService implements UserDetailsService {
         UserEntity userEntity = null;
         if (usernameResolverEnum == null) {
             //检索2张表的主键
-            ScManager scManager = scManagerMapper.selectByPrimaryKey(findKey);
-            if (scManager == null) {
-                ScUser scUser = scUserMapper.selectByPrimaryKey(findKey);
-                userEntity = scUser;
-            } else {
-                userEntity = scManager;
-            }
+            ScUser scUser = scUserMapper.selectByPrimaryKey(findKey);
+            userEntity = scUser;
         } else {
             switch (usernameResolverEnum) {
                 case userPk:
@@ -87,24 +78,7 @@ public class AuthorityUserDetailsService implements UserDetailsService {
                 case wxId:
                     userEntity = scUserMapper.selectBywxid(findKey);
                     break;
-                case manager_userPk:
-                    userEntity = scManagerMapper.selectByPrimaryKey(findKey);
-                    break;
-                case manager_loginId:
-                    userEntity = scManagerMapper.selectByLoginId(findKey);
-                    break;
-                case manager_cellPhone:
-                    userEntity = scManagerMapper.selectByMobile(findKey);
-                    break;
-                case manager_email:
-                    userEntity = scManagerMapper.selectByEmail(findKey);
-                    break;
-                case manager_mix_3:
-                    userEntity = scManagerMapper.selectByMixed(findKey);
-                    break;
-                case manager_wxId:
-                    userEntity = scManagerMapper.selectBywxid(findKey);
-                    break;
+
                 default:
                     String msg = I18nMessageUtil.getInstance().getMessage("AuthorityUserDetailsService.NOT_FOUND_UsernameResolverEnum", usernameResolverEnum);
                     logger.error(msg);
@@ -128,13 +102,7 @@ public class AuthorityUserDetailsService implements UserDetailsService {
     }
 
     protected AuthorityUser createAuthorityUser(UserEntity userEntity) {
-        if (userEntity instanceof ScUser) {
-            //一般注册用户
-            return createAuthorityUserByScUser((ScUser) userEntity);
-        } else {
-            //管理用户
-            return createAuthorityUserByScManagerUser((ScManager) userEntity);
-        }
+        return createAuthorityUserByScUser((ScUser) userEntity);
     }
 
     private AuthorityUser createAuthorityUserByScUser(ScUser scUser) {
@@ -147,19 +115,6 @@ public class AuthorityUserDetailsService implements UserDetailsService {
 
         authorityUser.setUserName(scUser.getUserName());
         authorityUser.setPassword(scUser.getPassword());
-        return authorityUser;
-    }
-
-    private AuthorityUser createAuthorityUserByScManagerUser(ScManager scManager) {
-        AuthorityUser authorityUser = new AuthorityUser();
-        authorityUser.setPkId(scManager.getId());
-        authorityUser.setLoginId(scManager.getUserId());
-        authorityUser.setUserEmail(scManager.getEmail());
-        authorityUser.setUserMobile(scManager.getMobile());
-        authorityUser.setWxId(scManager.getWxId());
-
-        authorityUser.setUserName(scManager.getUserName());
-        authorityUser.setPassword(scManager.getPassword());
         return authorityUser;
     }
 

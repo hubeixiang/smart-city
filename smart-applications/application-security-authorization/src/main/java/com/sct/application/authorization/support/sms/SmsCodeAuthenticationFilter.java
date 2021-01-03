@@ -44,11 +44,11 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
 
             //增加查询类型
             if (org.apache.commons.lang3.StringUtils.isNotEmpty(userType)) {
-                if (userType.equalsIgnoreCase("manager")) {
-                    mobile = new DefaultUsernameResolver().assemble(mobile, UsernameResolverEnum.manager_cellPhone);
-                } else {
+//                if (userType.equalsIgnoreCase("manager")) {
+//                    mobile = new DefaultUsernameResolver().assemble(mobile, UsernameResolverEnum.manager_cellPhone);
+//                } else {
                     mobile = new DefaultUsernameResolver().assemble(mobile, UsernameResolverEnum.cellPhone);
-                }
+//                }
             } else {
                 //为空就默认是普通用户
                 mobile = new DefaultUsernameResolver().assemble(mobile, UsernameResolverEnum.cellPhone);
