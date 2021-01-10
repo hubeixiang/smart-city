@@ -18,29 +18,28 @@ security:
     driver: com.mysql.cj.jdbc.Driver
     max-active: 20
     validation-query: SELECT 1
+  oauth2:
+    resource:
+      jwk:
+        key-set-uri: ${security.jwk-set-uri}
 
 spring:
   application: application-business
   messages:
-    basename: messages,i18n/messages,i18n/sct_messages_users,i18n/sct_messages_exception
+    basename: i18n/sct_messages,i18n/sct_messages_users,i18n/screen-message
   datasource:
-    url: ${datasource.jdbc.url}
-    username: ${datasource.jdbc.username}
-    password: ${datasource.jdbc.password}
-    driver-class-name: ${datasource.jdbc.driver}
-    max-active: ${datasource.jdbc.max-active}
+    url: ${security.datasource.url}
+    username: ${security.datasource.username}
+    password: ${security.datasource.password}
+    driver-class-name: ${security.datasource.driver}
+    max-active: ${security.datasource.max-active}
     max-wait: 10000
     min-idle: 5
     initial-size: 5
-    validation-query: ${datasource.jdbc.validation-query}
+    validation-query: ${security.datasource.validation-query}
     time-between-eviction-runs-millis: 18800
     jdbc-interceptors: ConnectionState;SlowQueryReport(threshold=50)
     type: com.alibaba.druid.pool.DruidDataSource
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: ${security.jwk-set-uri}
 
 mybatis:
   config-location: classpath:config/mybatis-base-config.xml

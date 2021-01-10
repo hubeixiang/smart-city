@@ -24,7 +24,7 @@ security:
         key-set-uri: ${security.jwk-set-uri}
 
 spring:
-  application: application-business
+  application: application-summary
   messages:
     basename: i18n/sct_messages,i18n/sct_messages_users,i18n/screen-message
   datasource:
@@ -40,11 +40,6 @@ spring:
     time-between-eviction-runs-millis: 18800
     jdbc-interceptors: ConnectionState;SlowQueryReport(threshold=50)
     type: com.alibaba.druid.pool.DruidDataSource
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: ${security.jwk-set-uri}
 
 mybatis:
   config-location: classpath:config/mybatis-base-config.xml
@@ -56,46 +51,3 @@ mybatis:
     enable: false
     config-location: classpath:config/mybatis-base-config.xml
     mapper-locations: classpath:mapper/*.xml
-
-ilogin:
-  loginform:
-    loginPageUrl:  /login-embed/loginView
-    loginErrorPageUrl: /login-error
-    loginDefaultSucessUrl:  /index
-    defaultLoginPostUrl: /login
-    sessionInvalidPageUrl: ${login.loginform.loginErrorPageUrl}
-  oauthClient:
-    clientId: hios-client-embed
-    clientSecret: secret_hios
-    clientScope: read,write
-  captcha:
-    enable: true
-    timeout: 300
-  password:
-    active: true
-    enable: true
-    type: sct
-  sms:
-    active: false
-    enable: true
-    timeout: 300
-    mobile-message-format: 登录验证码:%s,有效时间5分钟
-    smsLoginPostUrl:  /login-mobile
-  session-manager-config:
-    max-mum-sessions: -1
-    max-sessions-prevents-login: false
-    security-with-resource-server: true
-  throttle:
-    throttle-sign-in:
-      threshold: -1
-      range-seconds: -1
-      lock-seconds: -1
-      password-expire-days: 90
-  auth-provider[0]:
-    name: username
-    enable: true
-    order: 1
-  auth-provider[1]:
-    name: sms
-    enable: true
-    order: 2

@@ -40,11 +40,6 @@ spring:
     time-between-eviction-runs-millis: 18800
     jdbc-interceptors: ConnectionState;SlowQueryReport(threshold=50)
     type: com.alibaba.druid.pool.DruidDataSource
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: ${security.jwk-set-uri}
 
 mybatis:
   config-location: classpath:config/mybatis-base-config.xml
