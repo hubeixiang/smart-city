@@ -3,7 +3,8 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <property resource="${LOGBACK_PROPERTIES:-config/logback.properties}"/>
-    <property name="LOG_DIR" value="./logs/"/>
-    <property name="LOG_FILE" value="${LOG_DIR}${project:-application-sct}"/>
+<!--    <property name="LOG_PATH" value="./logs/"/>-->
+    <property name="LOG_PATH" value="${LOG_PATH:-${APP_SERVER_HOME:-.}/logs/}" />
+    <property name="LOG_FILE" value="${LOG_PATH}${project:-app-sct}"/>
     <property name="CONSOLE_LOG_CHARSET" value="${console.log.charset:-utf8}"/>
 </included>
