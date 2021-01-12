@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.sct.commons.web.core.build.ProjectBuildProperties,\
+com.sct.commons.web.core.build.ProjectBuildController

@@ -8,9 +8,9 @@ initialization performed by Boot
 <included>
     <appender name="info_appender"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_FILE}-info.log</file>
+        <file>${LOG_DIR_FILE}-info.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <FileNamePattern>${log.dir}/%d{yyyy-MM-dd}/%d{HH}/${LOG_FILE}-info.log.%i</FileNamePattern>
+            <FileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}/${LOG_FILE}-info.log.%i</FileNamePattern>
             <minIndex>1</minIndex>
             <maxIndex>20</maxIndex>
         </rollingPolicy>
@@ -35,9 +35,9 @@ initialization performed by Boot
 
     <appender name="error_appender"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_FILE}-error.log</file>
+        <file>${LOG_DIR_FILE}-error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <FileNamePattern>${log.dir}/%d{yyyy-MM-dd}/%d{HH}/${LOG_FILE}-error.log.%i</FileNamePattern>
+            <FileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}/${LOG_FILE}-error.log.%i</FileNamePattern>
             <minIndex>1</minIndex>
             <maxIndex>20</maxIndex>
         </rollingPolicy>
