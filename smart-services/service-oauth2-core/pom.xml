@@ -22,6 +22,11 @@
             <groupId>com.sct</groupId>
             <artifactId>commons-db-autoconfigure</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>service-users</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- spring & oauth2 -->
 <!--        <dependency>-->

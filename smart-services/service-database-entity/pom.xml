@@ -20,6 +20,10 @@
             <artifactId>service-users</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>commons-utils</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

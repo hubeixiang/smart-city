@@ -1,6 +1,7 @@
 package com.sct.application.authorization.controller;
 
 
+import com.sct.application.authorization.controller.entity.UserLoginStatus;
 import com.sct.application.authorization.controller.index.AuthorizationCodeUrl;
 import com.sct.application.authorization.controller.index.BaseUrl;
 import com.sct.application.authorization.controller.index.CheckTokenUri;
@@ -13,6 +14,7 @@ import com.sct.application.authorization.properties.OauthClient;
 import com.sct.application.authorization.support.session.CustomSessionRegistry;
 import com.sct.commons.i18n.I18nMessageUtil;
 import com.sct.commons.utils.web.WebUtil;
+import com.sct.service.users.data.entity.AuthorityUser;
 import com.sct.service.users.security.SecurityUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +32,17 @@ public abstract class BaseLoginController {
     protected CustomSessionRegistry customSessionRegistry;
     @Autowired
     protected ILoginProperties iLoginProperties;
+
+    protected void assembleUserLoginStatus(UserLoginStatus userLoginStatus, SecurityUser customUser) {
+        AuthorityUser authorityUser = (AuthorityUser) customUser.getUserEntity();
+        userLoginStatus.setId(customUser.getUserPkId());
+        userLoginStatus.setWxId(authorityUser.getWxId());
+        userLoginStatus.setUserId(customUser.getLoginId());
+        userLoginStatus.setUserName(customUser.getSecurityUserName());
+        userLoginStatus.setUserStatus(authorityUser.getUserStatus());
+        userLoginStatus.setMobile(authorityUser.getUserMobile());
+        userLoginStatus.setEmail(authorityUser.getUserEmail());
+    }
 
     protected void appendOauthUrl(Model model, HttpServletRequest request) {
         BaseUrl baseUrl = createBaseUrl(request);

@@ -1,6 +1,12 @@
 package com.sct.service.database.mapper;
 
+import com.sct.service.database.condition.QPaging;
+import com.sct.service.database.condition.ScLogCondition;
+import com.sct.service.database.condition.ScUserCondition;
 import com.sct.service.database.entity.ScLog;
+import com.sct.service.database.entity.ScUser;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface ScLogMapper {
@@ -43,4 +49,10 @@ public interface ScLogMapper {
      * @mbg.generated Sat Jan 02 12:33:42 CST 2021
      */
     int updateByPrimaryKey(ScLog record);
+
+    public int selectConditionCount(@Param("condition") ScLogCondition condition);
+
+    public List<ScLog> selectConditionPage(@Param("condition") ScLogCondition condition, @Param("qPaging") QPaging qPaging);
+
+    public List<ScLog> selectCondition(@Param("condition") ScLogCondition condition);
 }

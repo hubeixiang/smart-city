@@ -2,7 +2,7 @@
  * 
  */
 
-package com.sct.service.database.annotation;
+package com.sct.commons.utils.dict;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

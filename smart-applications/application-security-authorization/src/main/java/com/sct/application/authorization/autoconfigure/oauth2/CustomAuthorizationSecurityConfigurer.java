@@ -87,11 +87,13 @@ public class CustomAuthorizationSecurityConfigurer extends AuthorizationServerCo
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         //org.springframework.security.oauth2.provider.endpoint.AuthorizationEndpoint
-        endpoints.pathMapping("/oauth/authorize", String.format("%s/authorize", Oauth2Constants.Oauth2_Context_Path));
+        endpoints.pathMapping("/oauth/authorize", String.format("/%s/authorize", Oauth2Constants.Oauth2_Context_Path));
         //org.springframework.security.oauth2.provider.endpoint.TokenEndpoint
-        endpoints.pathMapping("/oauth/token", String.format("%s/token", Oauth2Constants.Oauth2_Context_Path));
+        endpoints.pathMapping("/oauth/token", String.format("/%s/token", Oauth2Constants.Oauth2_Context_Path));
         //org.springframework.security.oauth2.provider.endpoint.CheckTokenEndpoint
-        endpoints.pathMapping("/oauth/check_token", String.format("%s/check_token", Oauth2Constants.Oauth2_Context_Path));
+        endpoints.pathMapping("/oauth/check_token", String.format("/%s/check_token", Oauth2Constants.Oauth2_Context_Path));
+        //org.springframework.security.oauth2.provider.endpoint.TokenKeyEndpoint
+        endpoints.pathMapping("/oauth/token_key", String.format("/%s/token_key", Oauth2Constants.Oauth2_Context_Path));
         endpoints
                 //oauth认证服务,在认证用户密码登录方式时需要使用
                 .authenticationManager(this.authenticationManager)
