@@ -16,7 +16,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 @Service
 public class ScDictServiceImpl {
 
-    private final static Map<String, List<ScDict>> cacheData = new ConcurrentHashMap<>();
+    private final static Map<String, ScDictGroup> cacheData = new ConcurrentHashMap<>();
     private ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     @Autowired
     private ScDictMapper scDictMapper;
@@ -32,8 +32,8 @@ public class ScDictServiceImpl {
         loadData();
     }
 
-    public Map<String, List<ScDict>> getAllData() {
-        Map<String, List<ScDict>> data = new HashMap<>();
+    public Map<String, ScDictGroup> getAllData() {
+        Map<String, ScDictGroup> data = new HashMap<>();
         data.putAll(cacheData);
         return data;
     }
@@ -42,7 +42,10 @@ public class ScDictServiceImpl {
         List<ScDict> data = null;
         try {
             readWriteLock.readLock().lock();
-            data = cacheData.get(fieldId);
+            ScDictGroup scDictGroup = cacheData.get(fieldId);
+            if (scDictGroup != null) {
+                data = scDictGroup.getList();
+            }
         } finally {
             readWriteLock.readLock().unlock();
         }
@@ -54,16 +57,16 @@ public class ScDictServiceImpl {
 
     private void loadData() {
         List<ScDict> data = scDictMapper.selectAll();
-        Map<String, List<ScDict>> dataMap = new HashMap<>();
+        Map<String, ScDictGroup> dataMap = new HashMap<>();
         for (ScDict scDict : data) {
-            List<ScDict> tmp = null;
+            ScDictGroup group = null;
             if (dataMap.containsKey(scDict.getFieldId())) {
-                tmp = dataMap.get(scDict.getFieldId());
+                group = dataMap.get(scDict.getFieldId());
             } else {
-                tmp = new ArrayList<>();
-                dataMap.put(scDict.getFieldId(), tmp);
+                group = ScDictGroup.of();
+                dataMap.put(scDict.getFieldId(), group);
             }
-            tmp.add(scDict);
+            ScDictGroup.add(group, scDict);
         }
         try {
             readWriteLock.writeLock().lock();
@@ -71,6 +74,15 @@ public class ScDictServiceImpl {
             cacheData.putAll(dataMap);
         } finally {
             readWriteLock.writeLock().unlock();
+        }
+    }
+
+    public ScDict find(String fieldId, Integer dictId) {
+        ScDictGroup group = cacheData.get(fieldId);
+        if (group == null) {
+            return null;
+        } else {
+            return group.getMap().get(dictId);
         }
     }
 }
