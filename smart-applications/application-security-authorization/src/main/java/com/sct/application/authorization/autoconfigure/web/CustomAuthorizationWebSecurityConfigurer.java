@@ -26,6 +26,7 @@ import com.sct.application.authorization.support.providers.AuthenticationProvide
 import com.sct.application.authorization.support.session.CustomInvalidSessionStrategy;
 import com.sct.application.authorization.support.session.CustomSessionInformationExpiredStrategy;
 import com.sct.application.authorization.support.session.CustomSessionRegistry;
+import com.sct.application.authorization.support.session.CustomSessionRegistryImpl;
 import com.sct.application.authorization.util.SecurityServiceConstants;
 import com.sct.commons.utils.JsonUtils;
 import com.sct.service.oauth2.core.constants.Oauth2Constants;
@@ -49,7 +50,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.context.DelegatingApplicationListener;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -278,7 +278,7 @@ public class CustomAuthorizationWebSecurityConfigurer extends WebSecurityConfigu
 
     @Bean
     public SessionRegistry sessionRegistry() {
-        SessionRegistryImpl sessionRegistry = new SessionRegistryImpl();
+        CustomSessionRegistryImpl sessionRegistry = new CustomSessionRegistryImpl();
         registerDelegateApplicationListener(sessionRegistry);
         return sessionRegistry;
     }
