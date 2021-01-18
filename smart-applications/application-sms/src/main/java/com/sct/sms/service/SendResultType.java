@@ -1,6 +1,7 @@
 package com.sct.sms.service;
 
-import com.sct.sms.annotation.IdEnum;
+
+import com.sct.commons.utils.dict.IdEnum;
 
 public enum SendResultType implements IdEnum<SendResultType> {
     SUCCESS(1, "短信发送成功"),
@@ -17,7 +18,6 @@ public enum SendResultType implements IdEnum<SendResultType> {
 
     private int id;
     private String description;
-
 
     SendResultType(int id, String description) {
         this.id = id;

@@ -15,6 +15,8 @@ public interface IdEnum<E extends Enum<E>> {
 
 	int getId();
 
+	String getDescription();
+
 	@SuppressWarnings("unchecked")
 	static <E extends IdEnum> E getType(Class<E> type, Integer id) {
 		if (id == null) {

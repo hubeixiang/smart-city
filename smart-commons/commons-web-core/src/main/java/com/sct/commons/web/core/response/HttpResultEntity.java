@@ -16,6 +16,12 @@ public class HttpResultEntity<T> {
         return httpResultEntity;
     }
 
+    public static <T> HttpResultEntity<T> ok(T data) {
+        HttpResultEntity httpResultEntity = HttpResultEntity.of(Code.SUCCESS, "SUCCESS");
+        httpResultEntity.setData(data);
+        return httpResultEntity;
+    }
+
     public static <T> HttpResultEntity<T> failure(String message, T data) {
         HttpResultEntity httpResultEntity = HttpResultEntity.of(Code.FAILURE, message, data);
         return httpResultEntity;
