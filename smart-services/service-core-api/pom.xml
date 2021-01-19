@@ -14,5 +14,12 @@
     <artifactId>service-core-api</artifactId>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.sct</groupId>
+            <artifactId>commons-file</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>
