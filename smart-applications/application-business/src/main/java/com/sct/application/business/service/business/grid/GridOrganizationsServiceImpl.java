@@ -1,9 +1,7 @@
 package com.sct.application.business.service.business.grid;
 
-import com.sct.commons.file.location.FileLocation;
 import com.sct.commons.utils.id.IntIdGenerator;
 import com.sct.service.core.FormatDataServiceImpl;
-import com.sct.service.database.condition.ScOrganizationConditionExport;
 import com.sct.service.database.entity.ScOrganization;
 import com.sct.service.main.ScOrganizationImpl;
 import org.apache.commons.collections4.CollectionUtils;
@@ -20,11 +18,6 @@ public class GridOrganizationsServiceImpl {
 
     @Autowired
     private FormatDataServiceImpl formatDataServiceImpl;
-
-    public FileLocation export(ScOrganizationConditionExport condition) {
-        List<List<String>> datas = scOrganizationImpl.export(condition.getCondition(), condition.getExportCondition());
-        return formatDataServiceImpl.write2Excel(condition.getExportCondition(), datas);
-    }
 
     public ScOrganization create(ScOrganization scOrganization) {
         //新增组织数据时,需要填补相关的属性信息

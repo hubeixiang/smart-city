@@ -1,14 +1,15 @@
 package com.sct.service.main;
 
+import com.sct.commons.file.location.FileLocation;
 import com.sct.service.core.FormatDataServiceImpl;
 import com.sct.service.core.service.QPagingUtil;
 import com.sct.service.core.web.support.collection.PageResultVO;
 import com.sct.service.core.web.support.collection.ResultVOEntity;
 import com.sct.service.core.web.support.collection.pages.PageResponse;
 import com.sct.service.core.web.support.collection.pages.Paging;
-import com.sct.service.database.condition.ExportExcelCondition;
 import com.sct.service.database.condition.QPaging;
 import com.sct.service.database.condition.ScOrganizationCondition;
+import com.sct.service.database.condition.ScOrganizationConditionExport;
 import com.sct.service.database.dict.ScOrganizationRegisterStatus;
 import com.sct.service.database.entity.ScOrganization;
 import com.sct.service.database.mapper.ScOrganizationMapper;
@@ -26,16 +27,21 @@ public class ScOrganizationImpl {
     @Autowired
     private ScOrganizationMapper scOrganizationMapper;
 
+    /**
+     * 导出服务
+     *
+     * @param conditionExport
+     * @return
+     */
+    public FileLocation export2FileLocation(ScOrganizationConditionExport conditionExport) {
+        return formatDataService.export2FileLocation(conditionExport.getExportCondition(),
+                () -> scOrganizationMapper.selectCondition(conditionExport.getCondition()));
+    }
+
     public ResultVOEntity list(ScOrganizationCondition condition) {
         List data = scOrganizationMapper.selectCondition(condition);
         List<String> columns = QPagingUtil.parserResultColumns(data);
         return ResultVOEntity.of(columns, data);
-    }
-
-    public List<List<String>> export(ScOrganizationCondition condition, ExportExcelCondition exportExcelCondition) {
-        List<ScOrganization> datas = scOrganizationMapper.selectCondition(condition);
-        List<List<String>> result = formatDataService.format2TwoDimensionalArray(datas, exportExcelCondition, 1000);
-        return result;
     }
 
     public PageResultVO listPage(Paging paging, ScOrganizationCondition condition) {

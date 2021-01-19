@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * 对象数据,各种结果数据格式化的方法
@@ -37,6 +38,9 @@ public class FormatDataServiceImpl extends AbstractFormatDataService {
 
     @Autowired
     private ServiceFileLocationApi serviceFileLocationApi;
+
+    @Autowired
+    private FormatDataServiceImpl formatDataService;
 
     /**
      * 将查询出来的对象list数据转换为二维数组
@@ -75,6 +79,12 @@ public class FormatDataServiceImpl extends AbstractFormatDataService {
             }
         }
         return result;
+    }
+
+    public <E> FileLocation export2FileLocation(ExportExcelCondition exportExcelCondition, Supplier<List<E>> supplier) {
+        List<E> datas = supplier.get();
+        List<List<String>> xdatas = format2TwoDimensionalArray(datas, exportExcelCondition, 1000);
+        return write2Excel(exportExcelCondition, xdatas);
     }
 
     /**
