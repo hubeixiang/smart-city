@@ -12,6 +12,10 @@ public class ScLogCondition extends ScLog {
         return new ScLogCondition();
     }
 
+    public static void checkParam(ScLogCondition condition) {
+
+    }
+
     public Date getCreateTimeStart() {
         return createTimeStart;
     }
