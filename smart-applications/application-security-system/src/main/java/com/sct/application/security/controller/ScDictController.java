@@ -2,7 +2,7 @@ package com.sct.application.security.controller;
 
 import com.sct.service.core.web.support.collection.ResultVOO;
 import com.sct.service.core.web.support.simple.EmptyResourceResponse;
-import com.sct.service.database.entity.ScDict;
+import com.sct.service.main.ScDictGroup;
 import com.sct.service.main.ScDictServiceImpl;
 import com.sct.service.oauth2.core.constants.Oauth2Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Map;
 
 @RequestMapping(path = {"/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path_None_Auth + "/dict", "/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path + "/dict",})
@@ -22,7 +21,7 @@ public class ScDictController extends BaseController {
 
     @GetMapping("/all")
     public ResultVOO getAllDict() {
-        Map<String, List<ScDict>> data = scDictService.getAllData();
+        Map<String, ScDictGroup> data = scDictService.getAllData();
         return ResultVOO.of(data);
     }
 
