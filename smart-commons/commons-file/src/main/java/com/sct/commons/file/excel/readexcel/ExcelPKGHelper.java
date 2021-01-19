@@ -26,6 +26,8 @@ public class ExcelPKGHelper implements Runnable {
     public static final String EXCEL03_EXTENSION = FileConstants.FILE_SUFFIX_XLS;
     // excel2007 扩展名
     public static final String EXCEL07_EXTENSION = FileConstants.FILE_SUFFIX_XLSX;
+   //当数据很多要进行分sheet时,默认每个sheet的数据最大数量
+    public static final int DEFAULT_SHEET_MAX_LINE = 50000;
 
     public static void main(String[] args) throws Exception {
         // String path = "E:/06-TEL/01-导入数据/广东/";

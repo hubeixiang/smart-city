@@ -645,7 +645,7 @@ public class SimpleFileUtil {
      * @return 是否创建成功
      * @throws IOException
      */
-    public static boolean createNewDir(String absolutePathFileDir, boolean isTemp) throws IOException {
+    public static boolean createNewDir(String absolutePathFileDir, boolean isTemp) {
         return SimpleFileUtil.createNewDir(new File(absolutePathFileDir), isTemp);
     }
 
@@ -655,9 +655,8 @@ public class SimpleFileUtil {
      * @param dir    指定的目录
      * @param isTemp true:如果存在就需要删除重建    false:如果存在就不用重新创建
      * @return 是否创建成功
-     * @throws IOException
      */
-    public static boolean createNewDir(File dir, boolean isTemp) throws IOException {
+    public static boolean createNewDir(File dir, boolean isTemp) {
         boolean canCreate = true;
         if (dir.exists()) {
             if (dir.isDirectory() && !isTemp) {

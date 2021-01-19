@@ -1,5 +1,7 @@
 package com.sct.commons.file.excel.writeexcel;
 
+import com.sct.commons.file.excel.readexcel.ExcelPKGHelper;
+import org.apache.commons.collections4.ListUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
@@ -25,18 +27,39 @@ public class WriteExcel2003Util {
 
     /**
      * 写excel文件
+     * 如果是分sheet,则定义 5w分一次sheet
      *
      * @throws IOException
      */
-    public Workbook writeExcel(String sheetName, List<String> headInfo, List<HeadType> headType, List<List<String>> contextInfo) throws IOException {
+    public Workbook writeExcel(String sheetName, List<String> headInfo, List<HeadType> headType, List<List<String>> contextInfo, boolean isMultiSheet) throws IOException {
         HSSFWorkbook wb = new HSSFWorkbook();// 创建新HSSFWorkbook对象
         int titleCount = headInfo.size();// 列数
 
         //执行样式初始化
         setExcelStyle(wb, titleCount, headType);
+        int sheetIndex = 1;
+        if (isMultiSheet && contextInfo != null && contextInfo.size() > ExcelPKGHelper.DEFAULT_SHEET_MAX_LINE) {
+            //需要进行分页
+            List<List<List<String>>> partitions = ListUtils.partition(contextInfo, ExcelPKGHelper.DEFAULT_SHEET_MAX_LINE);
+            for (List<List<String>> sheetContexts : partitions) {
+                String tmpSheetName;
+                if (sheetIndex == 1) {
+                    tmpSheetName = sheetName;
+                } else {
+                    tmpSheetName = sheetName + sheetIndex;
+                    sheetIndex++;
+                }
+                HSSFSheet sheet = wb.createSheet(tmpSheetName);// 创建新的sheet对象
+                writeSheet(sheet, titleCount, headInfo, sheetContexts);
+            }
+        } else {
+            HSSFSheet sheet = wb.createSheet(sheetName);// 创建新的sheet对象
+            writeSheet(sheet, titleCount, headInfo, contextInfo);
+        }
+        return wb;
+    }
 
-        HSSFSheet sheet = wb.createSheet(sheetName);// 创建新的sheet对象
-
+    private void writeSheet(HSSFSheet sheet, int titleCount, List<String> headInfo, List<List<String>> contextInfo) {
         HSSFRow titleRow = sheet.createRow(0);//创建第一行
 
         titleRow.setHeightInPoints(20);//20像素
@@ -52,7 +75,7 @@ public class WriteExcel2003Util {
         }
 
         if (contextInfo == null || contextInfo.size() == 0) {
-            return wb;
+            return;
         }
 
         int contentCount = contextInfo.size();//总的记录数
@@ -75,7 +98,6 @@ public class WriteExcel2003Util {
                 cell.setCellValue(new HSSFRichTextString(cellValue));
             }
         }
-        return wb;
     }
 
     private void setExcelStyle(HSSFWorkbook workBook, int headCount, List<HeadType> headTypes) {

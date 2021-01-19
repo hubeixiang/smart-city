@@ -1,6 +1,8 @@
 package com.sct.commons.file.excel.writeexcel;
 
 
+import com.sct.commons.file.excel.readexcel.ExcelPKGHelper;
+import org.apache.commons.collections4.ListUtils;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -27,18 +29,40 @@ public class WriteExcel2007Util {
 
     /**
      * 写excel文件
+     * <p>
+     * 如果是分sheet,则定义 5w分一次sheet
      *
      * @throws IOException
      */
-    public Workbook writeExcel(String sheetName, List<String> headInfo, List<HeadType> headType, List<List<String>> contextInfo) throws IOException {
+    public Workbook writeExcel(String sheetName, List<String> headInfo, List<HeadType> headType, List<List<String>> contextInfo, boolean isMultiSheet) throws IOException {
         XSSFWorkbook wb = new XSSFWorkbook();//2007格式
 
         int titleCount = headInfo.size();
         //执行样式初始化
         setExcelStyle(wb, titleCount, headType);
+        int sheetIndex = 1;
+        if (isMultiSheet && contextInfo != null && contextInfo.size() > ExcelPKGHelper.DEFAULT_SHEET_MAX_LINE) {
+            //需要进行分页
+            List<List<List<String>>> partitions = ListUtils.partition(contextInfo, ExcelPKGHelper.DEFAULT_SHEET_MAX_LINE);
+            for (List<List<String>> sheetContexts : partitions) {
+                String tmpSheetName;
+                if (sheetIndex == 1) {
+                    tmpSheetName = sheetName;
+                } else {
+                    tmpSheetName = sheetName + sheetIndex;
+                    sheetIndex++;
+                }
+                XSSFSheet sheet = wb.createSheet(tmpSheetName);//2007格式,创建第一个Sheet
+                writeSheet(sheet, titleCount, headInfo, sheetContexts);
+            }
+        } else {
+            XSSFSheet sheet = wb.createSheet(sheetName);//2007格式,创建第一个Sheet
+            writeSheet(sheet, titleCount, headInfo, contextInfo);
+        }
+        return wb;
+    }
 
-        XSSFSheet sheet = wb.createSheet(sheetName);//2007格式,创建第一个Sheet
-
+    private void writeSheet(XSSFSheet sheet, int titleCount, List<String> headInfo, List<List<String>> contextInfo) {
         XSSFRow titleRow = sheet.createRow(0);//2007格式,创建第一行
 
         titleRow.setHeightInPoints(20);//20像素
@@ -52,7 +76,7 @@ public class WriteExcel2007Util {
             sheet.setColumnWidth(k, (short) 5000);//设置列宽
         }
         if (contextInfo == null || contextInfo.size() == 0) {
-            return wb;
+            return;
         }
 
         int contentCount = contextInfo.size();//总的记录数
@@ -76,7 +100,6 @@ public class WriteExcel2007Util {
                 cell.setCellValue(new XSSFRichTextString(cellValue));
             }
         }
-        return wb;
     }
 
     private void setExcelStyle(XSSFWorkbook workBook, int headCount, List<HeadType> headTypes) {
