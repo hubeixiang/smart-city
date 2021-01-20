@@ -79,6 +79,7 @@ public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
         if (isLogout_for_current(loginAdditional, LoginType.nmhighwaycas)) {
             //TODO 没有这种方式
         } else {
+            request.getSession(true);
             super.onLogoutSuccess(request, response, authentication);
         }
     }
