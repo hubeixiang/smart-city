@@ -1,6 +1,6 @@
 package com.sct.application.authorization.controller;
 
-import com.sct.commons.web.core.handler.HttpResultEntityHandler;
+import com.sct.commons.web.core.handler.HttpRequestHandler;
 import com.sct.commons.web.core.handler.RestTemplateRequestHandler;
 import com.sct.commons.web.core.response.HttpResultEntity;
 import com.sct.service.core.web.captcha.CaptchaCodeInfo;
@@ -40,6 +40,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Supplier;
 
 @Controller
 public class WelcomeLoginController extends BaseLoginController {
@@ -145,8 +146,8 @@ public class WelcomeLoginController extends BaseLoginController {
         body.put("smsContext", smsContext);
         HttpEntity httpEntity = new HttpEntity(body, httpHeaders);
 
-        HttpResultEntity result = HttpResultEntityHandler.handler(
-                () -> restTemplate.postForEntity(uri, httpEntity, HttpResultEntity.class),
+        Supplier<ResponseEntity<HttpResultEntity>> supplier = HttpRequestHandler.createPostSupplier(restTemplate, uri, httpEntity, HttpResultEntity.class);
+        HttpResultEntity result = HttpRequestHandler.handler(supplier,
                 (t) -> HttpResultEntity.of(HttpResultEntity.Code.SUCCESS, smsContext),
                 (t, u) -> HttpResultEntity.failure(t.getMessage(), null),
                 (e) -> {
