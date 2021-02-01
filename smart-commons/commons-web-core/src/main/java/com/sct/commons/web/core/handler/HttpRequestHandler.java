@@ -21,7 +21,8 @@ public final class HttpRequestHandler {
     /**
      * 访问的rest地址有返回值的情况
      *
-     * @param supplier
+     * @param url       请求的url
+     * @param supplier  请求发起
      * @param success   请求成功处理
      * @param failure   请求失败处理
      * @param throwable 请求异常处理
@@ -29,17 +30,18 @@ public final class HttpRequestHandler {
      * @param <R>       访问的rest地址的返回值类型,经过转换后的实际返回类型
      * @return
      */
-    public static <T, R> R handler(Supplier<ResponseEntity<T>> supplier,
-                                   Function<T, R> success,
-                                   BiFunction<T, HttpStatus, R> failure,
-                                   Function<Throwable, R> throwable) {
-        return handler(supplier, HttpStatus.OK, success, failure, throwable);
+    public static <T, R> R handler(@Nullable URI url, @Nullable Supplier<ResponseEntity<T>> supplier,
+                                   @Nullable Function<T, R> success,
+                                   @Nullable BiFunction<T, HttpStatus, R> failure,
+                                   @Nullable Function<Throwable, R> throwable) {
+        return handler(url, supplier, HttpStatus.OK, success, failure, throwable);
     }
 
     /**
      * 访问的rest地址有返回值的情况
      *
-     * @param supplier
+     * @param url           请求的url
+     * @param supplier      请求发起
      * @param successStatus 请求成功的标志
      * @param success       请求成功处理
      * @param failure       请求失败处理
@@ -48,11 +50,15 @@ public final class HttpRequestHandler {
      * @param <R>           访问的rest地址的返回值类型,经过转换后的实际返回类型
      * @return
      */
-    public static <T, R> R handler(Supplier<ResponseEntity<T>> supplier,
-                                   HttpStatus successStatus,
-                                   Function<T, R> success,
-                                   BiFunction<T, HttpStatus, R> failure,
-                                   Function<Throwable, R> throwable) {
+    public static <T, R> R handler(@Nullable URI url, @Nullable Supplier<ResponseEntity<T>> supplier,
+                                   @Nullable HttpStatus successStatus,
+                                   @Nullable Function<T, R> success,
+                                   @Nullable BiFunction<T, HttpStatus, R> failure,
+                                   @Nullable Function<Throwable, R> throwable) {
+        String id = requestId();
+        long start = System.currentTimeMillis();
+        logger.info("{}:{} get start ", id, url);
+        Object responseSign = "ok";
         try {
             ResponseEntity<T> result = supplier.get();
             if (successStatus == null) {
@@ -61,13 +67,23 @@ public final class HttpRequestHandler {
             if (result.getStatusCode() == successStatus) {
                 //调用成功
                 T body = result.getBody();
+                responseSign = "ok";
+                if (logger.isDebugEnabled()) {
+                    logger.debug("{}:{} end.response ok, response body {}", id, url, responseSign, body);
+                }
                 return success.apply(body);
             } else {
                 //调用异常/错误
+                responseSign = "failure";
                 return failure.apply(result.getBody(), result.getStatusCode());
             }
         } catch (Throwable e) {
+            responseSign = String.format("Throwable:%s", e.getMessage());
+            logger.error("{}:{} end.response {},{}", id, url, responseSign, e);
             return throwable.apply(e);
+        } finally {
+            long cost = System.currentTimeMillis() - start;
+            logger.info("{}:{} end.cost {} ms.response {}", id, url, cost, responseSign);
         }
     }
 
@@ -76,49 +92,25 @@ public final class HttpRequestHandler {
     }
 
     public static <T> Supplier<ResponseEntity<T>> createGetSupplier(@Nullable RestTemplate restTemplate, @Nullable URI url, Class<T> responseType) {
-        return () -> {
-            String id = requestId();
-            long start = System.currentTimeMillis();
-            logger.info("{}:{} get start ", id, url);
-            ResponseEntity<T> result = restTemplate.getForEntity(url, responseType);
-            long cost = System.currentTimeMillis() - start;
-            logger.info("{}:{} get end.cost {} ms ", id, url, cost);
-            return result;
-        };
+        return () -> restTemplate.getForEntity(url, responseType);
     }
 
     public static <T> Supplier<ResponseEntity<T>> createPostSupplier(@Nullable RestTemplate restTemplate, @Nullable URI url, @Nullable Object request, Class<T> responseType) {
-        return () -> {
-            String id = requestId();
-            long start = System.currentTimeMillis();
-            logger.info("{}:{} post start ", id, url);
-            ResponseEntity<T> result = restTemplate.postForEntity(url, request, responseType);
-            long cost = System.currentTimeMillis() - start;
-            logger.info("{}:{} post end.cost {} ms ", id, url, cost);
-            return result;
-        };
+        return () -> restTemplate.postForEntity(url, request, responseType);
     }
 
     public static <T> Supplier<ResponseEntity<T>> createDeleteSupplier(@Nullable RestTemplate restTemplate, @Nullable URI url, @Nullable HttpEntity<?> requestEntity,
                                                                        Class<T> responseType) {
-        return createExchageSupplier(restTemplate, url, HttpMethod.DELETE, requestEntity, responseType);
+        return createExchangeSupplier(restTemplate, url, HttpMethod.DELETE, requestEntity, responseType);
     }
 
     public static <T> Supplier<ResponseEntity<T>> createPutSupplier(@Nullable RestTemplate restTemplate, @Nullable URI url, @Nullable HttpEntity<?> requestEntity,
                                                                     Class<T> responseType) {
-        return createExchageSupplier(restTemplate, url, HttpMethod.PUT, requestEntity, responseType);
+        return createExchangeSupplier(restTemplate, url, HttpMethod.PUT, requestEntity, responseType);
     }
 
-    public static <T> Supplier<ResponseEntity<T>> createExchageSupplier(@Nullable RestTemplate restTemplate, @Nullable URI url, HttpMethod method, @Nullable HttpEntity<?> requestEntity,
-                                                                        Class<T> responseType) {
-        return () -> {
-            String id = requestId();
-            long start = System.currentTimeMillis();
-            logger.info("{}:{} exchage {} start ", id, url, method);
-            ResponseEntity<T> result = restTemplate.exchange(url, method, requestEntity, responseType);
-            long cost = System.currentTimeMillis() - start;
-            logger.info("{}:{} exchage {} end. cost {} ms ", id, url, method, cost);
-            return result;
-        };
+    public static <T> Supplier<ResponseEntity<T>> createExchangeSupplier(@Nullable RestTemplate restTemplate, @Nullable URI url, HttpMethod method, @Nullable HttpEntity<?> requestEntity,
+                                                                         Class<T> responseType) {
+        return () -> restTemplate.exchange(url, method, requestEntity, responseType);
     }
 }

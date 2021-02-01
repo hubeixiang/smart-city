@@ -147,13 +147,10 @@ public class WelcomeLoginController extends BaseLoginController {
         HttpEntity httpEntity = new HttpEntity(body, httpHeaders);
 
         Supplier<ResponseEntity<HttpResultEntity>> supplier = HttpRequestHandler.createPostSupplier(restTemplate, uri, httpEntity, HttpResultEntity.class);
-        HttpResultEntity result = HttpRequestHandler.handler(supplier,
+        HttpResultEntity result = HttpRequestHandler.handler(uri, supplier,
                 (t) -> HttpResultEntity.of(HttpResultEntity.Code.SUCCESS, smsContext),
                 (t, u) -> HttpResultEntity.failure(t.getMessage(), null),
-                (e) -> {
-                    logger.error(String.format("url=%s Exception:%s", uri, e.getMessage()), e);
-                    return HttpResultEntity.failure(e.getMessage(), null);
-                });
+                (e) -> HttpResultEntity.failure(e.getMessage(), null));
         return result;
     }
 
