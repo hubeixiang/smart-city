@@ -15,6 +15,8 @@ import com.sct.service.database.condition.ScOrganizationConditionExport;
 import com.sct.service.database.entity.ScOrganization;
 import com.sct.service.main.ScOrganizationImpl;
 import com.sct.service.oauth2.core.constants.Oauth2Constants;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
@@ -32,6 +34,7 @@ import java.util.List;
 /**
  * 网格化管理->组织管理
  */
+@Api(tags = "网格化管理->组织管理")
 @RequestMapping(path = {"/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path_None_Auth + "/grid/org", "/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path + "/grid/org",})
 @RestController
 public class GridOrganizationsController {
@@ -47,8 +50,9 @@ public class GridOrganizationsController {
      *
      * @return
      */
+    @ApiOperation("页面初始化")
     @GetMapping
-    public SimpleResourceResponse page(Model model) {
+    public SimpleResourceResponse init(Model model) {
         return SimpleResourceResponse.of("ok");
     }
 
@@ -59,6 +63,7 @@ public class GridOrganizationsController {
      * @param condition
      * @return
      */
+    @ApiOperation("分页查询")
     @GetMapping("/page")
     public PageResultVO list(PageRecord paging, ScOrganizationCondition condition) {
         ScOrganizationCondition.checkSQLinjectionException(condition);
@@ -72,6 +77,7 @@ public class GridOrganizationsController {
      * @param condition
      * @return
      */
+    @ApiOperation("全部查询")
     @GetMapping("/all")
     public ResultVOEntity listAll(ScOrganizationCondition condition) {
         ScOrganizationCondition.checkSQLinjectionException(condition);
@@ -84,6 +90,7 @@ public class GridOrganizationsController {
      *
      * @return
      */
+    @ApiOperation("查询导出")
     @PostMapping("/export")
     public FileLocation export(@RequestBody ScOrganizationConditionExport condition) {
         Assert.notNull(condition, "Require Export condition");
@@ -97,6 +104,7 @@ public class GridOrganizationsController {
         return fileLocation;
     }
 
+    @ApiOperation("新增")
     @PostMapping
     public ScOrganization create(@RequestBody ScOrganization body) {
         ScOrganization add = gridOrganizationsService.create(body);
@@ -107,6 +115,7 @@ public class GridOrganizationsController {
         }
     }
 
+    @ApiOperation("修改")
     @PatchMapping("/{id}")
     public EmptyResourceResponse update(@PathVariable("id") Integer id, @RequestBody ScOrganization body) {
         Assert.notNull(body, "Require body");
@@ -119,6 +128,7 @@ public class GridOrganizationsController {
         }
     }
 
+    @ApiOperation("注销")
     @PatchMapping("/{id}/cancel")
     public EmptyResourceResponse cancel(@PathVariable("id") Integer id) {
         int delete = gridOrganizationsService.cancel(id);
@@ -129,6 +139,7 @@ public class GridOrganizationsController {
         }
     }
 
+    @ApiOperation("删除")
     @DeleteMapping("/{id}")
     public EmptyResourceResponse delete(@PathVariable("id") Integer id) {
         int delete = gridOrganizationsService.delete(id);
@@ -139,6 +150,7 @@ public class GridOrganizationsController {
         }
     }
 
+    @ApiOperation("批量删除")
     @DeleteMapping
     public EmptyResourceResponse delete(@RequestBody List<Integer> ids) {
         int size = ids == null ? 0 : ids.size();
