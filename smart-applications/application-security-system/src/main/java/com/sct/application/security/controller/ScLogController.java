@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@Api("日志管理")
+@Api(tags = "日志管理")
 @RequestMapping(path = {"/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path_None_Auth + "/log", "/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path + "/log",})
 @RestController
 public class ScLogController extends BaseController {
