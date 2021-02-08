@@ -12,6 +12,8 @@ import com.sct.service.database.condition.ScLogConditionExport;
 import com.sct.service.database.entity.ScLog;
 import com.sct.service.main.ScLogServiceImpl;
 import com.sct.service.oauth2.core.constants.Oauth2Constants;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
+@Api("日志管理")
 @RequestMapping(path = {"/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path_None_Auth + "/log", "/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path + "/log",})
 @RestController
 public class ScLogController extends BaseController {
@@ -35,8 +39,9 @@ public class ScLogController extends BaseController {
      *
      * @return
      */
+    @ApiOperation("页面初始化")
     @GetMapping
-    public SimpleResourceResponse page(Model model) {
+    public SimpleResourceResponse init(Model model) {
         return SimpleResourceResponse.of("ok");
     }
 
@@ -47,6 +52,7 @@ public class ScLogController extends BaseController {
      * @param condition
      * @return
      */
+    @ApiOperation("分页查询")
     @GetMapping("/page")
     public PageResultVO list(PageRecord paging, ScLogCondition condition) {
         ScLogCondition.checkParam(condition);
@@ -60,6 +66,7 @@ public class ScLogController extends BaseController {
      * @param condition
      * @return
      */
+    @ApiOperation("全部查询")
     @GetMapping("/all")
     public ResultVOEntity listAll(ScLogCondition condition) {
         ScLogCondition.checkParam(condition);
@@ -72,6 +79,7 @@ public class ScLogController extends BaseController {
      *
      * @return
      */
+    @ApiOperation("查询导出")
     @PostMapping("/export")
     public FileLocation export(@RequestBody ScLogConditionExport condition) {
         Assert.notNull(condition, "Require Export condition");
@@ -85,6 +93,7 @@ public class ScLogController extends BaseController {
         return fileLocation;
     }
 
+    @ApiOperation("新增日志")
     @PostMapping
     public ScLog create(@RequestBody ScLog body) {
         ScLog add = scLogServiceImpl.insert(body);

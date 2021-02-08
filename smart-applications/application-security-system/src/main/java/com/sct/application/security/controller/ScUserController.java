@@ -16,6 +16,7 @@ import com.sct.service.core.web.support.simple.SimpleResourceResponse;
 import com.sct.service.database.condition.ScUserCondition;
 import com.sct.service.database.entity.ScUser;
 import com.sct.service.oauth2.core.constants.Oauth2Constants;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,7 @@ import java.util.List;
  * @author
  * @since 1.0.0
  */
+@Api(tags = "用户管理")
 @RequestMapping(path = {"/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path_None_Auth + "/users", "/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path + "/users",}, produces = {SecurityRestConstants.WEB_PRODUCES})
 @RestController
 public class ScUserController extends BaseController {
