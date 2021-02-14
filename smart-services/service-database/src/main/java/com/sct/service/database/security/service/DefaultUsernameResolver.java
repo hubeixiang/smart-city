@@ -43,9 +43,13 @@ public class DefaultUsernameResolver implements UsernameResolver {
 
     private boolean isAssemble(String username) {
         String[] arrays = username.split(username_split);
-        if (arrays != null && arrays.length == 2) {
+        if (arrays != null && (isNormalAssemble(arrays.length))) {
             return true;
         }
         return false;
+    }
+
+    private boolean isNormalAssemble(int length) {
+        return length == 2;
     }
 }
