@@ -142,6 +142,6 @@
         </where>
     </select>
     <update id="updateRegisterStatus">
-        update sc_organization set registerStatus = #{registerStatus,jdbcType=INTEGER} where id = #{id,jdbcType=INTEGER}
+        update sc_organization set register_status = #{registerStatus,jdbcType=INTEGER} where id = #{id,jdbcType=INTEGER}
     </update>
 </mapper>

@@ -56,5 +56,5 @@ public interface ScOrganizationMapper {
 
     public List<ScOrganization> selectCondition(@Param("condition") ScOrganizationCondition condition);
 
-    int updateRegisterStatus(Integer id, Integer registerStatus);
+    int updateRegisterStatus(@Param("id") Integer id,@Param("registerStatus") Integer registerStatus);
 }
