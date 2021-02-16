@@ -43,7 +43,7 @@
         <foreach item="itemListValue" collection="ids" separator=",">
             #{itemListValue}
         </foreach>
-        )}
+        )
     </delete>
     <insert id="insert" parameterType="com.sct.service.database.entity.ScOrganization">
         insert into sc_organization (<include refid="allColumns"></include>)

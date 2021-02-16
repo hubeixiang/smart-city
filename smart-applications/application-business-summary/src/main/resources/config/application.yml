@@ -26,7 +26,7 @@ security:
 spring:
   application: application-summary
   messages:
-    basename: i18n/sct_messages,i18n/sct_messages_users,i18n/screen-message
+    basename: i18n/sct_messages,i18n/sct_messages_users,i18n/screen-message,i18n/sct_messages_exception
   datasource:
     url: ${security.datasource.url}
     username: ${security.datasource.username}

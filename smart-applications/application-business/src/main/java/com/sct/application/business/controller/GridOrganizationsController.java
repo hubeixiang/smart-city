@@ -124,7 +124,7 @@ public class GridOrganizationsController {
         if (delete == 1) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功.数量不对");
         }
     }
 
@@ -135,7 +135,7 @@ public class GridOrganizationsController {
         if (delete == 1) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功.数量不对");
         }
     }
 
@@ -146,7 +146,7 @@ public class GridOrganizationsController {
         if (delete == 1) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除失败");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除失败.数量不对");
         }
     }
 
@@ -158,7 +158,7 @@ public class GridOrganizationsController {
         if (delete == size) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除失败");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除失败.数量不对");
         }
     }
 }
