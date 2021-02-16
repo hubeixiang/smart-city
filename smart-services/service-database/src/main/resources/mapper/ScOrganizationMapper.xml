@@ -12,7 +12,6 @@
         <result column="org_type" jdbcType="TINYINT" property="orgType"/>
         <result column="community_id" jdbcType="INTEGER" property="communityId"/>
         <result column="grid_id" jdbcType="INTEGER" property="gridId"/>
-        <result column="grid_id_ext" jdbcType="INTEGER" property="gridIdExt"/>
         <result column="legal_name" jdbcType="VARCHAR" property="legalName"/>
         <result column="legal_card_id" jdbcType="VARCHAR" property="legalCardId"/>
         <result column="legal_mobile" jdbcType="VARCHAR" property="legalMobile"/>
@@ -28,6 +27,8 @@
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="creator_id" jdbcType="INTEGER" property="creatorId"/>
         <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
+        <result column="community_id_ext" jdbcType="VARCHAR" property="communityIdExt"/>
+        <result column="grid_id_ext" jdbcType="VARCHAR" property="gridIdExt"/>
     </resultMap>
     <sql id="allNonColumns"> name, org_type, community_id, grid_id, legal_name, legal_card_id, legal_mobile, credit_code, business_code, register_status, register_date, unregister_date, comment, marker_status, longitude, latitude, create_time, creator_id, modify_time </sql>
     <sql id="allColumns">id, <include refid="allNonColumns"></include> </sql>
