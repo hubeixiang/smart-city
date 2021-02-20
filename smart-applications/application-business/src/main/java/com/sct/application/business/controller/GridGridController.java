@@ -91,10 +91,10 @@ public class GridGridController {
 
     @ApiOperation("新增")
     @PostMapping
-    public ScGrid create(@RequestBody ScGrid body) {
-        ScGrid add = gridGridService.create(body);
-        if (add != null && add.getId() != null) {
-            return add;
+    public EmptyResourceResponse create(@RequestBody ScGrid body) {
+        int add = gridGridService.create(body);
+        if (add > 0) {
+            return EmptyResourceResponse.INSTANCE;
         } else {
             throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功");
         }
@@ -108,7 +108,7 @@ public class GridGridController {
         if (delete == 1) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未更新任何数据");
         }
     }
 
@@ -119,7 +119,7 @@ public class GridGridController {
         if (delete == 1) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除失败");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未删除任何数据");
         }
     }
 
@@ -131,7 +131,7 @@ public class GridGridController {
         if (delete == size) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除失败");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未删除任何数据");
         }
     }
 
@@ -184,7 +184,7 @@ public class GridGridController {
         if (update > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功,未更新任何记录");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未更新任何数据");
         }
     }
 
@@ -201,7 +201,7 @@ public class GridGridController {
         if (delete == 1) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除失败,未删除任何记录");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未删除任何数据");
         }
     }
 
@@ -219,7 +219,7 @@ public class GridGridController {
         if (delete == size) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除失败,未删除任何记录");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未删除任何数据");
         }
     }
 }

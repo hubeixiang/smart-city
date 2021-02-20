@@ -44,7 +44,7 @@ public class GridGridServiceImpl {
     }
 
     //创建新网格
-    public ScGrid create(ScGrid scGrid) {
+    public int create(ScGrid scGrid) {
         scGrid.setId(this.generateId(scGrid.getGridNo(), scGrid.getName()));
         return scGridImpl.insert(scGrid);
     }

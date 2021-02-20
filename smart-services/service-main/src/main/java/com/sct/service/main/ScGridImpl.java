@@ -50,9 +50,8 @@ public class ScGridImpl {
         return PageResultVO.of(pageResponse, resultVO);
     }
 
-    public ScGrid insert(ScGrid scGrid) {
-        scGridMapper.insert(scGrid);
-        return scGrid;
+    public int insert(ScGrid scGrid) {
+        return scGridMapper.insert(scGrid);
     }
 
     public int delete(Integer id) {

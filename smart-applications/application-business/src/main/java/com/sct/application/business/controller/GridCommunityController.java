@@ -93,10 +93,10 @@ public class GridCommunityController {
 
     @ApiOperation("新增")
     @PostMapping
-    public ScCommunityAll create(@RequestBody ScCommunityAll body) {
+    public EmptyResourceResponse create(@RequestBody ScCommunityAll body) {
         ScCommunityAll add = gridCommunityService.create(body.getScCommunity(), body.getScCommunityParty());
         if (add != null && add.getScCommunityParty().getId() != null) {
-            return add;
+            return EmptyResourceResponse.INSTANCE;
         } else {
             throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功");
         }
