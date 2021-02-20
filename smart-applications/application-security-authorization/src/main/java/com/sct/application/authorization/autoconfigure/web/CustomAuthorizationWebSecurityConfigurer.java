@@ -16,6 +16,7 @@
 package com.sct.application.authorization.autoconfigure.web;
 
 
+import com.sct.application.authorization.filter.LoginPageNotOperateForLongTimeFilter;
 import com.sct.application.authorization.properties.ILoginProperties;
 import com.sct.application.authorization.support.audit.AuthenticationSuccessAudit;
 import com.sct.application.authorization.support.entrypoint.CustomLoginUrlAuthenticationEntryPoint;
@@ -54,10 +55,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -234,6 +240,7 @@ public class CustomAuthorizationWebSecurityConfigurer extends WebSecurityConfigu
         //跨域,使用org.springframework.security.oauth.samples.custom.filter.CustomCorsFilter进行控制
         http.cors();
         http.csrf().disable();
+        http.addFilterAfter(loginPageNotOperateForLongTimeFilter(), AbstractPreAuthenticatedProcessingFilter.class);
 
         //custom http session cache
         String loginFormJson = JsonUtils.toJson(iLoginProperties.getLoginform());
@@ -311,5 +318,14 @@ public class CustomAuthorizationWebSecurityConfigurer extends WebSecurityConfigu
 
         listenerRegBean.setListener(new HttpSessionEventPublisher());
         return listenerRegBean;
+    }
+
+    @Bean
+    public LoginPageNotOperateForLongTimeFilter loginPageNotOperateForLongTimeFilter() {
+        List<RequestMatcher> requestMatchers = new ArrayList<>();
+        requestMatchers.add(new AntPathRequestMatcher("/login", "POST"));
+        requestMatchers.add(new AntPathRequestMatcher("/login-mobile", "POST"));
+        LoginPageNotOperateForLongTimeFilter loginPageNotOperateForLongTimeFilter = new LoginPageNotOperateForLongTimeFilter(requestMatchers);
+        return loginPageNotOperateForLongTimeFilter;
     }
 }

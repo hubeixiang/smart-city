@@ -138,6 +138,7 @@ public class LoginPageController extends BaseLoginController {
             model.addAttribute(String.format("%s_tab_class", "login_sms"), "tab-pane fade");
         }
 
+        model.addAttribute(LoginPageConstants.login_page_open_timestamp_key, System.currentTimeMillis());
         appendScreenCommonAttribute(model);
 
         //核查webTabs中的信息

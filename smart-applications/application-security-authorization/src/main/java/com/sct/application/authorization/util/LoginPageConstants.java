@@ -12,4 +12,7 @@ public final class LoginPageConstants {
 
     public final static String login_password_encrypt_public_key_for_pageid = "publickey";
     public final static String login_password_encrypt_public_key_for_page_submitid = "publickey";
+
+    //登录页面打开时间戳key
+    public final static String login_page_open_timestamp_key = "pageOpenTimestamp";
 }

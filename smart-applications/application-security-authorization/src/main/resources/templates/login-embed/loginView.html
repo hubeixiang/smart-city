@@ -62,14 +62,17 @@
                         <p>
                             <input type="hidden" name="userType" value="manager">
                         </p>
-                        <p th:if="${iframeSaveRequestLoginID}">
-                            <input type="hidden" name="iframeSaveRequestLoginID"
-                                   th:value="${iframeSaveRequestLoginID}">
+                        <p th:if="${pageOpenTimestamp}">
+                            <input type="hidden" name="pageOpenTimestamp" th:value="${pageOpenTimestamp}">
                         </p>
-                        <p th:if="${loginPageControlIDforalongtimeID}">
-                            <input type="hidden" name="loginPageControlIDforalongtimeID"
-                                   th:value="${loginPageControlIDforalongtimeID}">
-                        </p>
+<!--                        <p th:if="${iframeSaveRequestLoginID}">-->
+<!--                            <input type="hidden" name="iframeSaveRequestLoginID"-->
+<!--                                   th:value="${iframeSaveRequestLoginID}">-->
+<!--                        </p>-->
+<!--                        <p th:if="${loginPageControlIDforalongtimeID}">-->
+<!--                            <input type="hidden" name="loginPageControlIDforalongtimeID"-->
+<!--                                   th:value="${loginPageControlIDforalongtimeID}">-->
+<!--                        </p>-->
                         <button type="submit" class="btn btn-primary" onclick="jsencryptEncoder()" th:if="${submit_tip}"
                                 th:text="${submit_tip}">Sign in
                         </button>
@@ -98,17 +101,20 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <p th:if="${iframeSaveRequestLoginID}">
-                                        <input type="hidden" name="iframeSaveRequestLoginID"
-                                               th:value="${iframeSaveRequestLoginID}"/>
-                                    </p>
                                     <p>
                                         <input type="hidden" name="userType" value="manager">
                                     </p>
-                                    <p th:if="${loginPageControlIDforalongtimeID}">
-                                        <input type="hidden" name="loginPageControlIDforalongtimeID"
-                                               th:value="${loginPageControlIDforalongtimeID}"/>
+                                    <p th:if="${pageOpenTimestamp}">
+                                        <input type="hidden" name="pageOpenTimestamp" th:value="${pageOpenTimestamp}">
                                     </p>
+<!--                                    <p th:if="${iframeSaveRequestLoginID}">-->
+<!--                                        <input type="hidden" name="iframeSaveRequestLoginID"-->
+<!--                                               th:value="${iframeSaveRequestLoginID}"/>-->
+<!--                                    </p>-->
+<!--                                    <p th:if="${loginPageControlIDforalongtimeID}">-->
+<!--                                        <input type="hidden" name="loginPageControlIDforalongtimeID"-->
+<!--                                               th:value="${loginPageControlIDforalongtimeID}"/>-->
+<!--                                    </p>-->
                                     <button type="submit" class="btn btn-primary" th:if="${submit_tip}"
                                             th:text="${submit_tip}">
                                         Sign in
