@@ -11,7 +11,10 @@ import com.sct.service.core.web.support.collection.pages.PageRecord;
 import com.sct.service.core.web.support.simple.EmptyResourceResponse;
 import com.sct.service.core.web.support.simple.SimpleResourceResponse;
 import com.sct.service.database.condition.ScGridCondition;
+import com.sct.service.database.condition.ScGridManagerCondition;
+import com.sct.service.database.entity.ScCommunityLeader;
 import com.sct.service.database.entity.ScGrid;
+import com.sct.service.database.entity.ScGridManager;
 import com.sct.service.oauth2.core.constants.Oauth2Constants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -129,6 +132,94 @@ public class GridGridController {
             return EmptyResourceResponse.INSTANCE;
         } else {
             throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除失败");
+        }
+    }
+
+
+    /**
+     * 分页查询网格员
+     *
+     * @param paging
+     * @param condition
+     * @return
+     */
+    @ApiOperation("分页查询网格员")
+    @GetMapping("/manager/page")
+    public PageResultVO listManager(PageRecord paging, ScGridManagerCondition condition) {
+        ScGridManagerCondition.checkSQLinjectionException(condition);
+        PageResultVO result = gridGridService.listGridManagerPage(paging, condition);
+        return result;
+    }
+
+    /**
+     * 新增网格员
+     *
+     * @param body
+     * @return
+     */
+    @ApiOperation("新增网格员")
+    @PostMapping("/manager")
+    public EmptyResourceResponse createManager(@RequestBody ScGridManager body) {
+        Assert.notNull(body.getGridId(), "Require grid id");
+        int add = gridGridService.createManager(body);
+        if (add > 0) {
+            return EmptyResourceResponse.INSTANCE;
+        } else {
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功");
+        }
+    }
+
+    /**
+     * 修改网格员
+     *
+     * @param body
+     * @return
+     */
+    @ApiOperation("修改网格员")
+    @PatchMapping("/manager")
+    public EmptyResourceResponse updateManager(@RequestBody ScGridManager body) {
+        Assert.notNull(body, "Require request body");
+        Assert.notNull(body.getId(), "Require grid manager id");
+        int update = gridGridService.updateManager(body);
+        if (update > 0) {
+            return EmptyResourceResponse.INSTANCE;
+        } else {
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功,未更新任何记录");
+        }
+    }
+
+    /**
+     * 删除网格员
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation("删除网格员")
+    @DeleteMapping("/manager")
+    public EmptyResourceResponse deleteManager(@PathVariable("id") Integer id) {
+        int delete = gridGridService.deleteManager(id);
+        if (delete == 1) {
+            return EmptyResourceResponse.INSTANCE;
+        } else {
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除失败,未删除任何记录");
+        }
+    }
+
+    /**
+     * 批量删除网格员
+     *
+     * @param ids
+     * @return
+     */
+    @ApiOperation("批量删除领导")
+    @DeleteMapping("/manager/batchDelete")
+    public EmptyResourceResponse batchDeleteManager(@RequestBody List<Integer> ids) {
+        int size = ids == null ? 0 : ids.size();
+        int delete = gridGridService.deleteManager(ids);
+        if (delete == size) {
+            return EmptyResourceResponse.INSTANCE;
+        } else {
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除失败,未删除任何记录");
         }
     }
 }

@@ -53,9 +53,8 @@ public class ScGridManagerImpl {
         return PageResultVO.of(pageResponse, resultVO);
     }
 
-    public ScGridManager insert(ScGridManager scGridManager) {
-        scGridManagerMapper.insert(scGridManager);
-        return scGridManager;
+    public int insert(ScGridManager scGridManager) {
+        return scGridManagerMapper.insert(scGridManager);
     }
 
     public int delete(Integer id) {
