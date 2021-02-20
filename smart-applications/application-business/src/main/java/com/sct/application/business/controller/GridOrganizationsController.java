@@ -66,7 +66,8 @@ public class GridOrganizationsController {
     @ApiOperation("分页查询")
     @GetMapping("/page")
     public PageResultVO list(PageRecord paging, ScOrganizationCondition condition) {
-        ScOrganizationCondition.checkSQLinjectionException(condition);
+        condition.checkParam();
+        condition.checkSQLinjectionException();
         PageResultVO result = scOrganizationImpl.listPage(paging, condition);
         return result;
     }
@@ -80,7 +81,8 @@ public class GridOrganizationsController {
     @ApiOperation("全部查询")
     @GetMapping("/all")
     public ResultVOEntity listAll(ScOrganizationCondition condition) {
-        ScOrganizationCondition.checkSQLinjectionException(condition);
+        condition.checkParam();
+        condition.checkSQLinjectionException();
         return scOrganizationImpl.list(condition);
     }
 
@@ -94,9 +96,7 @@ public class GridOrganizationsController {
     @PostMapping("/export")
     public FileLocation export(@RequestBody ScOrganizationConditionExport condition) {
         Assert.notNull(condition, "Require Export condition");
-        Assert.notNull(condition.getCondition(), "Require Query condition");
-        Assert.notNull(condition.getExportCondition(), "Require Export Column header field");
-        condition.checkParam(condition);
+        condition.checkParam();
         FileLocation fileLocation = scOrganizationImpl.export2FileLocation(condition);
         if (fileLocation == null) {
             throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "生成文件失败");

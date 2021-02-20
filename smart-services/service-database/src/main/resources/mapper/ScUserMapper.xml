@@ -76,7 +76,7 @@
         email = #{email,jdbcType=VARCHAR},
         card_id = #{cardId,jdbcType=VARCHAR},
         valid_status = #{validStatus,jdbcType=INTEGER},
-        user_type = #{userType,jdbcType=INTEGERI},
+        user_type = #{userType,jdbcType=INTEGER},
         create_time = #{createTime,jdbcType=TIMESTAMP},
         modify_time = #{modifyTime,jdbcType=TIMESTAMP},
         comment = #{comment,jdbcType=VARCHAR}

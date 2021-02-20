@@ -1,6 +1,7 @@
 package com.sct.service.database.mapper;
 
 import com.sct.service.database.entity.ScRoleDatas;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +21,8 @@ public interface ScRoleDatasMapper {
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
     List<ScRoleDatas> selectAll();
+
+    int deleteByPrimaryKey(@Param("roleId") Integer roleId, @Param("gridId") Integer gridId, @Param("gridLevel") Integer gridLevel);
+
+    int deleteByPrimaryKeyCondition(@Param("roleId") Integer roleId, @Param("gridId") Integer gridId, @Param("gridLevel") Integer gridLevel);
 }

@@ -60,7 +60,8 @@ public class ScUserController extends BaseController {
     @ApiOperation("分页查询")
     @GetMapping("page")
     public PageResultVO list(PageRecord paging, ScUserCondition condition) {
-        ScUserCondition.checkSQLinjectionException(condition);
+        condition.checkParam();
+        condition.checkSQLinjectionException();
         PageResultVO result = scUserService.listPage(paging, condition);
         return result;
     }
@@ -68,7 +69,8 @@ public class ScUserController extends BaseController {
     @ApiOperation("全部查询")
     @GetMapping("/all")
     public ResultVOEntity listAll(ScUserCondition condition) {
-        ScUserCondition.checkSQLinjectionException(condition);
+        condition.checkParam();
+        condition.checkSQLinjectionException();
         return scUserService.list(condition);
     }
 
@@ -82,9 +84,7 @@ public class ScUserController extends BaseController {
     @PostMapping("/export")
     public FileLocation export(@RequestBody ScUserConditionExport condition) {
         Assert.notNull(condition, "Require Export condition");
-        Assert.notNull(condition.getCondition(), "Require Query condition");
-        Assert.notNull(condition.getExportCondition(), "Require Export Column header field");
-        condition.checkParam(condition);
+        condition.checkParam();
         FileLocation fileLocation = scUserService.export2FileLocation(condition);
         if (fileLocation == null) {
             throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "生成文件失败");
@@ -106,7 +106,7 @@ public class ScUserController extends BaseController {
     }
 
     @ApiOperation("新建用户,不限制是否是居民")
-    @PostMapping
+    @PostMapping(value = "/create")
     public SimpleResourceResponse<ScUser> create(
             @ApiParam(required = true, name = "scUser", value = "用户信息")
             @RequestBody ScUser scUser) {
