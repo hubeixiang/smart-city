@@ -1,13 +1,21 @@
 package com.sct.service.database.condition;
 
+import org.springframework.util.Assert;
+
 /**
  * 导出时的参数
  */
-public abstract class ConditionExport<E> {
+public abstract class ConditionExport<E extends ConditionQuery> {
     private E condition;
     private ExportExcelCondition exportCondition;
 
-    public abstract void checkParam(ConditionExport<E> conditions);
+    public void checkParam() {
+        Assert.notNull(condition, "Require Query condition");
+        Assert.notNull(exportCondition, "Require Export Column header field");
+        ((E) condition).checkParam();
+        ((E) condition).checkSQLinjectionException();
+        ExportExcelCondition.checkParam(exportCondition);
+    }
 
     public E getCondition() {
         return condition;

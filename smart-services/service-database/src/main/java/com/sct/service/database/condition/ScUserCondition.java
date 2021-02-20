@@ -1,10 +1,8 @@
 package com.sct.service.database.condition;
 
-import com.sct.commons.i18n.I18nMessageUtil;
-
 import java.util.List;
 
-public class ScUserCondition {
+public class ScUserCondition implements ConditionQuery {
     private String userName;
     private Integer sex;
     private String mobile;
@@ -13,22 +11,8 @@ public class ScUserCondition {
     private Boolean validStatus;
     private List<Integer> userTypes;
 
-    public static void checkSQLinjectionException(ScUserCondition condition) {
-        if (checkSQLinjection(condition)) {
-            String msg = I18nMessageUtil.getInstance().getMessage("Controller.Paramter.CheckSQLinjection");
-            throw new RuntimeException(msg);
-        }
-    }
-
-    /**
-     * 检查是否有sql注入危险
-     * 主要检查在mybaits中使用${}引用的变量
-     *
-     * @param condition
-     * @return true:有sql注入风险
-     */
-    public static boolean checkSQLinjection(ScUserCondition condition) {
-        return NonSQLinjectionUtil.checkSQLinjection(condition.getUserName());
+    public void checkSQLinjectionException(ScUserCondition condition) {
+        checkSQLinjectionException(condition.getUserName());
     }
 
     public String getUserName() {

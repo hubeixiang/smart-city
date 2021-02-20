@@ -4,7 +4,7 @@ import com.sct.service.database.entity.ScLog;
 
 import java.util.Date;
 
-public class ScLogCondition extends ScLog {
+public class ScLogCondition extends ScLog implements ConditionQuery {
     private Date createTimeStart;
     private Date createTimeEnd;
 
@@ -12,8 +12,8 @@ public class ScLogCondition extends ScLog {
         return new ScLogCondition();
     }
 
-    public static void checkParam(ScLogCondition condition) {
-
+    @Override
+    public void checkParam() {
     }
 
     public Date getCreateTimeStart() {

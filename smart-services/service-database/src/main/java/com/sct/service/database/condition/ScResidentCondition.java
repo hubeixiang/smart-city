@@ -1,6 +1,6 @@
 package com.sct.service.database.condition;
 
-public class ScResidentCondition {
+public class ScResidentCondition implements ConditionQuery {
     private String name;
     private int sex;
     private String mobile;
