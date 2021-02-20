@@ -2,6 +2,8 @@ package com.sct.service.database.condition;
 
 import com.sct.commons.i18n.I18nMessageUtil;
 
+import java.util.List;
+
 public class ScUserCondition {
     private String userName;
     private Integer sex;
@@ -9,6 +11,7 @@ public class ScUserCondition {
     private String email;
     private String cardId;
     private Boolean validStatus;
+    private List<Integer> userTypes;
 
     public static void checkSQLinjectionException(ScUserCondition condition) {
         if (checkSQLinjection(condition)) {
@@ -74,5 +77,13 @@ public class ScUserCondition {
 
     public void setValidStatus(Boolean validStatus) {
         this.validStatus = validStatus;
+    }
+
+    public List<Integer> getUserTypes() {
+        return userTypes;
+    }
+
+    public void setUserTypes(List<Integer> userTypes) {
+        this.userTypes = userTypes;
     }
 }

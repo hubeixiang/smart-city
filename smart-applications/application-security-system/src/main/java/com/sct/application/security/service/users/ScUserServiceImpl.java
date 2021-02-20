@@ -1,7 +1,9 @@
 package com.sct.application.security.service.users;
 
+import com.sct.commons.file.location.FileLocation;
 import com.sct.commons.i18n.I18nMessageUtil;
 import com.sct.commons.utils.id.IDGenerator;
+import com.sct.service.core.FormatDataServiceImpl;
 import com.sct.service.core.service.QPagingUtil;
 import com.sct.service.core.web.exception.APIException;
 import com.sct.service.core.web.exception.ExceptionCode;
@@ -11,8 +13,12 @@ import com.sct.service.core.web.support.collection.ResultVOEntity;
 import com.sct.service.core.web.support.collection.pages.PageResponse;
 import com.sct.service.core.web.support.collection.pages.Paging;
 import com.sct.service.database.condition.QPaging;
+import com.sct.service.database.condition.ScOrganizationConditionExport;
 import com.sct.service.database.condition.ScUserCondition;
+import com.sct.service.database.condition.ScUserConditionExport;
+import com.sct.service.database.entity.ScResident;
 import com.sct.service.database.entity.ScUser;
+import com.sct.service.database.mapper.ScResidentMapper;
 import com.sct.service.database.mapper.ScUserMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +38,12 @@ public class ScUserServiceImpl {
 
     @Autowired
     private ScUserMapper scUserMapper;
+
+    @Autowired
+    private ScResidentMapper scResidentMapper;
+
+    @Autowired
+    private FormatDataServiceImpl formatDataService;
 
     public ResultVOEntity list(ScUserCondition condition) {
         List data = scUserMapper.selectCondition(condition);
@@ -58,11 +70,37 @@ public class ScUserServiceImpl {
         return PageResultVO.of(pageResponse, resultVO);
     }
 
+    public FileLocation export2FileLocation(ScUserConditionExport conditionExport) {
+        return formatDataService.export2FileLocation(conditionExport.getExportCondition(),
+                () -> scUserMapper.selectCondition(conditionExport.getCondition()));
+    }
+
     @Transactional
-    public ScUser create(ScUser scUser) {
-        //将信息创建到数据库
-        String id = IDGenerator.UUID.generate();
-        scUser.setId(id);
+    public ScUser create(ScUser scUser, boolean isScResident) {
+        //新创建的用户,需要先查找居民表中是否存在,如果居民中存在
+        Integer id = null;
+        if (isScResident) {
+            String cardId = scUser.getCardId();
+            if (StringUtils.isEmpty(cardId)) {
+                throw APIException.of(ExceptionCode.SERVER_API_PARAMETER_ERROR, "Require cardId");
+            }
+            ScResident scResident = scResidentMapper.selectByCardId(cardId);
+            if (scResident == null) {
+                throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, I18nMessageUtil.getInstance().getMessage("ScUserServiceImpl.create.card_id_not_exists"));
+            } else {
+                id = scResident.getId();
+                scUser.setCardId(scResident.getCardId());
+                ScUser user = scUserMapper.selectByCardId(scResident.getCardId());
+                if (user != null) {
+                    throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, I18nMessageUtil.getInstance().getMessage("ScUserServiceImpl.create.card_id_already_exists"));
+                }
+            }
+        } else {
+            //将信息创建到数据库
+            String uuid = IDGenerator.UUID.generate();
+            id = UserIdGenerator.crc32Id("builtin", uuid);
+            scUser.setId(id);
+        }
         final String rawPassword = scUser.getPassword();
         //插入数据
         scUserMapper.insert(scUser);
@@ -76,20 +114,23 @@ public class ScUserServiceImpl {
     }
 
     @Transactional
-    public int delete(String id) {
+    public int delete(Integer id) {
         return scUserMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    public int delete(List<String> ids) {
-        int size = scUserMapper.deleteByPrimaryKeys(ids);
-        if (size != ids.size()) {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "Delete The number of resources is not equal.", ids);
+    public int delete(List<Integer> ids) {
+        int size = 0;
+        for (Integer id : ids) {
+            int d = delete(id);
+            if (d == 1) {
+                size++;
+            }
         }
         return size;
     }
 
-    public ScUser findScUserById(String id) {
+    public ScUser findScUserById(Integer id) {
         return scUserMapper.selectByPrimaryKey(id);
     }
 
@@ -98,7 +139,7 @@ public class ScUserServiceImpl {
         if (scUser == null || scUser.getId() == null) {
             throw new IllegalArgumentException();
         }
-        final String id = scUser.getId();
+        final Integer id = scUser.getId();
 
         int size = scUserMapper.updateByPrimaryKey(scUser);
         if (size == 1) {
@@ -109,7 +150,7 @@ public class ScUserServiceImpl {
     }
 
     @Transactional
-    public boolean updatePassword(final String id, final String rawPassword, final String oldPassword) {
+    public boolean updatePassword(final Integer id, final String rawPassword, final String oldPassword) {
         if (oldPassword != null && oldPassword.length() != 0) {
             ScUser scUser = scUserMapper.selectByPrimaryKey(id);
             if (scUser == null) {
@@ -117,6 +158,9 @@ public class ScUserServiceImpl {
             }
             if (oldPassword.equals(rawPassword)) {
                 throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "Password is same as original password.", null);
+            }
+            if (!passwordEncoder.matches(oldPassword, scUser.getPassword())) {
+                throw APIException.of(ExceptionCode.SERVER_API_PARAMETER_ERROR, "Old password does not match.", null);
             }
         }
 

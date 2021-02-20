@@ -1,6 +1,8 @@
 package com.sct.service.database.mapper;
 
+import com.sct.service.database.condition.ScResidentCondition;
 import com.sct.service.database.entity.ScResident;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -44,4 +46,9 @@ public interface ScResidentMapper {
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
     int updateByPrimaryKey(ScResident record);
+
+
+    ScResident selectByCardId(String cardId);
+
+    List<ScResident> searchScResident(@Param("condition") ScResidentCondition condition);
 }

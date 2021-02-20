@@ -96,7 +96,7 @@ public class GridOrganizationsController {
         Assert.notNull(condition, "Require Export condition");
         Assert.notNull(condition.getCondition(), "Require Query condition");
         Assert.notNull(condition.getExportCondition(), "Require Export Column header field");
-        ScOrganizationConditionExport.checkParam(condition);
+        condition.checkParam(condition);
         FileLocation fileLocation = scOrganizationImpl.export2FileLocation(condition);
         if (fileLocation == null) {
             throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "生成文件失败");

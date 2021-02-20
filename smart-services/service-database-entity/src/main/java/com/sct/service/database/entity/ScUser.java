@@ -13,7 +13,7 @@ public class ScUser implements UserEntity,Serializable {
      *
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
-    private String id;
+    private Integer id;
 
     /**
      *
@@ -85,7 +85,8 @@ public class ScUser implements UserEntity,Serializable {
      *
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
-    private Boolean validStatus;
+    private Integer validStatus;
+    private Integer userType;
 
     /**
      *
@@ -130,7 +131,7 @@ public class ScUser implements UserEntity,Serializable {
      *
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -142,8 +143,8 @@ public class ScUser implements UserEntity,Serializable {
      *
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+    public void setId(Integer id) {
+        this.id = id == null ? null : id;
     }
 
     /**
@@ -322,7 +323,7 @@ public class ScUser implements UserEntity,Serializable {
      *
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
-    public Boolean getValidStatus() {
+    public Integer getValidStatus() {
         return validStatus;
     }
 
@@ -334,8 +335,16 @@ public class ScUser implements UserEntity,Serializable {
      *
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
-    public void setValidStatus(Boolean validStatus) {
+    public void setValidStatus(Integer validStatus) {
         this.validStatus = validStatus;
+    }
+
+    public Integer getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Integer userType) {
+        this.userType = userType;
     }
 
     /**

@@ -56,12 +56,14 @@ public class AuthorityUserDetailsService implements UserDetailsService {
         UserEntity userEntity = null;
         if (usernameResolverEnum == null) {
             //检索2张表的主键
-            ScUser scUser = scUserMapper.selectByPrimaryKey(findKey);
+            Integer uid = Integer.parseInt(findKey);
+            ScUser scUser = scUserMapper.selectByPrimaryKey(uid);
             userEntity = scUser;
         } else {
             switch (usernameResolverEnum) {
                 case userPk:
-                    userEntity = scUserMapper.selectByPrimaryKey(findKey);
+                    Integer uid = Integer.parseInt(findKey);
+                    userEntity = scUserMapper.selectByPrimaryKey(uid);
                     break;
                 case loginId:
                     userEntity = scUserMapper.selectByLoginId(findKey);
@@ -107,7 +109,7 @@ public class AuthorityUserDetailsService implements UserDetailsService {
 
     private AuthorityUser createAuthorityUserByScUser(ScUser scUser) {
         AuthorityUser authorityUser = new AuthorityUser();
-        authorityUser.setPkId(scUser.getId());
+        authorityUser.setPkId(String.valueOf(scUser.getId()));
         authorityUser.setLoginId(scUser.getUserId());
         authorityUser.setUserEmail(scUser.getEmail());
         authorityUser.setUserMobile(scUser.getMobile());
