@@ -20,6 +20,24 @@
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
+
+
+  <sql id="allNonColumns"> name, grid_id,
+      mobile, pic_url, employ_date,
+      leave_date, leave_reason, is_leader,
+      create_time, creator_id, modify_time </sql>
+  <sql id="allColumns">id, <include refid="allNonColumns"></include> </sql>
+
+
+  <sql id="queryCondition">
+    <if test="condition.name !=null and condition.name != ''">
+      and name like '%${condition.name}%'
+    </if>
+    <if test="condition.gridId !=null ">
+      and grid_id = #{condition.gridId}
+    </if>
+  </sql>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated
@@ -86,5 +104,42 @@
     select id, name, grid_id, mobile, pic_url, employ_date, leave_date, leave_reason, 
     is_leader, create_time, creator_id, modify_time
     from sc_grid_manager
+  </select>
+
+
+
+
+  <delete id="deleteByPrimaryKeys">
+    delete from sc_grid_manager
+    where id in (
+    <foreach item="itemListValue" collection="ids" separator=",">
+      #{itemListValue}
+    </foreach>
+    )
+  </delete>
+
+  <select id="selectCondition" resultMap="BaseResultMap">
+    select
+    <include refid="allColumns"/>
+    from sc_grid_manager
+    <where>
+      <include refid="queryCondition"/>
+    </where>
+  </select>
+
+  <select id="selectConditionCount" resultType="int">
+    select count(*) from sc_grid_manager
+    <where>
+      <include refid="queryCondition"></include>
+    </where>
+  </select>
+  <select id="selectConditionPage" resultMap="BaseResultMap">
+    select
+    <include refid="allColumns"/>
+    from sc_grid_manager
+    <where>
+      <include refid="queryCondition"/>
+    </where>
+    limit ${qPaging.startIndex},${qPaging.endIndex}
   </select>
 </mapper>

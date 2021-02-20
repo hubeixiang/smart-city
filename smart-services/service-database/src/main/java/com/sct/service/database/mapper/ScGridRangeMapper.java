@@ -1,6 +1,7 @@
 package com.sct.service.database.mapper;
 
 import com.sct.service.database.entity.ScGridRange;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +21,10 @@ public interface ScGridRangeMapper {
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
     List<ScGridRange> selectAll();
+
+    ScGridRange selectByGridId(@Param("gridId") Integer gridId);
+
+    int deleteByGridId(@Param("gridId") Integer gridId);
+
+    int updateByPrimaryKey(ScGridRange record);
 }

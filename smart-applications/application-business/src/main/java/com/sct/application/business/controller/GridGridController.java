@@ -1,0 +1,134 @@
+package com.sct.application.business.controller;
+
+
+import com.sct.application.business.dto.ScGridAll;
+import com.sct.application.business.service.business.grid.GridGridServiceImpl;
+import com.sct.service.core.web.exception.APIException;
+import com.sct.service.core.web.exception.ExceptionCode;
+import com.sct.service.core.web.support.collection.PageResultVO;
+import com.sct.service.core.web.support.collection.ResultVOEntity;
+import com.sct.service.core.web.support.collection.pages.PageRecord;
+import com.sct.service.core.web.support.simple.EmptyResourceResponse;
+import com.sct.service.core.web.support.simple.SimpleResourceResponse;
+import com.sct.service.database.condition.ScGridCondition;
+import com.sct.service.database.entity.ScGrid;
+import com.sct.service.oauth2.core.constants.Oauth2Constants;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.ui.Model;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * 网格化管理->网格管理
+ */
+@Api(tags = "网格化管理->网格管理")
+@RequestMapping(path = {"/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path_None_Auth + "/grid/grid", "/" + Oauth2Constants.Oauth2_ResourceServer_Context_Path + "/grid/grid",})
+@RestController
+public class GridGridController {
+
+    @Autowired
+    private GridGridServiceImpl gridGridService;
+
+    /**
+     * 页面打开需要初始化的相关信息
+     *
+     * @return
+     */
+    @ApiOperation("页面初始化")
+    @GetMapping
+    public SimpleResourceResponse init(Model model) {
+        return SimpleResourceResponse.of("ok");
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param paging
+     * @param condition
+     * @return
+     */
+    @ApiOperation("分页查询")
+    @GetMapping("/page")
+    public PageResultVO list(PageRecord paging, ScGridCondition condition) {
+        ScGridCondition.checkSQLinjectionException(condition);
+        PageResultVO result = gridGridService.listPage(paging, condition);
+        return result;
+    }
+
+    /**
+     * 全部查询
+     *
+     * @param condition
+     * @return
+     */
+    @ApiOperation("全部查询")
+    @GetMapping("/all")
+    public ResultVOEntity listAll(ScGridCondition condition) {
+        ScGridCondition.checkSQLinjectionException(condition);
+        return gridGridService.list(condition);
+    }
+
+    /**
+     * 通过Id查询网格
+     * @param id
+     * @return
+     */
+    @ApiOperation("查看详情")
+    @GetMapping("/detail")
+    public ScGridAll detail(@RequestParam("id") Integer id) {
+        ScGridAll select = gridGridService.select(id);
+        return select;
+    }
+
+    @ApiOperation("新增")
+    @PostMapping
+    public ScGrid create(@RequestBody ScGrid body) {
+        ScGrid add = gridGridService.create(body);
+        if (add != null && add.getId() != null) {
+            return add;
+        } else {
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功");
+        }
+    }
+
+    @ApiOperation("修改")
+    @PatchMapping
+    public EmptyResourceResponse update(@RequestBody ScGrid body) {
+        Assert.notNull(body, "Require body");
+        int delete = gridGridService.update(body);
+        if (delete == 1) {
+            return EmptyResourceResponse.INSTANCE;
+        } else {
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功");
+        }
+    }
+
+    @ApiOperation("删除")
+    @DeleteMapping
+    public EmptyResourceResponse delete(@PathVariable("id") Integer id) {
+        int delete = gridGridService.delete(id);
+        if (delete == 1) {
+            return EmptyResourceResponse.INSTANCE;
+        } else {
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除失败");
+        }
+    }
+
+    @ApiOperation("批量删除")
+    @DeleteMapping("/batchDelete")
+    public EmptyResourceResponse batchDelete(@RequestBody List<Integer> ids) {
+        int size = ids == null ? 0 : ids.size();
+        int delete = gridGridService.delete(ids);
+        if (delete == size) {
+            return EmptyResourceResponse.INSTANCE;
+        } else {
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除失败");
+        }
+    }
+}

@@ -1,6 +1,9 @@
 package com.sct.service.database.mapper;
 
+import com.sct.service.database.condition.QPaging;
+import com.sct.service.database.condition.ScGridManagerCondition;
 import com.sct.service.database.entity.ScGridManager;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -44,4 +47,12 @@ public interface ScGridManagerMapper {
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
     int updateByPrimaryKey(ScGridManager record);
+
+    int deleteByPrimaryKeys(@Param("ids") List<Integer> ids);
+
+    int selectConditionCount(@Param("condition") ScGridManagerCondition condition);
+
+    List<ScGridManager> selectConditionPage(@Param("condition") ScGridManagerCondition condition, @Param("qPaging") QPaging qPaging);
+
+    List<ScGridManager> selectCondition(@Param("condition") ScGridManagerCondition condition);
 }
