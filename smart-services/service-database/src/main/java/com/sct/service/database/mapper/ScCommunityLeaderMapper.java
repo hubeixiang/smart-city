@@ -1,6 +1,9 @@
 package com.sct.service.database.mapper;
 
+import com.sct.service.database.condition.QPaging;
+import com.sct.service.database.condition.ScCommunityLeaderCondition;
 import com.sct.service.database.entity.ScCommunityLeader;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -44,4 +47,30 @@ public interface ScCommunityLeaderMapper {
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
     int updateByPrimaryKey(ScCommunityLeader record);
+
+    int deleteByPrimaryKeys(@Param("ids") List<Integer> ids);
+
+    /**
+     * 通过社区id删除对应的党组织信息
+     *
+     * @param communityId
+     * @return
+     */
+    int deleteByCommunityId(@Param("communityId") Integer communityId);
+
+    /**
+     * 通过社区id批量删除对应的党组织信息
+     *
+     * @param communityIds
+     * @return
+     */
+    int deleteByCommunityIds(@Param("communityIds") List<Integer> communityIds);
+
+
+    int selectConditionCount(@Param("condition") ScCommunityLeaderCondition condition);
+
+    List<ScCommunityLeader> selectConditionPage(@Param("condition") ScCommunityLeaderCondition condition, @Param("qPaging") QPaging qPaging);
+
+    List<ScCommunityLeader> selectCondition(@Param("condition") ScCommunityLeaderCondition condition);
+
 }

@@ -1,6 +1,7 @@
 package com.sct.service.database.mapper;
 
 import com.sct.service.database.entity.ScCommunityParty;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -44,4 +45,28 @@ public interface ScCommunityPartyMapper {
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
     int updateByPrimaryKey(ScCommunityParty record);
+
+    int deleteByPrimaryKeys(@Param("ids") List<Integer> ids);
+
+    /**
+     * 通过社区id删除对应的党组织信息
+     * @param communityId
+     * @return
+     */
+    int deleteByCommunityId(@Param("communityId") Integer communityId);
+
+    /**
+     * 通过社区id批量删除对应的党组织信息
+     * @param communityIds
+     * @return
+     */
+    int deleteByCommunityIds(@Param("communityIds") List<Integer> communityIds);
+
+    ScCommunityParty selectByCommunityId(@Param("communityId") Integer communityId);
+
+//    int selectConditionCount(@Param("condition") ScCommunityPartyCondition condition);
+//
+//    List<ScCommunity> selectConditionPage(@Param("condition") ScCommunityPartyCondition condition, @Param("qPaging") QPaging qPaging);
+//
+//    List<ScCommunity> selectCondition(@Param("condition") ScCommunityPartyCondition condition);
 }
