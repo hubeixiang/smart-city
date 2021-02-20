@@ -7,6 +7,7 @@ import com.sct.service.database.entity.ScUser;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ScCommunityMapper {
     /**
@@ -49,9 +50,14 @@ public interface ScCommunityMapper {
      */
     int updateByPrimaryKey(ScCommunity record);
 
-    public int selectConditionCount(@Param("condition") ScCommunityCondition condition);
+    int deleteByPrimaryKeys(@Param("ids") List<Integer> ids);
 
-    public List<ScUser> selectConditionPage(@Param("condition") ScCommunityCondition condition, @Param("qPaging") QPaging qPaging);
+    int selectConditionCount(@Param("condition") ScCommunityCondition condition);
 
-    public List<ScUser> selectCondition(@Param("condition") ScCommunityCondition condition);
+    List<ScCommunity> selectConditionPage(@Param("condition") ScCommunityCondition condition, @Param("qPaging") QPaging qPaging);
+
+    List<ScCommunity> selectCondition(@Param("condition") ScCommunityCondition condition);
+
+    List<Map<Integer, String>> getIdNameMapping();
+
 }

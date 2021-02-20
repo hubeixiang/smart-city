@@ -2,6 +2,7 @@ package com.sct.service.database.mapper;
 
 import com.sct.service.database.condition.QPaging;
 import com.sct.service.database.condition.ScCommunityPartyCondition;
+import com.sct.service.database.entity.ScCommunity;
 import com.sct.service.database.entity.ScCommunityParty;
 import com.sct.service.database.entity.ScUser;
 import org.apache.ibatis.annotations.Param;
@@ -49,9 +50,27 @@ public interface ScCommunityPartyMapper {
      */
     int updateByPrimaryKey(ScCommunityParty record);
 
-    public int selectConditionCount(@Param("condition") ScCommunityPartyCondition condition);
+    int deleteByPrimaryKeys(@Param("ids") List<Integer> ids);
 
-    public List<ScUser> selectConditionPage(@Param("condition") ScCommunityPartyCondition condition, @Param("qPaging") QPaging qPaging);
+    /**
+     * 通过社区id删除对应的党组织信息
+     * @param communityId
+     * @return
+     */
+    int deleteByCommunityId(@Param("communityId") Integer communityId);
 
-    public List<ScUser> selectCondition(@Param("condition") ScCommunityPartyCondition condition);
+    /**
+     * 通过社区id批量删除对应的党组织信息
+     * @param communityIds
+     * @return
+     */
+    int deleteByCommunityIds(@Param("communityIds") List<Integer> communityIds);
+
+    ScCommunityParty selectByCommunityId(@Param("communityId") Integer communityId);
+
+    int selectConditionCount(@Param("condition") ScCommunityPartyCondition condition);
+
+    List<ScCommunityParty> selectConditionPage(@Param("condition") ScCommunityPartyCondition condition, @Param("qPaging") QPaging qPaging);
+
+    List<ScCommunityParty> selectCondition(@Param("condition") ScCommunityPartyCondition condition);
 }

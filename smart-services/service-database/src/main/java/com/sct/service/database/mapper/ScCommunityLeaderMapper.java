@@ -49,9 +49,36 @@ public interface ScCommunityLeaderMapper {
      */
     int updateByPrimaryKey(ScCommunityLeader record);
 
-    public int selectConditionCount(@Param("condition") ScCommunityLeaderCondition condition);
+//    public int selectConditionCount(@Param("condition") ScCommunityLeaderCondition condition);
+//
+//    public List<ScUser> selectConditionPage(@Param("condition") ScCommunityLeaderCondition condition, @Param("qPaging") QPaging qPaging);
+//
+//    public List<ScUser> selectCondition(@Param("condition") ScCommunityLeaderCondition condition);
+//
 
-    public List<ScUser> selectConditionPage(@Param("condition") ScCommunityLeaderCondition condition, @Param("qPaging") QPaging qPaging);
+    int deleteByPrimaryKeys(@Param("ids") List<Integer> ids);
 
-    public List<ScUser> selectCondition(@Param("condition") ScCommunityLeaderCondition condition);
+    /**
+     * 通过社区id删除对应的党组织信息
+     *
+     * @param communityId
+     * @return
+     */
+    int deleteByCommunityId(@Param("communityId") Integer communityId);
+
+    /**
+     * 通过社区id批量删除对应的党组织信息
+     *
+     * @param communityIds
+     * @return
+     */
+    int deleteByCommunityIds(@Param("communityIds") List<Integer> communityIds);
+
+
+    int selectConditionCount(@Param("condition") ScCommunityLeaderCondition condition);
+
+    List<ScCommunityLeader> selectConditionPage(@Param("condition") ScCommunityLeaderCondition condition, @Param("qPaging") QPaging qPaging);
+
+    List<ScCommunityLeader> selectCondition(@Param("condition") ScCommunityLeaderCondition condition);
+
 }
