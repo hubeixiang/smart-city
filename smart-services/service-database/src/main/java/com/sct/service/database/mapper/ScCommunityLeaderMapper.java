@@ -1,6 +1,10 @@
 package com.sct.service.database.mapper;
 
+import com.sct.service.database.condition.QPaging;
+import com.sct.service.database.condition.ScCommunityLeaderCondition;
 import com.sct.service.database.entity.ScCommunityLeader;
+import com.sct.service.database.entity.ScUser;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -44,4 +48,10 @@ public interface ScCommunityLeaderMapper {
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
     int updateByPrimaryKey(ScCommunityLeader record);
+
+    public int selectConditionCount(@Param("condition") ScCommunityLeaderCondition condition);
+
+    public List<ScUser> selectConditionPage(@Param("condition") ScCommunityLeaderCondition condition, @Param("qPaging") QPaging qPaging);
+
+    public List<ScUser> selectCondition(@Param("condition") ScCommunityLeaderCondition condition);
 }
