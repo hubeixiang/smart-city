@@ -21,6 +21,15 @@
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
+
+  <sql id="allNonColumns"> name, coverd_area,
+      comment, community_id, property_name,
+      property_leader, property_fee, property_type,
+      property_mobile, create_time, creator_id,
+      modify_time </sql>
+  <sql id="allColumns">id, <include refid="allNonColumns"></include>
+  </sql>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated
@@ -88,5 +97,48 @@
     select id, name, coverd_area, comment, community_id, property_name, property_leader, 
     property_fee, property_type, property_mobile, create_time, creator_id, modify_time
     from sc_estate
+  </select>
+
+
+  <delete id="deleteByPrimaryKeys">
+    delete from sc_estate
+    where id in (
+    <foreach item="itemListValue" collection="ids" separator=",">
+      #{itemListValue}
+    </foreach>
+    )
+  </delete>
+
+
+  <sql id="queryCondition">
+    <if test="condition.communityId !=null ">
+      and community_id = #{condition.communityId}
+    </if>
+    <if test="condition.name !=null and condition.name != ''">
+      and name like '%${condition.name}%'
+    </if>
+  </sql>
+  <select id="selectConditionCount" resultType="int">
+    select count(*) from sc_estate
+    <where>
+      <include refid="queryCondition"></include>
+    </where>
+  </select>
+  <select id="selectConditionPage" resultMap="BaseResultMap">
+    select
+    <include refid="allColumns"/>
+    from sc_estate
+    <where>
+      <include refid="queryCondition"/>
+    </where>
+    limit ${qPaging.startIndex},${qPaging.endIndex}
+  </select>
+  <select id="selectCondition" resultMap="BaseResultMap">
+    select
+    <include refid="allColumns"/>
+    from sc_estate
+    <where>
+      <include refid="queryCondition"/>
+    </where>
   </select>
 </mapper>

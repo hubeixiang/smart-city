@@ -1,6 +1,9 @@
 package com.sct.service.database.mapper;
 
+import com.sct.service.database.condition.QPaging;
+import com.sct.service.database.condition.ScEstateCondition;
 import com.sct.service.database.entity.ScEstate;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -44,4 +47,12 @@ public interface ScEstateMapper {
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
     int updateByPrimaryKey(ScEstate record);
+
+    int deleteByPrimaryKeys(@Param("ids") List<Integer> ids);
+
+    int selectConditionCount(@Param("condition") ScEstateCondition condition);
+
+    List<ScEstate> selectConditionPage(@Param("condition") ScEstateCondition condition, @Param("qPaging") QPaging qPaging);
+
+    List<ScEstate> selectCondition(@Param("condition") ScEstateCondition condition);
 }

@@ -1,6 +1,9 @@
 package com.sct.service.database.mapper;
 
+import com.sct.service.database.condition.QPaging;
+import com.sct.service.database.condition.ScPropertyStaffCondition;
 import com.sct.service.database.entity.ScPropertyStaff;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -44,4 +47,16 @@ public interface ScPropertyStaffMapper {
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
     int updateByPrimaryKey(ScPropertyStaff record);
+
+    int deleteByPrimaryKeys(@Param("ids") List<Integer> ids);
+
+    int selectConditionCount(@Param("condition") ScPropertyStaffCondition condition);
+
+    List<ScPropertyStaff> selectConditionPage(@Param("condition") ScPropertyStaffCondition condition, @Param("qPaging") QPaging qPaging);
+
+    List<ScPropertyStaff> selectCondition(@Param("condition") ScPropertyStaffCondition condition);
+
+    int deleteByEstateId(@Param("estateId") Integer estateId);
+
+    int deleteByEstateIds(@Param("estateIds") List<Integer> estateIds);
 }

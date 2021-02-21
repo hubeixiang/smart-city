@@ -45,4 +45,12 @@ public interface ScEstateStaffRelMapper {
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
     int updateByPrimaryKey(ScEstateStaffRel record);
+
+    int deleteByPrimaryKeys(@Param("estateId") Integer estateId, @Param("ids") List<Integer> ids);
+
+    List<Integer> selectStaffIdsByEstateId(@Param("estateId") Integer estateId);
+
+    int deleteByEstateId(@Param("estateId") Integer estateId);
+
+    int deleteByEstateIds(@Param("estateIds") List<Integer> estateIds);
 }
