@@ -12,15 +12,12 @@ import com.sct.service.core.web.support.simple.EmptyResourceResponse;
 import com.sct.service.core.web.support.simple.SimpleResourceResponse;
 import com.sct.service.database.condition.ScGridCondition;
 import com.sct.service.database.condition.ScGridManagerCondition;
-import com.sct.service.database.entity.ScCommunityLeader;
 import com.sct.service.database.entity.ScGrid;
 import com.sct.service.database.entity.ScGridManager;
 import com.sct.service.oauth2.core.constants.Oauth2Constants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -79,6 +76,7 @@ public class GridGridController {
 
     /**
      * 通过Id查询网格
+     *
      * @param id
      * @return
      */
@@ -211,7 +209,7 @@ public class GridGridController {
      * @param ids
      * @return
      */
-    @ApiOperation("批量删除领导")
+    @ApiOperation("批量删除网格员")
     @DeleteMapping("/manager/batchDelete")
     public EmptyResourceResponse batchDeleteManager(@RequestBody List<Integer> ids) {
         int size = ids == null ? 0 : ids.size();
