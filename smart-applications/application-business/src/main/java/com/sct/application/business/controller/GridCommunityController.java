@@ -60,7 +60,7 @@ public class GridCommunityController {
     @ApiOperation("分页查询")
     @GetMapping("/page")
     public PageResultVO list(PageRecord paging, ScCommunityCondition condition) {
-        condition.checkSQLinjectionException();
+        condition.checkSQLinjectionException(condition.getName());
         PageResultVO result = gridCommunityService.listPage(paging, condition);
         return result;
     }
@@ -74,7 +74,7 @@ public class GridCommunityController {
     @ApiOperation("全部查询")
     @GetMapping("/all")
     public ResultVOEntity listAll(ScCommunityCondition condition) {
-        condition.checkSQLinjectionException();
+        condition.checkSQLinjectionException(condition.getName());
         return gridCommunityService.list(condition);
     }
 
@@ -166,7 +166,7 @@ public class GridCommunityController {
     @ApiOperation("分页查询领导班子")
     @GetMapping("/leader/page")
     public PageResultVO listLeader(PageRecord paging, ScCommunityLeaderCondition condition) {
-        condition.checkSQLinjectionException();
+        condition.checkSQLinjectionException(condition.getName());
         PageResultVO result = gridCommunityService.listCommunityLeaderPage(paging, condition);
         return result;
     }

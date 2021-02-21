@@ -56,7 +56,7 @@ public class GridGridController {
     @ApiOperation("分页查询")
     @GetMapping("/page")
     public PageResultVO list(PageRecord paging, ScGridCondition condition) {
-        ScGridCondition.checkSQLinjectionException(condition);
+        condition.checkSQLinjectionException(condition.getName());
         PageResultVO result = gridGridService.listPage(paging, condition);
         return result;
     }
@@ -70,7 +70,7 @@ public class GridGridController {
     @ApiOperation("全部查询")
     @GetMapping("/all")
     public ResultVOEntity listAll(ScGridCondition condition) {
-        ScGridCondition.checkSQLinjectionException(condition);
+        condition.checkSQLinjectionException(condition.getName());
         return gridGridService.list(condition);
     }
 
@@ -144,7 +144,7 @@ public class GridGridController {
     @ApiOperation("分页查询网格员")
     @GetMapping("/manager/page")
     public PageResultVO listManager(PageRecord paging, ScGridManagerCondition condition) {
-        ScGridManagerCondition.checkSQLinjectionException(condition);
+        condition.checkSQLinjectionException(condition.getName());
         PageResultVO result = gridGridService.listGridManagerPage(paging, condition);
         return result;
     }
