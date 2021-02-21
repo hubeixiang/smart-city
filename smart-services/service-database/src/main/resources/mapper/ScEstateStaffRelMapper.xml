@@ -71,7 +71,7 @@
     <delete id="deleteByPrimaryKeys" parameterType="map">
         delete from sc_estate_staff_rel
         where staff_id in (
-        <foreach item="itemListValue" collection="ids" separator=",">
+        <foreach item="itemListValue" collection="staffIds" separator=",">
             #{itemListValue}
         </foreach>
         ) and estate_id = #{estateId,jdbcType=INTEGER}

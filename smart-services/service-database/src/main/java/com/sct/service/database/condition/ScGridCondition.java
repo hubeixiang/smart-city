@@ -9,11 +9,12 @@ public class ScGridCondition implements ConditionQuery {
         return new ScGridCondition();
     }
 
+
     public Integer getCommunityId() {
         return communityId;
     }
 
-    public void setCommunityIds(Integer communityId) {
+    public void setCommunityId(Integer communityId) {
         this.communityId = communityId;
     }
 

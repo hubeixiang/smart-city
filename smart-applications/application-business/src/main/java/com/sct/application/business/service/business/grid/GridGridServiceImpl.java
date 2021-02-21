@@ -7,9 +7,12 @@ import com.sct.service.core.web.support.collection.PageResultVO;
 import com.sct.service.core.web.support.collection.ResultVOEntity;
 import com.sct.service.core.web.support.collection.pages.PageRecord;
 import com.sct.service.database.condition.ScGridCondition;
+import com.sct.service.database.condition.ScGridEvaluationCondition;
 import com.sct.service.database.condition.ScGridManagerCondition;
 import com.sct.service.database.entity.ScGrid;
+import com.sct.service.database.entity.ScGridEvaluation;
 import com.sct.service.database.entity.ScGridManager;
+import com.sct.service.main.ScGridEvaluationImpl;
 import com.sct.service.main.ScGridImpl;
 import com.sct.service.main.ScGridManagerImpl;
 import com.sct.service.main.ScGridRangeImpl;
@@ -29,6 +32,8 @@ public class GridGridServiceImpl {
     private ScGridRangeImpl scGridRangeImpl;
     @Autowired
     private ScGridManagerImpl scGridManagerImpl;
+    @Autowired
+    private ScGridEvaluationImpl scGridEvaluationImpl;
 
     @Autowired
     private FormatDataServiceImpl formatDataServiceImpl;
@@ -114,5 +119,26 @@ public class GridGridServiceImpl {
             return 0;
         }
         return scGridManagerImpl.deletes(ids);
+    }
+
+    //分页查询网格员考评信息
+    public PageResultVO listGridEvaluationPage(PageRecord paging, ScGridEvaluationCondition condition) {
+        return scGridEvaluationImpl.listPage(paging, condition);
+    }
+    //新增考评信息
+    public int createEvaluation(ScGridEvaluation body) {
+        return scGridEvaluationImpl.insert(body);
+    }
+
+    public int updateEvaluation(ScGridEvaluation body) {
+        return scGridEvaluationImpl.update(body);
+    }
+
+    public int deleteEvaluation(Integer gridId, Integer gridManagerId) {
+        return scGridEvaluationImpl.delete(gridId, gridManagerId);
+    }
+
+    public int deleteEvaluation(Integer gridId, List<Integer> gridManagerIds) {
+        return scGridEvaluationImpl.deletes(gridId, gridManagerIds);
     }
 }

@@ -1,5 +1,7 @@
 package com.sct.service.database.mapper;
 
+import com.sct.service.database.condition.QPaging;
+import com.sct.service.database.condition.ScGridEvaluationCondition;
 import com.sct.service.database.entity.ScGridEvaluation;
 import org.apache.ibatis.annotations.Param;
 
@@ -45,4 +47,12 @@ public interface ScGridEvaluationMapper {
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
     int updateByPrimaryKey(ScGridEvaluation record);
+
+    int deleteByPrimaryKeys(@Param("gridId") Integer gridId, @Param("gridManagerIds") List<Integer> gridManagerIds);
+
+    int selectConditionCount(@Param("condition") ScGridEvaluationCondition condition);
+
+    List<ScGridEvaluation> selectConditionPage(@Param("condition") ScGridEvaluationCondition condition, @Param("qPaging") QPaging qPaging);
+
+    List<ScGridEvaluation> selectCondition(@Param("condition") ScGridEvaluationCondition condition);
 }

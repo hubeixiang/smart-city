@@ -46,7 +46,7 @@ public interface ScEstateStaffRelMapper {
      */
     int updateByPrimaryKey(ScEstateStaffRel record);
 
-    int deleteByPrimaryKeys(@Param("estateId") Integer estateId, @Param("ids") List<Integer> ids);
+    int deleteByPrimaryKeys(@Param("estateId") Integer estateId, @Param("staffIds") List<Integer> staffIds);
 
     List<Integer> selectStaffIdsByEstateId(@Param("estateId") Integer estateId);
 

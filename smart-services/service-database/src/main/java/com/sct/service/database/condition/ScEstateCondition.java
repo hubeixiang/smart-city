@@ -13,7 +13,7 @@ public class ScEstateCondition implements ConditionQuery {
         return communityId;
     }
 
-    public void setCommunityIds(Integer communityId) {
+    public void setCommunityId(Integer communityId) {
         this.communityId = communityId;
     }
 

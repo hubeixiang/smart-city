@@ -16,6 +16,12 @@
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
+
+  <sql id="allColumns">grid_id, grid_manager_id, evaluation_type,
+      evaluation_date, evaluation_result, create_time,
+      creator_id, modify_time
+  </sql>
+
   <delete id="deleteByPrimaryKey" parameterType="map">
     <!--
       WARNING - @mbg.generated
@@ -77,4 +83,47 @@
     create_time, creator_id, modify_time
     from sc_grid_evaluation
   </select>
+
+  <delete id="deleteByPrimaryKeys" parameterType="map">
+    delete from sc_grid_evaluation
+    where grid_manager_id in (
+    <foreach item="itemListValue" collection="gridManagerIds" separator=",">
+      #{itemListValue}
+    </foreach>
+    ) and grid_id = #{gridId,jdbcType=INTEGER}
+  </delete>
+
+
+  <sql id="queryCondition">
+    <if test="condition.startDate !=null ">
+      and evaluation_date &gt;= #{condition.startDate}
+    </if>
+    <if test="condition.endDate !=null ">
+      and evaluation_date &lt;= #{condition.endDate}
+    </if>
+  </sql>
+  <select id="selectConditionCount" resultType="int">
+    select count(*) from sc_grid_evaluation
+    <where>
+      <include refid="queryCondition"></include>
+    </where>
+  </select>
+  <select id="selectConditionPage" resultMap="BaseResultMap">
+    select
+    <include refid="allColumns"/>
+    from sc_grid_evaluation
+    <where>
+      <include refid="queryCondition"/>
+    </where>
+    limit ${qPaging.startIndex},${qPaging.endIndex}
+  </select>
+  <select id="selectCondition" resultMap="BaseResultMap">
+    select
+    <include refid="allColumns"/>
+    from sc_grid_evaluation
+    <where>
+      <include refid="queryCondition"/>
+    </where>
+  </select>
+  
 </mapper>

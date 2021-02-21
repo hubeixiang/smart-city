@@ -15,19 +15,19 @@ public class ScCommunityLeaderCondition implements ConditionQuery {
         this.name = name;
     }
 
-    public Integer getOfficeStatues() {
-        return officeStatues;
-    }
-
-    public void setOfficeStatues(Integer officeStatues) {
-        this.officeStatues = officeStatues;
-    }
-
     public Integer getCommunityId() {
         return communityId;
     }
 
     public void setCommunityId(Integer communityId) {
         this.communityId = communityId;
+    }
+
+    public Integer getOfficeStatues() {
+        return officeStatues;
+    }
+
+    public void setOfficeStatues(Integer officeStatues) {
+        this.officeStatues = officeStatues;
     }
 }
