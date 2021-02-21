@@ -9,21 +9,13 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.List;
 
-@ApiModel("社区全部信息")
+@ApiModel(value = "社区全部信息")
 public class ScCommunityAll implements Serializable {
-    @ApiModelProperty("社区信息")
+    @ApiModelProperty(value = "社区信息")
     private ScCommunity scCommunity;
-    @ApiModelProperty("社区党组织信息")
+    @ApiModelProperty(value = "社区党组织信息")
     private ScCommunityParty scCommunityParty;
-
-    public List<ScCommunityLeader> getScCommunityLeaderList() {
-        return ScCommunityLeaderList;
-    }
-
-    public void setScCommunityLeaderList(List<ScCommunityLeader> scCommunityLeaderList) {
-        ScCommunityLeaderList = scCommunityLeaderList;
-    }
-
+    @ApiModelProperty(value = "社区领导班子列表")
     private List<ScCommunityLeader> ScCommunityLeaderList;
 
     public ScCommunityAll() {
@@ -32,6 +24,14 @@ public class ScCommunityAll implements Serializable {
     public ScCommunityAll(ScCommunity scCommunity, ScCommunityParty scCommunityParty, List<ScCommunityLeader> scCommunityLeaderList) {
         this.scCommunity = scCommunity;
         this.scCommunityParty = scCommunityParty;
+        ScCommunityLeaderList = scCommunityLeaderList;
+    }
+
+    public List<ScCommunityLeader> getScCommunityLeaderList() {
+        return ScCommunityLeaderList;
+    }
+
+    public void setScCommunityLeaderList(List<ScCommunityLeader> scCommunityLeaderList) {
         ScCommunityLeaderList = scCommunityLeaderList;
     }
 

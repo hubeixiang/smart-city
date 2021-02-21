@@ -7,11 +7,11 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.List;
 
-@ApiModel("网格全部信息")
+@ApiModel(value = "网格全部信息")
 public class ScGridAll implements Serializable {
-    @ApiModelProperty("网格信息")
+    @ApiModelProperty(value = "网格信息")
     private ScGrid scGrid;
-    @ApiModelProperty("网格范围")
+    @ApiModelProperty(value = "网格范围")
     private ScGridRange scGridRange;
 
     public List<ScGridManager> getScGridManagerList() {
@@ -21,7 +21,7 @@ public class ScGridAll implements Serializable {
     public void setScGridManagerList(List<ScGridManager> scGridManagerList) {
         this.scGridManagerList = scGridManagerList;
     }
-
+    @ApiModelProperty(value = "网格员列表")
     private List<ScGridManager> scGridManagerList;
 
     public ScGridAll() {

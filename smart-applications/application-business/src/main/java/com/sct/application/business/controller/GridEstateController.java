@@ -56,7 +56,7 @@ public class GridEstateController {
      */
     @ApiOperation("分页查询")
     @GetMapping("/page")
-    public PageResultVO list(@ApiParam(name = "分页请求") PageRecord paging, @ApiParam(name = "查询条件") ScEstateCondition condition) {
+    public PageResultVO list(@ApiParam(value = "分页请求") PageRecord paging, @ApiParam(value = "查询条件") ScEstateCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
         return gridEstateService.listPage(paging, condition);
     }
@@ -69,7 +69,7 @@ public class GridEstateController {
      */
     @ApiOperation("全部查询")
     @GetMapping("/all")
-    public ResultVOEntity listAll(@ApiParam(name = "查询条件") ScEstateCondition condition) {
+    public ResultVOEntity listAll(@ApiParam(value = "查询条件") ScEstateCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
         return gridEstateService.list(condition);
     }
@@ -82,7 +82,7 @@ public class GridEstateController {
      */
     @ApiOperation("查看详情")
     @GetMapping("/detail")
-    public ScEstate detail(@RequestParam("id") @ApiParam(name = "小区id", required = true) Integer id) {
+    public ScEstate detail(@RequestParam("id") @ApiParam(value = "小区id", required = true) Integer id) {
         ScEstate select = gridEstateService.select(id);
         if (select != null) {
             return select;
@@ -99,7 +99,7 @@ public class GridEstateController {
      */
     @ApiOperation("新增")
     @PostMapping
-    public EmptyResourceResponse create(@RequestBody @ApiParam(name = "小区信息", required = true) ScEstate body) {
+    public EmptyResourceResponse create(@RequestBody @ApiParam(value = "小区信息", required = true) ScEstate body) {
         int add = gridEstateService.create(body);
         if (add > 0) {
             return EmptyResourceResponse.INSTANCE;
@@ -116,7 +116,7 @@ public class GridEstateController {
      */
     @ApiOperation("修改")
     @PatchMapping
-    public EmptyResourceResponse update(@RequestBody @ApiParam(name = "小区信息") ScEstate body) {
+    public EmptyResourceResponse update(@RequestBody @ApiParam(value = "小区信息") ScEstate body) {
         Assert.notNull(body, "Require body");
         int delete = gridEstateService.update(body);
         if (delete == 1) {
@@ -134,7 +134,7 @@ public class GridEstateController {
      */
     @ApiOperation("删除")
     @DeleteMapping
-    public EmptyResourceResponse delete(@RequestParam("id") @ApiParam(name = "小区id", required = true) Integer id) {
+    public EmptyResourceResponse delete(@RequestParam("id") @ApiParam(value = "小区id", required = true) Integer id) {
         int delete = gridEstateService.delete(id);
         if (delete == 1) {
             return EmptyResourceResponse.INSTANCE;
@@ -151,7 +151,7 @@ public class GridEstateController {
      */
     @ApiOperation("批量删除")
     @DeleteMapping("/batchDelete")
-    public EmptyResourceResponse batchDelete(@RequestBody @ApiParam(name = "小区id列表", required = true) List<Integer> ids) {
+    public EmptyResourceResponse batchDelete(@RequestBody @ApiParam(value = "小区id列表", required = true) List<Integer> ids) {
         int size = ids == null ? 0 : ids.size();
         int delete = gridEstateService.delete(ids);
         if (delete == size) {
@@ -171,7 +171,7 @@ public class GridEstateController {
      */
     @ApiOperation("分页查询物业人员")
     @GetMapping("/staff/page")
-    public PageResultVO listStaff(@ApiParam(name = "分页请求") PageRecord paging, @ApiParam(name = "查询条件") ScPropertyStaffCondition condition) {
+    public PageResultVO listStaff(@ApiParam(value = "分页请求") PageRecord paging, @ApiParam(value = "查询条件") ScPropertyStaffCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
         return gridEstateService.listPropertyStaffPage(paging, condition);
     }
@@ -184,7 +184,7 @@ public class GridEstateController {
      */
     @ApiOperation("新增物业人员")
     @PostMapping("/staff")
-    public EmptyResourceResponse createStaff(@RequestBody @ApiParam(name = "物业人员信息", required = true) ScPropertyStaff body, @RequestParam("estateId") @ApiParam(name = "小区id", required = true) Integer estateId) {
+    public EmptyResourceResponse createStaff(@RequestBody @ApiParam(value = "物业人员信息", required = true) ScPropertyStaff body, @RequestParam("estateId") @ApiParam(value = "小区id", required = true) Integer estateId) {
         int add = gridEstateService.createStaff(body, estateId);
         if (add > 0) {
             return EmptyResourceResponse.INSTANCE;
@@ -201,7 +201,7 @@ public class GridEstateController {
      */
     @ApiOperation("修改物业人员")
     @PatchMapping("/staff")
-    public EmptyResourceResponse updateStaff(@RequestBody @ApiParam(name = "物业人员信息", required = true) ScPropertyStaff body) {
+    public EmptyResourceResponse updateStaff(@RequestBody @ApiParam(value = "物业人员信息", required = true) ScPropertyStaff body) {
         Assert.notNull(body.getId(), "Require property staff id");
         int update = gridEstateService.updateStaff(body);
         if (update > 0) {
@@ -219,7 +219,7 @@ public class GridEstateController {
      */
     @ApiOperation("删除物业人员")
     @DeleteMapping("/staff")
-    public EmptyResourceResponse deleteStaff(@RequestParam("id") @ApiParam(name = "物业人员id", required = true) Integer id, @RequestParam("estateId") @ApiParam(name = "小区id", required = true) Integer estateId) {
+    public EmptyResourceResponse deleteStaff(@RequestParam("id") @ApiParam(value = "物业人员id", required = true) Integer id, @RequestParam("estateId") @ApiParam(value = "小区id", required = true) Integer estateId) {
         int delete = gridEstateService.deleteStaff(id, estateId);
         if (delete == 1) {
             return EmptyResourceResponse.INSTANCE;
@@ -236,7 +236,7 @@ public class GridEstateController {
      */
     @ApiOperation("批量删除物业人员")
     @DeleteMapping("/staff/batchDelete")
-    public EmptyResourceResponse batchDeleteStaff(@RequestBody @ApiParam(name = "物业人员id列表", required = true) List<Integer> ids, @RequestParam("estateId") @ApiParam(name = "小区id", required = true) Integer estateId) {
+    public EmptyResourceResponse batchDeleteStaff(@RequestBody @ApiParam(value = "物业人员id列表", required = true) List<Integer> ids, @RequestParam("estateId") @ApiParam(value = "小区id", required = true) Integer estateId) {
         int size = ids == null ? 0 : ids.size();
         int delete = gridEstateService.deleteStaff(ids, estateId);
         if (delete == size) {
