@@ -1,12 +1,17 @@
 package com.sct.application.business.dto;
 
 import com.sct.service.database.entity.*;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.List;
 
+@ApiModel("网格全部信息")
 public class ScGridAll implements Serializable {
+    @ApiModelProperty("网格信息")
     private ScGrid scGrid;
+    @ApiModelProperty("网格范围")
     private ScGridRange scGridRange;
 
     public List<ScGridManager> getScGridManagerList() {

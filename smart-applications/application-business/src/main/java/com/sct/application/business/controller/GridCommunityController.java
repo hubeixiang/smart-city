@@ -17,6 +17,7 @@ import com.sct.service.database.entity.ScCommunityLeader;
 import com.sct.service.oauth2.core.constants.Oauth2Constants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
@@ -59,7 +60,7 @@ public class GridCommunityController {
      */
     @ApiOperation("分页查询")
     @GetMapping("/page")
-    public PageResultVO list(PageRecord paging, ScCommunityCondition condition) {
+    public PageResultVO list(@ApiParam(name="分页请求") PageRecord paging, @ApiParam(name="查询条件") ScCommunityCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
         PageResultVO result = gridCommunityService.listPage(paging, condition);
         return result;
@@ -73,7 +74,7 @@ public class GridCommunityController {
      */
     @ApiOperation("全部查询")
     @GetMapping("/all")
-    public ResultVOEntity listAll(ScCommunityCondition condition) {
+    public ResultVOEntity listAll(@ApiParam(name="查询条件") ScCommunityCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
         return gridCommunityService.list(condition);
     }
@@ -86,14 +87,14 @@ public class GridCommunityController {
      */
     @ApiOperation("查看详情")
     @GetMapping("/detail")
-    public ScCommunityAll detail(@RequestParam("id") Integer id) {
+    public ScCommunityAll detail(@RequestParam("id") @ApiParam(name="社区id",required=true) Integer id) {
         ScCommunityAll select = gridCommunityService.select(id);
         return select;
     }
 
     @ApiOperation("新增")
     @PostMapping
-    public EmptyResourceResponse create(@RequestBody ScCommunityAll body) {
+    public EmptyResourceResponse create(@RequestBody @ApiParam(name="社区与社区党组织信息",required=true) ScCommunityAll body) {
         ScCommunityAll add = gridCommunityService.create(body.getScCommunity(), body.getScCommunityParty());
         if (add != null && add.getScCommunityParty().getId() != null) {
             return EmptyResourceResponse.INSTANCE;
@@ -104,8 +105,7 @@ public class GridCommunityController {
 
     @ApiOperation("修改")
     @PatchMapping
-    public EmptyResourceResponse update(@RequestBody ScCommunityAll body) {
-        Assert.notNull(body, "Require request body");
+    public EmptyResourceResponse update(@RequestBody @ApiParam(name="社区与社区党组织信息",required=true) ScCommunityAll body) {
         if (body.getScCommunity() != null) {
             Assert.notNull(body.getScCommunity().getId(), "Require community id");
         }
@@ -122,7 +122,7 @@ public class GridCommunityController {
 
     @ApiOperation("删除")
     @DeleteMapping
-    public EmptyResourceResponse delete(@PathVariable("id") Integer id) {
+    public EmptyResourceResponse delete(@RequestParam("id") @ApiParam(name="社区id",required=true) Integer id) {
         int delete = gridCommunityService.delete(id);
         if (delete == 1) {
             return EmptyResourceResponse.INSTANCE;
@@ -133,7 +133,7 @@ public class GridCommunityController {
 
     @ApiOperation("批量删除")
     @DeleteMapping("/batchDelete")
-    public EmptyResourceResponse batchDelete(@RequestBody List<Integer> ids) {
+    public EmptyResourceResponse batchDelete(@RequestBody @ApiParam(name="社区id列表",required=true) List<Integer> ids) {
         int size = ids == null ? 0 : ids.size();
         int delete = gridCommunityService.delete(ids);
         if (delete == size) {
@@ -165,7 +165,7 @@ public class GridCommunityController {
      */
     @ApiOperation("分页查询领导班子")
     @GetMapping("/leader/page")
-    public PageResultVO listLeader(PageRecord paging, ScCommunityLeaderCondition condition) {
+    public PageResultVO listLeader(@ApiParam(name="分页请求") PageRecord paging, @ApiParam(name="查询条件") ScCommunityLeaderCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
         PageResultVO result = gridCommunityService.listCommunityLeaderPage(paging, condition);
         return result;
@@ -173,7 +173,7 @@ public class GridCommunityController {
 
     @ApiOperation("新增领导")
     @PostMapping("/leader")
-    public EmptyResourceResponse createLeader(@RequestBody ScCommunityLeader body) {
+    public EmptyResourceResponse createLeader(@RequestBody @ApiParam(name="领导信息", required=true) ScCommunityLeader body) {
         Assert.notNull(body.getCommunityId(), "Require community id");
         int add = gridCommunityService.createLeader(body);
         if (add > 0) {
@@ -185,8 +185,7 @@ public class GridCommunityController {
 
     @ApiOperation("修改领导")
     @PatchMapping("/leader")
-    public EmptyResourceResponse updateLeader(@RequestBody ScCommunityLeader body) {
-        Assert.notNull(body, "Require request body");
+    public EmptyResourceResponse updateLeader(@RequestBody @ApiParam(name="领导信息", required=true) ScCommunityLeader body) {
         Assert.notNull(body.getId(), "Require community leader id");
         int update = gridCommunityService.updateLeader(body);
         if (update > 0) {
@@ -198,7 +197,7 @@ public class GridCommunityController {
 
     @ApiOperation("删除领导")
     @DeleteMapping("/leader")
-    public EmptyResourceResponse deleteLeader(@PathVariable("id") Integer id) {
+    public EmptyResourceResponse deleteLeader(@RequestParam("id") @ApiParam(name="领导id", required=true) Integer id) {
         int delete = gridCommunityService.deleteLeader(id);
         if (delete == 1) {
             return EmptyResourceResponse.INSTANCE;
@@ -209,7 +208,7 @@ public class GridCommunityController {
 
     @ApiOperation("批量删除领导")
     @DeleteMapping("/leader/batchDelete")
-    public EmptyResourceResponse batchDeleteLeader(@RequestBody List<Integer> ids) {
+    public EmptyResourceResponse batchDeleteLeader(@RequestBody @ApiParam(name="领导id列表", required=true) List<Integer> ids) {
         int size = ids == null ? 0 : ids.size();
         int delete = gridCommunityService.deleteLeader(ids);
         if (delete == size) {

@@ -17,6 +17,7 @@ import com.sct.service.database.entity.ScGridManager;
 import com.sct.service.oauth2.core.constants.Oauth2Constants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
@@ -55,7 +56,7 @@ public class GridGridController {
      */
     @ApiOperation("分页查询")
     @GetMapping("/page")
-    public PageResultVO list(PageRecord paging, ScGridCondition condition) {
+    public PageResultVO list(@ApiParam(name="分页请求") PageRecord paging, @ApiParam(name="查询条件") ScGridCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
         PageResultVO result = gridGridService.listPage(paging, condition);
         return result;
@@ -69,7 +70,7 @@ public class GridGridController {
      */
     @ApiOperation("全部查询")
     @GetMapping("/all")
-    public ResultVOEntity listAll(ScGridCondition condition) {
+    public ResultVOEntity listAll(@ApiParam(name="查询条件") ScGridCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
         return gridGridService.list(condition);
     }
@@ -82,14 +83,14 @@ public class GridGridController {
      */
     @ApiOperation("查看详情")
     @GetMapping("/detail")
-    public ScGridAll detail(@RequestParam("id") Integer id) {
+    public ScGridAll detail(@RequestParam("id") @ApiParam(name="网格id",required=true)  Integer id) {
         ScGridAll select = gridGridService.select(id);
         return select;
     }
 
     @ApiOperation("新增")
     @PostMapping
-    public EmptyResourceResponse create(@RequestBody ScGrid body) {
+    public EmptyResourceResponse create(@RequestBody @ApiParam(name="网格信息",required=true) ScGrid body) {
         int add = gridGridService.create(body);
         if (add > 0) {
             return EmptyResourceResponse.INSTANCE;
@@ -100,8 +101,7 @@ public class GridGridController {
 
     @ApiOperation("修改")
     @PatchMapping
-    public EmptyResourceResponse update(@RequestBody ScGrid body) {
-        Assert.notNull(body, "Require body");
+    public EmptyResourceResponse update(@RequestBody @ApiParam(name="网格信息",required=true) ScGrid body) {
         int delete = gridGridService.update(body);
         if (delete == 1) {
             return EmptyResourceResponse.INSTANCE;
@@ -112,7 +112,7 @@ public class GridGridController {
 
     @ApiOperation("删除")
     @DeleteMapping
-    public EmptyResourceResponse delete(@PathVariable("id") Integer id) {
+    public EmptyResourceResponse delete(@RequestParam("id") @ApiParam(name="网格id",required=true) Integer id) {
         int delete = gridGridService.delete(id);
         if (delete == 1) {
             return EmptyResourceResponse.INSTANCE;
@@ -123,7 +123,7 @@ public class GridGridController {
 
     @ApiOperation("批量删除")
     @DeleteMapping("/batchDelete")
-    public EmptyResourceResponse batchDelete(@RequestBody List<Integer> ids) {
+    public EmptyResourceResponse batchDelete(@RequestBody @ApiParam(name="网格id列表",required=true) List<Integer> ids) {
         int size = ids == null ? 0 : ids.size();
         int delete = gridGridService.delete(ids);
         if (delete == size) {
@@ -143,7 +143,7 @@ public class GridGridController {
      */
     @ApiOperation("分页查询网格员")
     @GetMapping("/manager/page")
-    public PageResultVO listManager(PageRecord paging, ScGridManagerCondition condition) {
+    public PageResultVO listManager(@ApiParam(name="分页请求") PageRecord paging, @ApiParam(name="查询条件") ScGridManagerCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
         PageResultVO result = gridGridService.listGridManagerPage(paging, condition);
         return result;
@@ -157,7 +157,7 @@ public class GridGridController {
      */
     @ApiOperation("新增网格员")
     @PostMapping("/manager")
-    public EmptyResourceResponse createManager(@RequestBody ScGridManager body) {
+    public EmptyResourceResponse createManager(@RequestBody @ApiParam(name="网格员信息",required=true) ScGridManager body) {
         Assert.notNull(body.getGridId(), "Require grid id");
         int add = gridGridService.createManager(body);
         if (add > 0) {
@@ -175,8 +175,7 @@ public class GridGridController {
      */
     @ApiOperation("修改网格员")
     @PatchMapping("/manager")
-    public EmptyResourceResponse updateManager(@RequestBody ScGridManager body) {
-        Assert.notNull(body, "Require request body");
+    public EmptyResourceResponse updateManager(@RequestBody @ApiParam(name="网格员信息",required=true) ScGridManager body) {
         Assert.notNull(body.getId(), "Require grid manager id");
         int update = gridGridService.updateManager(body);
         if (update > 0) {
@@ -194,7 +193,7 @@ public class GridGridController {
      */
     @ApiOperation("删除网格员")
     @DeleteMapping("/manager")
-    public EmptyResourceResponse deleteManager(@PathVariable("id") Integer id) {
+    public EmptyResourceResponse deleteManager(@RequestParam("id") @ApiParam(name="网格员id",required=true) Integer id) {
         int delete = gridGridService.deleteManager(id);
         if (delete == 1) {
             return EmptyResourceResponse.INSTANCE;
@@ -211,7 +210,7 @@ public class GridGridController {
      */
     @ApiOperation("批量删除网格员")
     @DeleteMapping("/manager/batchDelete")
-    public EmptyResourceResponse batchDeleteManager(@RequestBody List<Integer> ids) {
+    public EmptyResourceResponse batchDeleteManager(@RequestBody @ApiParam(name="网格员id列表",required=true) List<Integer> ids) {
         int size = ids == null ? 0 : ids.size();
         int delete = gridGridService.deleteManager(ids);
         if (delete == size) {

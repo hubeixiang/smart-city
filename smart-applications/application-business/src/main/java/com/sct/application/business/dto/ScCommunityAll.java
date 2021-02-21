@@ -3,12 +3,17 @@ package com.sct.application.business.dto;
 import com.sct.service.database.entity.ScCommunity;
 import com.sct.service.database.entity.ScCommunityLeader;
 import com.sct.service.database.entity.ScCommunityParty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.List;
 
+@ApiModel("社区全部信息")
 public class ScCommunityAll implements Serializable {
+    @ApiModelProperty("社区信息")
     private ScCommunity scCommunity;
+    @ApiModelProperty("社区党组织信息")
     private ScCommunityParty scCommunityParty;
 
     public List<ScCommunityLeader> getScCommunityLeaderList() {
