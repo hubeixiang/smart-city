@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.List;
 
-@ApiModel(value = "社区全部信息")
+@ApiModel(value = "ScCommunityAll", description = "社区全部信息")
 public class ScCommunityAll implements Serializable {
     @ApiModelProperty(value = "社区信息")
     private ScCommunity scCommunity;
