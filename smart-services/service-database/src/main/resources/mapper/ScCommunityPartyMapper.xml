@@ -24,6 +24,15 @@
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
 
+  <sql id="allNonColumns"> name, name_short,
+    parent_name, party_type, party_level,
+    comment, contacts, mobile,
+    email, community_id, is_sub_party,
+    create_time, creator_id, modify_time </sql>
+  <sql id="allColumns">id, <include refid="allNonColumns"></include>
+  </sql>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated
@@ -132,6 +141,41 @@
     mobile, email, community_id, is_sub_party, create_time, creator_id, modify_time
     from sc_community_party
     where community_id = #{communityId,jdbcType=INTEGER}
+  </select>
+
+
+  <delete id="deleteByPrimaryKeys">
+    delete from sc_community_party
+    where id in (
+    <foreach item="itemListValue" collection="ids" separator=",">
+      #{itemListValue}
+    </foreach>
+    )
+  </delete>
+
+  <select id="selectCondition" resultMap="BaseResultMap">
+    select
+    <include refid="allColumns"/>
+    from sc_community_party
+    <where>
+      <include refid="queryCondition"/>
+    </where>
+  </select>
+
+  <select id="selectConditionCount" resultType="int">
+    select count(*) from sc_community_party
+    <where>
+      <include refid="queryCondition"></include>
+    </where>
+  </select>
+  <select id="selectConditionPage" resultMap="BaseResultMap">
+    select
+    <include refid="allColumns"/>
+    from sc_community_party
+    <where>
+      <include refid="queryCondition"/>
+    </where>
+    limit ${qPaging.startIndex},${qPaging.endIndex}
   </select>
 
 </mapper>
