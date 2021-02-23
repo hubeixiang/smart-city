@@ -153,6 +153,12 @@
     )
   </delete>
 
+  <sql id="queryCondition">
+    <if test="condition.name !=null and condition.name != ''">
+      and name like '%${condition.name}%'
+    </if>
+  </sql>
+
   <select id="selectCondition" resultMap="BaseResultMap">
     select
     <include refid="allColumns"/>
