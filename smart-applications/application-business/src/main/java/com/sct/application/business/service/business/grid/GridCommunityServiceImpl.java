@@ -34,14 +34,23 @@ public class GridCommunityServiceImpl {
     @Autowired
     private ScCommunityLeaderImpl scCommunityLeaderImpl;
 
-    //    @Transactional(rollbackFor = Exception.class)
-    @Transactional
-    public ScCommunityAll create(ScCommunity scCommunity, ScCommunityParty scCommunityParty) {
-        fillCreateInfo(scCommunity, scCommunityParty);
-        ScCommunity community = scCommunityImpl.insert(scCommunity);
-        scCommunityParty.setCommunityId(community.getId());
-        ScCommunityParty party = scCommunityPartyImpl.insert(scCommunityParty);
-        return new ScCommunityAll(community, party, null);
+
+
+    public ScCommunity create(ScCommunity body) {
+        body.setId(this.generateId(body.getName(),body.getMobile()));
+        return scCommunityImpl.insert(body);
+    }
+
+    public int update(ScCommunity body) {
+        return scCommunityImpl.update(body);
+    }
+
+    public int delete(Integer id) {
+        return scCommunityImpl.delete(id);
+    }
+
+    public int delete(List<Integer> ids) {
+        return scCommunityImpl.deletes(ids);
     }
 
     private void fillCreateInfo(ScCommunity scCommunity, ScCommunityParty scCommunityParty) {
@@ -61,8 +70,29 @@ public class GridCommunityServiceImpl {
         return IntIdGenerator.getCRC32(idStr);
     }
 
+    /**
+     * 同时创建社区和党组织（暂时不用，要分开创建）
+     *
+     * @param scCommunity
+     * @param scCommunityParty
+     * @return
+     */
+    @Deprecated
     @Transactional
-    public int delete(Integer id) {
+    public ScCommunityAll create(ScCommunity scCommunity, ScCommunityParty scCommunityParty) {
+        fillCreateInfo(scCommunity, scCommunityParty);
+        ScCommunity community = scCommunityImpl.insert(scCommunity);
+        scCommunityParty.setCommunityId(community.getId());
+        ScCommunityParty party = scCommunityPartyImpl.insert(scCommunityParty);
+        return new ScCommunityAll(community, party, null);
+    }
+
+    /**
+     * 同时删除社区和党组织（暂时不用，要分开删除）
+     */
+    @Deprecated
+    @Transactional
+    public int deleteCommunityAndParty(Integer id) {
         int deleteScCommunityParty =  scCommunityPartyImpl.deleteByCommunityId(id);
         if (deleteScCommunityParty <= 0) {
             throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除原纪录子表失败");
@@ -74,14 +104,23 @@ public class GridCommunityServiceImpl {
         return deleteCommunity;
     }
 
+    /**
+     * 同时删除多个社区和党组织（暂时不用，要分开删除）
+     */
+    @Deprecated
     @Transactional
-    public int delete(List<Integer> ids) {
+    public int deleteCommunitiesAndParties(List<Integer> ids) {
         if (CollectionUtils.isEmpty(ids)) {
             return 0;
         }
         scCommunityPartyImpl.deleteByCommunityIds(ids);
         return scCommunityImpl.deletes(ids);
     }
+
+    /**
+     * 同时更新多个社区和党组织（暂时不用，要分开更新）
+     */
+    @Deprecated
     @Transactional
     public ScCommunityAll update(ScCommunity scCommunity, ScCommunityParty scCommunityParty) {
         //先删后增
@@ -146,5 +185,7 @@ public class GridCommunityServiceImpl {
         all.setScCommunityLeaderList(scCommunityLeaderImpl.selectByCommunityId(id));
         return all;
     }
+
+
 
 }

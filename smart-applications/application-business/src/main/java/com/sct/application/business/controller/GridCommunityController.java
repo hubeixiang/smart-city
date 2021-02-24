@@ -6,25 +6,21 @@ import com.sct.application.business.service.business.grid.GridCommunityServiceIm
 import com.sct.service.core.web.exception.APIException;
 import com.sct.service.core.web.exception.ExceptionCode;
 import com.sct.service.core.web.support.collection.PageResultVO;
-import com.sct.service.core.web.support.collection.ResultMap;
 import com.sct.service.core.web.support.collection.ResultVOEntity;
 import com.sct.service.core.web.support.collection.pages.PageRecord;
 import com.sct.service.core.web.support.simple.EmptyResourceResponse;
 import com.sct.service.core.web.support.simple.SimpleResourceResponse;
 import com.sct.service.database.condition.ScCommunityCondition;
-import com.sct.service.database.condition.ScCommunityLeaderCondition;
-import com.sct.service.database.entity.ScCommunityLeader;
+import com.sct.service.database.entity.ScCommunity;
 import com.sct.service.oauth2.core.constants.Oauth2Constants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 网格化管理->社区管理
@@ -37,44 +33,40 @@ public class GridCommunityController {
     @Autowired
     private GridCommunityServiceImpl gridCommunityService;
 
-//    @Autowired
-//    private ScCommunityImpl scCommunityImpl;
-
     /**
      * 页面打开需要初始化的相关信息
      *
-     * @return
+     * @return return
      */
     @ApiOperation("页面初始化")
     @GetMapping
     public SimpleResourceResponse init(Model model) {
-        return SimpleResourceResponse.of("ok");
+        return SimpleResourceResponse.of("网格化管理->社区管理");
     }
 
     /**
      * 分页查询
      *
-     * @param paging
-     * @param condition
-     * @return
+     * @param paging    paging
+     * @param condition condition
+     * @return return
      */
     @ApiOperation("分页查询")
     @GetMapping("/page")
-    public PageResultVO list(@ApiParam(value="分页请求") PageRecord paging, @ApiParam(value="查询条件") ScCommunityCondition condition) {
+    public PageResultVO list(@ApiParam(value = "分页请求") PageRecord paging, @ApiParam(value = "查询条件") ScCommunityCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
-        PageResultVO result = gridCommunityService.listPage(paging, condition);
-        return result;
+        return gridCommunityService.listPage(paging, condition);
     }
 
     /**
      * 全部查询
      *
-     * @param condition
-     * @return
+     * @param condition condition
+     * @return return
      */
     @ApiOperation("全部查询")
     @GetMapping("/all")
-    public ResultVOEntity listAll(@ApiParam(value="查询条件") ScCommunityCondition condition) {
+    public ResultVOEntity listAll(@ApiParam(value = "查询条件") ScCommunityCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
         return gridCommunityService.list(condition);
     }
@@ -82,64 +74,65 @@ public class GridCommunityController {
 
     /**
      * 通过Id查询社区详情
-     * @param id
-     * @return
+     *
+     * @param id id
+     * @return return
      */
     @ApiOperation("查看详情")
-    @GetMapping("/detail")
-    public ScCommunityAll detail(@RequestParam("id") @ApiParam(value="社区id",required=true) Integer id) {
+    @GetMapping("/detail/{id}")
+    public ScCommunityAll detail(@PathVariable("id") @ApiParam(value = "社区id", required = true) Integer id) {
         ScCommunityAll select = gridCommunityService.select(id);
-        return select;
+        if (select != null) {
+            return select;
+        } else {
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("查询详情, 可能原因：id[%s]不存在", id));
+        }
     }
 
-    @ApiOperation("新增")
+    @ApiOperation("新增社区")
     @PostMapping
-    public EmptyResourceResponse create(@RequestBody @ApiParam(value="社区与社区党组织信息",required=true) ScCommunityAll body) {
-        ScCommunityAll add = gridCommunityService.create(body.getScCommunity(), body.getScCommunityParty());
-        if (add != null && add.getScCommunityParty().getId() != null) {
+    public EmptyResourceResponse create(@RequestBody @ApiParam(value = "社区信息", required = true) ScCommunity body) {
+        ScCommunity add = gridCommunityService.create(body);
+        if (add != null && add.getId() != null) {
+//            return ResponseEntity.ok(HttpResultEntity.ok());
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功, 请检查数据");
         }
     }
 
-    @ApiOperation("修改")
-    @PatchMapping
-    public EmptyResourceResponse update(@RequestBody @ApiParam(value="社区与社区党组织信息",required=true) ScCommunityAll body) {
-        if (body.getScCommunity() != null) {
-            Assert.notNull(body.getScCommunity().getId(), "Require community id");
-        }
-        if (body.getScCommunityParty() != null) {
-            Assert.notNull(body.getScCommunityParty().getId(), "Require community party id");
-        }
-        ScCommunityAll update = gridCommunityService.update(body.getScCommunity(), body.getScCommunityParty());
-        if (update != null && update.getScCommunity().getId() != null) {
+    @ApiOperation("修改社区")
+    @PatchMapping("/{id}")
+    public EmptyResourceResponse update(@PathVariable("id") @ApiParam(value = "社区id", required = true) Integer id, @RequestBody @ApiParam(value = "社区信息", required = true) ScCommunity body) {
+        body.setId(id);
+        int update = gridCommunityService.update(body);
+        if (update > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("修改失败，未修改任何数据, 可能原因：id[%s]不存在", id));
         }
     }
 
-    @ApiOperation("删除")
-    @DeleteMapping
-    public EmptyResourceResponse delete(@RequestParam("id") @ApiParam(value="社区id",required=true) Integer id) {
+    @ApiOperation("删除社区")
+    @DeleteMapping("/{id}")
+    public EmptyResourceResponse delete(@PathVariable("id") @ApiParam(value = "社区id", required = true) Integer id) {
         int delete = gridCommunityService.delete(id);
-        if (delete == 1) {
+        if (delete > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除失败,未删除任何记录");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("删除失败,未删除任何数据,可能原因：id[%s]不存在", id));
         }
     }
 
-    @ApiOperation("批量删除")
-    @DeleteMapping("/batchDelete")
-    public EmptyResourceResponse batchDelete(@RequestBody @ApiParam(value="社区id列表",required=true) List<Integer> ids) {
+    @ApiOperation("批量删除社区")
+    @DeleteMapping
+    public EmptyResourceResponse batchDelete(@RequestBody @ApiParam(value = "社区id列表", required = true) List<Integer> ids) {
         int size = ids == null ? 0 : ids.size();
         int delete = gridCommunityService.delete(ids);
         if (delete == size) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除失败,未删除任何记录");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("实际删除数据[%d]少于计划删除[%d],可能原因：以前删除过", delete, size));
         }
     }
 
@@ -147,7 +140,7 @@ public class GridCommunityController {
     /**
      * 社区id与名字映射
      *
-     * @return
+     * @return return
      */
     @ApiOperation("社区id与名字映射")
     @GetMapping("/idNameMapping")
@@ -156,13 +149,13 @@ public class GridCommunityController {
     }
 
 
-    /**
+    /* *//**
      * 分页查询领导班子
      *
      * @param paging
      * @param condition
      * @return
-     */
+     *//*
     @ApiOperation("分页查询领导班子")
     @GetMapping("/leader/page")
     public PageResultVO listLeader(@ApiParam(value="分页请求") PageRecord paging, @ApiParam(value="查询条件") ScCommunityLeaderCondition condition) {
@@ -179,43 +172,44 @@ public class GridCommunityController {
         if (add > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功, 请检查数据");
         }
     }
 
     @ApiOperation("修改领导")
-    @PatchMapping("/leader")
-    public EmptyResourceResponse updateLeader(@RequestBody @ApiParam(value="领导信息", required=true) ScCommunityLeader body) {
-        Assert.notNull(body.getId(), "Require community leader id");
+    @PatchMapping("/leader/{id}")
+    public EmptyResourceResponse updateLeader(@PathVariable("id") @ApiParam(value="领导id",required=true) Integer id, @RequestBody @ApiParam(value="领导信息", required=true) ScCommunityLeader body) {
+        Assert.notNull(id, "Require community leader id");
+        body.setId(id);
         int update = gridCommunityService.updateLeader(body);
         if (update > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功,未更新任何记录");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("修改失败，未修改任何数据, 可能原因：id[%s]不存在",id));
         }
     }
 
     @ApiOperation("删除领导")
-    @DeleteMapping("/leader")
-    public EmptyResourceResponse deleteLeader(@RequestParam("id") @ApiParam(value="领导id", required=true) Integer id) {
+    @DeleteMapping("/leader/{id}")
+    public EmptyResourceResponse deleteLeader(@PathVariable("id") @ApiParam(value="领导id", required=true) Integer id) {
         int delete = gridCommunityService.deleteLeader(id);
-        if (delete == 1) {
+        if (delete > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除失败,未删除任何记录");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("删除失败,未删除任何数据,可能原因：id[%s]不存在",id));
         }
     }
 
     @ApiOperation("批量删除领导")
-    @DeleteMapping("/leader/batchDelete")
+    @DeleteMapping("/leader")
     public EmptyResourceResponse batchDeleteLeader(@RequestBody @ApiParam(value="领导id列表", required=true) List<Integer> ids) {
         int size = ids == null ? 0 : ids.size();
         int delete = gridCommunityService.deleteLeader(ids);
         if (delete == size) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除失败,未删除任何记录");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("实际删除数据[%d]少于计划删除[%d],可能原因：以前删除过", delete, size));
         }
-    }
+    }*/
 
 }

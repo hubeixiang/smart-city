@@ -86,7 +86,11 @@ public class GridGridServiceImpl {
     @Transactional
     public ScGridAll select(Integer id) {
         ScGridAll all = new ScGridAll();
-        all.setScGrid(scGridImpl.select(id));
+        ScGrid scGrid = scGridImpl.select(id);
+        if(scGrid == null) {
+            return null;
+        }
+        all.setScGrid(scGrid);
         all.setScGridRange(scGridRangeImpl.selectByGridId(id));
         all.setScGridManagerList(scGridManagerImpl.selectByGridId(id));
         return all;

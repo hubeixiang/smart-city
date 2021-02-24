@@ -79,13 +79,13 @@ public class GridBuildingController {
      * @return return
      */
     @ApiOperation("查看详情")
-    @GetMapping("/detail")
-    public ScBuilding detail(@RequestParam("id") @ApiParam(value = "建筑id", required = true) Integer id) {
+    @GetMapping("/detail/{id}")
+    public ScBuilding detail(@PathVariable("id") @ApiParam(value = "建筑id", required = true) Integer id) {
         ScBuilding select = gridBuildingService.select(id);
         if (select != null) {
             return select;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "查询详情失败");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("查询详情, 可能原因：id[%s]不存在",id));
         }
     }
 
@@ -95,14 +95,14 @@ public class GridBuildingController {
      * @param body body
      * @return return
      */
-    @ApiOperation("新增")
+    @ApiOperation("新增建筑")
     @PostMapping
     public EmptyResourceResponse create(@RequestBody @ApiParam(value = "建筑信息", required = true) ScBuilding body) {
         int add = gridBuildingService.create(body);
         if (add > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功, 请检查数据");
         }
     }
 
@@ -112,15 +112,15 @@ public class GridBuildingController {
      * @param body body
      * @return return
      */
-    @ApiOperation("修改")
-    @PatchMapping
-    public EmptyResourceResponse update(@RequestBody @ApiParam(value = "建筑信息") ScBuilding body) {
-        Assert.notNull(body, "Require body");
-        int delete = gridBuildingService.update(body);
-        if (delete == 1) {
+    @ApiOperation("修改建筑")
+    @PatchMapping("/{id}")
+    public EmptyResourceResponse update(@PathVariable("id") @ApiParam(value="建筑id",required=true) Integer id, @RequestBody @ApiParam(value = "建筑信息") ScBuilding body) {
+        body.setId(id);
+        int update = gridBuildingService.update(body);
+        if (update > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未更新任何数据");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("修改失败，未修改任何数据, 可能原因：id[%s]不存在",id));
         }
     }
 
@@ -130,14 +130,14 @@ public class GridBuildingController {
      * @param id id
      * @return return
      */
-    @ApiOperation("删除")
-    @DeleteMapping
-    public EmptyResourceResponse delete(@RequestParam("id") @ApiParam(value = "建筑id", required = true) Integer id) {
+    @ApiOperation("删除建筑")
+    @DeleteMapping("/{id}")
+    public EmptyResourceResponse delete(@PathVariable("id") @ApiParam(value = "建筑id", required = true) Integer id) {
         int delete = gridBuildingService.delete(id);
-        if (delete == 1) {
+        if (delete > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未删除任何数据");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("删除失败,未删除任何数据,可能原因：id[%s]不存在",id));
         }
     }
 
@@ -147,15 +147,15 @@ public class GridBuildingController {
      * @param ids ids
      * @return return
      */
-    @ApiOperation("批量删除")
-    @DeleteMapping("/batchDelete")
+    @ApiOperation("批量删除建筑")
+    @DeleteMapping
     public EmptyResourceResponse batchDelete(@RequestBody @ApiParam(value = "建筑id列表", required = true) List<Integer> ids) {
         int size = ids == null ? 0 : ids.size();
         int delete = gridBuildingService.delete(ids);
         if (delete == size) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未删除任何数据");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("实际删除数据[%d]少于计划删除[%d],可能原因：以前删除过", delete, size));
         }
     }
 }

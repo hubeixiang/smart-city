@@ -46,19 +46,19 @@ public class GridGridController {
     @ApiOperation("页面初始化")
     @GetMapping
     public SimpleResourceResponse init(Model model) {
-        return SimpleResourceResponse.of("ok");
+        return SimpleResourceResponse.of("网格化管理->网格管理");
     }
 
     /**
      * 分页查询
      *
-     * @param paging paging
+     * @param paging    paging
      * @param condition condition
      * @return return
      */
     @ApiOperation("分页查询")
     @GetMapping("/page")
-    public PageResultVO list(@ApiParam(value="分页请求") PageRecord paging, @ApiParam(value="查询条件") ScGridCondition condition) {
+    public PageResultVO list(@ApiParam(value = "分页请求") PageRecord paging, @ApiParam(value = "查询条件") ScGridCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
         return gridEstateService.listPage(paging, condition);
     }
@@ -71,7 +71,7 @@ public class GridGridController {
      */
     @ApiOperation("全部查询")
     @GetMapping("/all")
-    public ResultVOEntity listAll(@ApiParam(value="查询条件") ScGridCondition condition) {
+    public ResultVOEntity listAll(@ApiParam(value = "查询条件") ScGridCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
         return gridEstateService.list(condition);
     }
@@ -83,9 +83,14 @@ public class GridGridController {
      * @return return
      */
     @ApiOperation("查看详情")
-    @GetMapping("/detail")
-    public ScGridAll detail(@RequestParam("id") @ApiParam(value="网格id",required=true)  Integer id) {
-        return gridEstateService.select(id);
+    @GetMapping("/detail/{id}")
+    public ScGridAll detail(@PathVariable("id") @ApiParam(value = "网格id", required = true) Integer id) {
+        ScGridAll select = gridEstateService.select(id);
+        if (select != null) {
+            return select;
+        } else {
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("查询详情, 可能原因：id[%s]不存在", id));
+        }
     }
 
     /**
@@ -94,31 +99,32 @@ public class GridGridController {
      * @param body body
      * @return return
      */
-    @ApiOperation("新增")
+    @ApiOperation("新增网格")
     @PostMapping
-    public EmptyResourceResponse create(@RequestBody @ApiParam(value="网格信息",required=true) ScGrid body) {
+    public EmptyResourceResponse create(@RequestBody @ApiParam(value = "网格信息", required = true) ScGrid body) {
         int add = gridEstateService.create(body);
         if (add > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功, 请检查数据");
         }
     }
 
     /**
-     *  修改网格信息
+     * 修改网格信息
      *
      * @param body body
      * @return return
      */
-    @ApiOperation("修改")
-    @PatchMapping
-    public EmptyResourceResponse update(@RequestBody @ApiParam(value="网格信息",required=true) ScGrid body) {
-        int delete = gridEstateService.update(body);
-        if (delete == 1) {
+    @ApiOperation("修改网格")
+    @PatchMapping("/{id}")
+    public EmptyResourceResponse update(@PathVariable("id") @ApiParam(value = "网格id", required = true) Integer id, @RequestBody @ApiParam(value = "网格信息", required = true) ScGrid body) {
+        body.setId(id);
+        int update = gridEstateService.update(body);
+        if (update > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未更新任何数据");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("修改失败，未修改任何数据, 可能原因：id[%s]不存在", id));
         }
     }
 
@@ -129,38 +135,38 @@ public class GridGridController {
      * @return return
      */
     @ApiOperation("删除")
-    @DeleteMapping
-    public EmptyResourceResponse delete(@RequestParam("id") @ApiParam(value="网格id",required=true) Integer id) {
+    @DeleteMapping("/{id}")
+    public EmptyResourceResponse delete(@PathVariable("id") @ApiParam(value = "网格id", required = true) Integer id) {
         int delete = gridEstateService.delete(id);
-        if (delete == 1) {
+        if (delete > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未删除任何数据");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("删除失败,未删除任何数据,可能原因：id[%s]不存在", id));
         }
     }
 
-    @ApiOperation("批量删除")
-    @DeleteMapping("/batchDelete")
-    public EmptyResourceResponse batchDelete(@RequestBody @ApiParam(value="网格id列表",required=true) List<Integer> ids) {
+    @ApiOperation("批量删除网格")
+    @DeleteMapping
+    public EmptyResourceResponse batchDelete(@RequestBody @ApiParam(value = "网格id列表", required = true) List<Integer> ids) {
         int size = ids == null ? 0 : ids.size();
         int delete = gridEstateService.delete(ids);
         if (delete == size) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未删除任何数据");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("实际删除数据[%d]少于计划删除[%d],可能原因：以前删除过", delete, size));
         }
     }
 
     /**
      * 分页查询网格员
      *
-     * @param paging paging
+     * @param paging    paging
      * @param condition condition
      * @return return
      */
     @ApiOperation("分页查询网格员")
     @GetMapping("/manager/page")
-    public PageResultVO listManager(@ApiParam(value="分页请求") PageRecord paging, @ApiParam(value="查询条件") ScGridManagerCondition condition) {
+    public PageResultVO listManager(@ApiParam(value = "分页请求") PageRecord paging, @ApiParam(value = "查询条件") ScGridManagerCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
         return gridEstateService.listGridManagerPage(paging, condition);
     }
@@ -173,13 +179,13 @@ public class GridGridController {
      */
     @ApiOperation("新增网格员")
     @PostMapping("/manager")
-    public EmptyResourceResponse createManager(@RequestBody @ApiParam(value="网格员信息",required=true) ScGridManager body) {
+    public EmptyResourceResponse createManager(@RequestBody @ApiParam(value = "网格员信息", required = true) ScGridManager body) {
         Assert.notNull(body.getGridId(), "Require grid id");
         int add = gridEstateService.createManager(body);
         if (add > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功, 请检查数据");
         }
     }
 
@@ -190,14 +196,15 @@ public class GridGridController {
      * @return return
      */
     @ApiOperation("修改网格员")
-    @PatchMapping("/manager")
-    public EmptyResourceResponse updateManager(@RequestBody @ApiParam(value="网格员信息",required=true) ScGridManager body) {
+    @PatchMapping("/manager/{id}")
+    public EmptyResourceResponse updateManager(@PathVariable("id") @ApiParam(value = "网格员id", required = true) Integer id, @RequestBody @ApiParam(value = "网格员信息", required = true) ScGridManager body) {
         Assert.notNull(body.getId(), "Require grid manager id");
+        body.setId(id);
         int update = gridEstateService.updateManager(body);
         if (update > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未更新任何数据");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("修改失败，未修改任何数据, 可能原因：id[%s]不存在", id));
         }
     }
 
@@ -208,13 +215,13 @@ public class GridGridController {
      * @return return
      */
     @ApiOperation("删除网格员")
-    @DeleteMapping("/manager")
-    public EmptyResourceResponse deleteManager(@RequestParam("id") @ApiParam(value="网格员id",required=true) Integer id) {
+    @DeleteMapping("/manager/{id}")
+    public EmptyResourceResponse deleteManager(@PathVariable("id") @ApiParam(value = "网格员id", required = true) Integer id) {
         int delete = gridEstateService.deleteManager(id);
-        if (delete == 1) {
+        if (delete > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未删除任何数据");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("删除失败,未删除任何数据,可能原因：id[%s]不存在", id));
         }
     }
 
@@ -225,14 +232,14 @@ public class GridGridController {
      * @return return
      */
     @ApiOperation("批量删除网格员")
-    @DeleteMapping("/manager/batchDelete")
-    public EmptyResourceResponse batchDeleteManager(@RequestBody @ApiParam(value="网格员id列表",required=true) List<Integer> ids) {
+    @DeleteMapping("/manager")
+    public EmptyResourceResponse batchDeleteManager(@RequestBody @ApiParam(value = "网格员id列表", required = true) List<Integer> ids) {
         int size = ids == null ? 0 : ids.size();
         int delete = gridEstateService.deleteManager(ids);
         if (delete == size) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未删除任何数据");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("实际删除数据[%d]少于计划删除[%d],可能原因：以前删除过", delete, size));
         }
     }
 
@@ -240,13 +247,13 @@ public class GridGridController {
     /**
      * 分页查询网格员考评信息
      *
-     * @param paging paging
+     * @param paging    paging
      * @param condition condition
      * @return return
      */
     @ApiOperation("分页查询网格员考评信息")
     @GetMapping("/evaluation/page")
-    public PageResultVO listEvaluation(@ApiParam(value="分页请求") PageRecord paging, @ApiParam(value="查询条件") ScGridEvaluationCondition condition) {
+    public PageResultVO listEvaluation(@ApiParam(value = "分页请求") PageRecord paging, @ApiParam(value = "查询条件") ScGridEvaluationCondition condition) {
         return gridEstateService.listGridEvaluationPage(paging, condition);
     }
 
@@ -263,7 +270,7 @@ public class GridGridController {
         if (add > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功, 请检查数据");
         }
     }
 
@@ -274,52 +281,52 @@ public class GridGridController {
      * @return return
      */
     @ApiOperation("修改考评信息")
-    @PatchMapping("/evaluation")
-    public EmptyResourceResponse updateEvaluation(@RequestBody @ApiParam(value = "考评信息", required = true) ScGridEvaluation body) {
-        Assert.notNull(body.getGridId(), "Require grid id");
-        Assert.notNull(body.getGridManagerId(), "Require grid manager id");
+    @PatchMapping("/evaluation/{gridId}/{gridManagerId}")
+    public EmptyResourceResponse updateEvaluation(@PathVariable("gridId") @ApiParam(value = "网格id", required = true) Integer gridId, @PathVariable("gridManagerId") @ApiParam(value = "网格员id", required = true) Integer gridManagerId, @RequestBody @ApiParam(value = "考评信息", required = true) ScGridEvaluation body) {
+        body.setGridId(gridId);
+        body.setGridManagerId(gridManagerId);
         int update = gridEstateService.updateEvaluation(body);
         if (update > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未更新任何数据");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("修改失败，未修改任何数据, 可能原因：gridId[%s] gridManagerId[%s]不存在", gridId, gridManagerId));
         }
     }
 
     /**
      * 删除考评信息
      *
-     * @param gridId gridId
+     * @param gridId        gridId
      * @param gridManagerId gridManagerId
      * @return return
      */
     @ApiOperation("删除考评信息")
-    @DeleteMapping("/evaluation")
-    public EmptyResourceResponse deleteEvaluation(@RequestParam("gridId") @ApiParam(value = "网格id", required = true) Integer gridId, @RequestParam("gridManagerId") @ApiParam(value = "网格员id", required = true) Integer gridManagerId) {
+    @DeleteMapping("/evaluation/{gridId}/{gridManagerId}")
+    public EmptyResourceResponse deleteEvaluation(@PathVariable("gridId") @ApiParam(value = "网格id", required = true) Integer gridId, @PathVariable("gridManagerId") @ApiParam(value = "网格员id", required = true) Integer gridManagerId) {
         int delete = gridEstateService.deleteEvaluation(gridId, gridManagerId);
         if (delete == 1) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未删除任何数据");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("删除失败，未删除任何数据, 可能原因：gridId[%s] gridManagerId[%s]不存在", gridId, gridManagerId));
         }
     }
 
     /**
      * 批量删除考评信息
      *
-     * @param gridId gridId
+     * @param gridId         gridId
      * @param gridManagerIds gridManagerIds
      * @return return
      */
     @ApiOperation("批量删除考评信息")
-    @DeleteMapping("/evaluation/batchDelete")
+    @DeleteMapping("/evaluation")
     public EmptyResourceResponse batchDeleteEvaluation(@RequestParam("gridId") @ApiParam(value = "网格id", required = true) Integer gridId, @RequestParam("gridManagerIds") @ApiParam(value = "网格员id列表", required = true) List<Integer> gridManagerIds) {
         int size = gridManagerIds == null ? 0 : gridManagerIds.size();
         int delete = gridEstateService.deleteEvaluation(gridId, gridManagerIds);
         if (delete == size) {
             return EmptyResourceResponse.INSTANCE;
         } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "未删除任何数据");
+            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("实际删除数据[%d]少于计划删除[%d],可能原因：以前删除过", delete, size));
         }
     }
 }
