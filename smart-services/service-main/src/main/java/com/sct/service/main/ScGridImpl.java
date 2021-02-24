@@ -69,4 +69,8 @@ public class ScGridImpl {
     public ScGrid select(Integer id) {
         return scGridMapper.selectByPrimaryKey(id);
     }
+
+    public int updateValidStatus(Integer id, Integer validStatus) {
+        return scGridMapper.updateValidStatusByPrimaryKey(id, validStatus);
+    }
 }

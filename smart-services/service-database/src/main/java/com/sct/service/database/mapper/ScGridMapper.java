@@ -55,4 +55,6 @@ public interface ScGridMapper {
     List<ScGrid> selectConditionPage(@Param("condition") ScGridCondition condition, @Param("qPaging") QPaging qPaging);
 
     List<ScGrid> selectCondition(@Param("condition") ScGridCondition condition);
+
+    int updateValidStatusByPrimaryKey(@Param("id") Integer id, @Param("validStatus") Integer validStatus);
 }

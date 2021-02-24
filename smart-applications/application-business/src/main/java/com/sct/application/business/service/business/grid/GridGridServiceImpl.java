@@ -82,6 +82,10 @@ public class GridGridServiceImpl {
         return scGridImpl.list(condition);
     }
 
+    public int updateValidStatus(Integer id, Integer validStatus) {
+        return scGridImpl.updateValidStatus(id, validStatus);
+    }
+
     //查询详情
     @Transactional
     public ScGridAll select(Integer id) {

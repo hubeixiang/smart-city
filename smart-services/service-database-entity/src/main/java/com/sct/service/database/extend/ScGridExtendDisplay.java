@@ -7,6 +7,24 @@ public class ScGridExtendDisplay implements ExtendEntity {
     private String communityIdExt;
     private String managerLeaderName;
     private String managerLeaderMobile;
+    private Integer households;
+    private Integer population;
+
+    public Integer getHouseholds() {
+        return households;
+    }
+
+    public void setHouseholds(Integer households) {
+        this.households = households;
+    }
+
+    public Integer getPopulation() {
+        return population;
+    }
+
+    public void setPopulation(Integer population) {
+        this.population = population;
+    }
 
     public String getManagerLeaderName() {
         return managerLeaderName;

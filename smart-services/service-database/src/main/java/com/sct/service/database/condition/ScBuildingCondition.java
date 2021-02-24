@@ -5,7 +5,7 @@ public class ScBuildingCondition implements ConditionQuery {
     private Integer communityId;
     private Integer gridId;
     private String name;
-    private String buildingType;
+    private Integer buildingType;
 
     public static ScBuildingCondition of() {
         return new ScBuildingCondition();
@@ -35,11 +35,12 @@ public class ScBuildingCondition implements ConditionQuery {
         this.gridId = gridId;
     }
 
-    public String getBuildingType() {
+
+    public Integer getBuildingType() {
         return buildingType;
     }
 
-    public void setBuildingType(String buildingType) {
+    public void setBuildingType(Integer buildingType) {
         this.buildingType = buildingType;
     }
 }

@@ -136,7 +136,6 @@ public class GridCommunityController {
         }
     }
 
-
     /**
      * 社区id与名字映射
      *
@@ -147,69 +146,5 @@ public class GridCommunityController {
     public SimpleResourceResponse getMapping() {
         return SimpleResourceResponse.of(gridCommunityService.getIdNameMapping());
     }
-
-
-    /* *//**
-     * 分页查询领导班子
-     *
-     * @param paging
-     * @param condition
-     * @return
-     *//*
-    @ApiOperation("分页查询领导班子")
-    @GetMapping("/leader/page")
-    public PageResultVO listLeader(@ApiParam(value="分页请求") PageRecord paging, @ApiParam(value="查询条件") ScCommunityLeaderCondition condition) {
-        condition.checkSQLinjectionException(condition.getName());
-        PageResultVO result = gridCommunityService.listCommunityLeaderPage(paging, condition);
-        return result;
-    }
-
-    @ApiOperation("新增领导")
-    @PostMapping("/leader")
-    public EmptyResourceResponse createLeader(@RequestBody @ApiParam(value="领导信息", required=true) ScCommunityLeader body) {
-        Assert.notNull(body.getCommunityId(), "Require community id");
-        int add = gridCommunityService.createLeader(body);
-        if (add > 0) {
-            return EmptyResourceResponse.INSTANCE;
-        } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "保存不成功, 请检查数据");
-        }
-    }
-
-    @ApiOperation("修改领导")
-    @PatchMapping("/leader/{id}")
-    public EmptyResourceResponse updateLeader(@PathVariable("id") @ApiParam(value="领导id",required=true) Integer id, @RequestBody @ApiParam(value="领导信息", required=true) ScCommunityLeader body) {
-        Assert.notNull(id, "Require community leader id");
-        body.setId(id);
-        int update = gridCommunityService.updateLeader(body);
-        if (update > 0) {
-            return EmptyResourceResponse.INSTANCE;
-        } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("修改失败，未修改任何数据, 可能原因：id[%s]不存在",id));
-        }
-    }
-
-    @ApiOperation("删除领导")
-    @DeleteMapping("/leader/{id}")
-    public EmptyResourceResponse deleteLeader(@PathVariable("id") @ApiParam(value="领导id", required=true) Integer id) {
-        int delete = gridCommunityService.deleteLeader(id);
-        if (delete > 0) {
-            return EmptyResourceResponse.INSTANCE;
-        } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("删除失败,未删除任何数据,可能原因：id[%s]不存在",id));
-        }
-    }
-
-    @ApiOperation("批量删除领导")
-    @DeleteMapping("/leader")
-    public EmptyResourceResponse batchDeleteLeader(@RequestBody @ApiParam(value="领导id列表", required=true) List<Integer> ids) {
-        int size = ids == null ? 0 : ids.size();
-        int delete = gridCommunityService.deleteLeader(ids);
-        if (delete == size) {
-            return EmptyResourceResponse.INSTANCE;
-        } else {
-            throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("实际删除数据[%d]少于计划删除[%d],可能原因：以前删除过", delete, size));
-        }
-    }*/
 
 }

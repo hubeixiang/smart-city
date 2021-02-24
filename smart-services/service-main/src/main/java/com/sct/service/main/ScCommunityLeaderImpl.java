@@ -68,4 +68,8 @@ public class ScCommunityLeaderImpl {
         condition.setCommunityId(id);
         return scCommunityLeaderMapper.selectCondition(condition);
     }
+
+    public ScCommunityLeader select(Integer id) {
+        return scCommunityLeaderMapper.selectByPrimaryKey(id);
+    }
 }
