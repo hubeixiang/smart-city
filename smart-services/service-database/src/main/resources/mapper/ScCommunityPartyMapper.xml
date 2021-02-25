@@ -157,6 +157,12 @@
     <if test="condition.name !=null and condition.name != ''">
       and name like '%${condition.name}%'
     </if>
+    <if test="condition.communityId !=null ">
+      and community_id = #{condition.communityId}
+    </if>
+    <if test="condition.partyType !=null ">
+      and party_type = #{condition.partyType}
+    </if>
   </sql>
 
   <select id="selectCondition" resultMap="BaseResultMap">

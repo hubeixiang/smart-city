@@ -6,14 +6,17 @@ import com.sct.commons.utils.id.IntIdGenerator;
 import com.sct.service.core.web.support.collection.PageResultVO;
 import com.sct.service.core.web.support.collection.ResultVOEntity;
 import com.sct.service.core.web.support.collection.pages.PageRecord;
+import com.sct.service.database.condition.ScCommunityLeaderCondition;
 import com.sct.service.database.condition.ScCommunityPartyCondition;
 import com.sct.service.database.condition.ScCommunityPartyConditionExport;
+import com.sct.service.database.entity.ScCommunityLeader;
 import com.sct.service.database.entity.ScCommunityParty;
 import com.sct.service.main.ScCommunityLeaderImpl;
 import com.sct.service.main.ScCommunityPartyImpl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -80,5 +83,50 @@ public class PartyOrganizationsServiceImpl {
 
     private void fillUpdateInfo(ScCommunityParty scOrganization) {
 
+    }
+
+    private Integer generateId(String ...args){
+        StringBuffer sb = new StringBuffer("%s");
+        for (int i=1;i<args.length; i++) {
+            sb.append(":%s");
+        }
+        String idStr = String.format(String.valueOf(sb), args);
+        return IntIdGenerator.getCRC32(idStr);
+    }
+
+
+
+    // 分页查询社区领导班子
+    public PageResultVO listCommunityLeaderPage(PageRecord paging, ScCommunityLeaderCondition condition) {
+        return scCommunityLeaderImpl.listPage(paging, condition);
+    }
+
+    // 创建领导班子成员
+    public Integer createLeader(ScCommunityLeader body) {
+        body.setId(this.generateId(body.getName(),String.valueOf(body.getCommunityId()),body.getMobile()));
+        return scCommunityLeaderImpl.insert(body);
+    }
+
+    // 更新领导班子
+    public int updateLeader(ScCommunityLeader scCommunityLeader) {
+        return scCommunityLeaderImpl.update(scCommunityLeader);
+    }
+
+    // 删除领导
+    public int deleteLeader(Integer id) {
+        return scCommunityLeaderImpl.delete(id);
+    }
+
+    // 批量删除领导
+    public int deleteLeader(List<Integer> ids) {
+        if (org.springframework.util.CollectionUtils.isEmpty(ids)) {
+            return 0;
+        }
+        return scCommunityLeaderImpl.deletes(ids);
+    }
+
+    // 领导详情
+    public ScCommunityLeader partyOrganizationsLeaderDetail(Integer id) {
+        return scCommunityLeaderImpl.select(id);
     }
 }

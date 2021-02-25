@@ -33,25 +33,12 @@ public class GridBuildingController {
     @Autowired
     private GridBuildingServiceImpl gridBuildingService;
 
-    /**
-     * 页面打开需要初始化的相关信息
-     *
-     * @param model model
-     * @return return
-     */
     @ApiOperation("页面初始化")
     @GetMapping
     public SimpleResourceResponse init(Model model) {
         return SimpleResourceResponse.of("网格化管理->建筑管理");
     }
 
-    /**
-     * 分页查询
-     *
-     * @param paging    paging
-     * @param condition condition
-     * @return return
-     */
     @ApiOperation("分页查询")
     @GetMapping("/page")
     public PageResultVO list(@ApiParam(value = "分页请求") PageRecord paging, @ApiParam(value = "查询条件") ScBuildingCondition condition) {
@@ -59,12 +46,6 @@ public class GridBuildingController {
         return gridBuildingService.listPage(paging, condition);
     }
 
-    /**
-     * 全部查询
-     *
-     * @param condition condition
-     * @return return
-     */
     @ApiOperation("全部查询")
     @GetMapping("/all")
     public ResultVOEntity listAll(@ApiParam(value = "查询条件") ScBuildingCondition condition) {
@@ -72,12 +53,6 @@ public class GridBuildingController {
         return gridBuildingService.list(condition);
     }
 
-    /**
-     * 通过Id查询建筑
-     *
-     * @param id id
-     * @return return
-     */
     @ApiOperation("查看详情")
     @GetMapping("/detail/{id}")
     public ScBuilding detail(@PathVariable("id") @ApiParam(value = "建筑id", required = true) Integer id) {
@@ -89,12 +64,6 @@ public class GridBuildingController {
         }
     }
 
-    /**
-     * 新增建筑
-     *
-     * @param body body
-     * @return return
-     */
     @ApiOperation("新增建筑")
     @PostMapping
     public EmptyResourceResponse create(@RequestBody @ApiParam(value = "建筑信息", required = true) ScBuilding body) {
@@ -106,12 +75,6 @@ public class GridBuildingController {
         }
     }
 
-    /**
-     * 修改建筑
-     *
-     * @param body body
-     * @return return
-     */
     @ApiOperation("修改建筑")
     @PatchMapping("/{id}")
     public EmptyResourceResponse update(@PathVariable("id") @ApiParam(value="建筑id",required=true) Integer id, @RequestBody @ApiParam(value = "建筑信息") ScBuilding body) {
@@ -124,12 +87,6 @@ public class GridBuildingController {
         }
     }
 
-    /**
-     * 删除建筑
-     *
-     * @param id id
-     * @return return
-     */
     @ApiOperation("删除建筑")
     @DeleteMapping("/{id}")
     public EmptyResourceResponse delete(@PathVariable("id") @ApiParam(value = "建筑id", required = true) Integer id) {
@@ -141,12 +98,6 @@ public class GridBuildingController {
         }
     }
 
-    /**
-     * 批量删除建筑
-     *
-     * @param ids ids
-     * @return return
-     */
     @ApiOperation("批量删除建筑")
     @DeleteMapping
     public EmptyResourceResponse batchDelete(@RequestBody @ApiParam(value = "建筑id列表", required = true) List<Integer> ids) {

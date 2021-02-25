@@ -142,41 +142,6 @@ public class GridCommunityServiceImpl {
     }
 
 
-
-    // 分页查询社区领导班子
-    public PageResultVO listCommunityLeaderPage(PageRecord paging, ScCommunityLeaderCondition condition) {
-        return scCommunityLeaderImpl.listPage(paging, condition);
-    }
-
-    // 创建领导班子成员
-    public Integer createLeader(ScCommunityLeader body) {
-        body.setId(this.generateId(body.getName(),String.valueOf(body.getCommunityId()),body.getMobile()));
-        return scCommunityLeaderImpl.insert(body);
-    }
-
-    // 更新领导班子
-    @Transactional
-    public int updateLeader(ScCommunityLeader scCommunityLeader) {
-        return scCommunityLeaderImpl.update(scCommunityLeader);
-//        //先删后增
-//        this.deleteLeader(scCommunityLeader.getId());
-//        return this.createLeader(scCommunityLeader);
-    }
-
-    // 删除领导
-    @Transactional
-    public int deleteLeader(Integer id) {
-        return scCommunityLeaderImpl.delete(id);
-    }
-
-    // 批量删除领导
-    public int deleteLeader(List<Integer> ids) {
-        if (CollectionUtils.isEmpty(ids)) {
-            return 0;
-        }
-        return scCommunityLeaderImpl.deletes(ids);
-    }
-
     @Transactional
     public ScCommunityAll select(Integer id) {
         ScCommunityAll all = new ScCommunityAll();

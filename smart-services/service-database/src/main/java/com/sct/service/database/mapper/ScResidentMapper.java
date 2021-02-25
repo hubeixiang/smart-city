@@ -1,6 +1,9 @@
 package com.sct.service.database.mapper;
 
+import com.sct.service.database.condition.QPaging;
 import com.sct.service.database.condition.ScResidentCondition;
+import com.sct.service.database.condition.ScResidentCondition;
+import com.sct.service.database.entity.ScResident;
 import com.sct.service.database.entity.ScResident;
 import org.apache.ibatis.annotations.Param;
 
@@ -51,4 +54,12 @@ public interface ScResidentMapper {
     ScResident selectByCardId(String cardId);
 
     List<ScResident> searchScResident(@Param("condition") ScResidentCondition condition);
+
+    int deleteByPrimaryKeys(@Param("ids") List<Integer> ids);
+
+    int selectConditionCount(@Param("condition") ScResidentCondition condition);
+
+    List<ScResident> selectConditionPage(@Param("condition") ScResidentCondition condition, @Param("qPaging") QPaging qPaging);
+
+    List<ScResident> selectCondition(@Param("condition") ScResidentCondition condition);
 }
