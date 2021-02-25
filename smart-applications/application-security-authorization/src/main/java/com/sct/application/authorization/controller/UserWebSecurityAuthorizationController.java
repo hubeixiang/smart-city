@@ -60,11 +60,11 @@ public class UserWebSecurityAuthorizationController extends BaseLoginController 
         request.getSession().invalidate();
     }
 
-    @GetMapping(path = {"/" + Oauth2Constants.Oauth2_Context_Path + "/user/online/count"}, produces = WebConstants.WEB_PRODUCES)
+    @GetMapping(path = {"/" + Oauth2Constants.Session_Context_Path + "/user/online/count"}, produces = WebConstants.WEB_PRODUCES)
     @ResponseBody
     public HttpEntity<?> online(final HttpServletRequest request,
                                 final HttpServletResponse response) {
-        String path = "/" + Oauth2Constants.Oauth2_Context_Path + "/user/online/count";
+        String path = "/" + Oauth2Constants.Session_Context_Path + "/user/online/count";
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication == null) {
@@ -87,10 +87,10 @@ public class UserWebSecurityAuthorizationController extends BaseLoginController 
         }
     }
 
-    @GetMapping(path = {"/" + Oauth2Constants.Oauth2_Context_Path + "/user/info"}, produces = WebConstants.WEB_PRODUCES)
+    @GetMapping(path = {"/" + Oauth2Constants.Session_Context_Path + "/user/info"}, produces = WebConstants.WEB_PRODUCES)
     public HttpEntity<?> user(final HttpServletRequest request,
                               final HttpServletResponse response) {
-        String path = "/" + Oauth2Constants.Oauth2_Context_Path + "/user/info";
+        String path = "/" + Oauth2Constants.Session_Context_Path + "/user/info";
 
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

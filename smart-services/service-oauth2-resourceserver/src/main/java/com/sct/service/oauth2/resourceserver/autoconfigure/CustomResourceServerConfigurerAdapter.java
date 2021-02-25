@@ -39,12 +39,13 @@ public class CustomResourceServerConfigurerAdapter implements ResourceServerConf
 //                .authorizeRequests()
 //                .antMatchers(String.format("/%s/**", Oauth2Constants.Oauth2_ResourceServer_Context_Path)).access("#oauth2.hasScope('read write')");
 //
+        http.cors();
+        http.csrf().disable();
         http.requestMatchers()
                 .antMatchers(String.format("/%s/**", Oauth2Constants.Oauth2_ResourceServer_Context_Path))
                 .and()
                 .authorizeRequests()
                 .anyRequest().authenticated();
-        http.csrf().disable();
     }
 
     @Configuration

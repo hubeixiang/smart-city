@@ -5,6 +5,11 @@ public final class Oauth2Constants {
      * oauth2.0 协议认证相关的路径
      */
     public final static String Oauth2_Context_Path = "oauth2.0";
+
+    /**
+     * 登录认证后使用session进行后续认证的路径
+     */
+    public final static String Session_Context_Path = "session";
     /**
      * oauth2.0 resourceserver侧访问的url
      */
