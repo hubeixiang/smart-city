@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.sct.service.core.web.http.message.DateFormatConfig,\
 com.sct.service.core.web.controller.file.FileOperationController
-
 
