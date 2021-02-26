@@ -39,9 +39,17 @@
     delete from sc_party_member
     where id = #{id,jdbcType=INTEGER}
   </delete>
+    <delete id="deleteByPrimaryKeys">
+        delete from sc_party_member
+        where id in (
+        <foreach item="itemListValue" collection="ids" separator=",">
+            #{itemListValue}
+        </foreach>
+        )
+    </delete>
     <insert id="insert" parameterType="com.sct.service.database.entity.ScPartyMember">
-        insert into sc_party_member (<include refid="allNonColumns"></include>)
-        values (#{name,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER},
+        insert into sc_party_member (<include refid="allColumns"></include>)
+        values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR}, #{partyId,jdbcType=INTEGER},
         #{communityId,jdbcType=INTEGER}, #{sex,jdbcType=TINYINT}, #{nation,jdbcType=TINYINT},
         #{cardId,jdbcType=VARCHAR}, #{politicalStatus,jdbcType=TINYINT}, #{partyMemberType,jdbcType=TINYINT},
         #{partyPost,jdbcType=TINYINT}, #{adminPost,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE},
@@ -88,6 +96,38 @@
         from sc_party_member
     </select>
     <sql id="queryCondition">
+        <if test="condition.id !=null">
+            and id = #{condition.id,jdbcType=INTEGER}
+        </if>
+        <if test="condition.name !=null and condition.name != ''">
+            and name like '%${condition.name}%'
+        </if>
+        <if test="condition.cardId !=null and condition.cardId != ''">
+            and card_id = #{condition.cardId,jdbcType=VARCHAR}
+        </if>
+        <if test="condition.sex !=null">
+            and sex = #{condition.sex,jdbcType=INTEGER}
+        </if>
+        <if test="condition.partyId !=null">
+            and party_id = #{condition.partyId,jdbcType=INTEGER}
+        </if>
+        <if test="condition.communityId !=null">
+            and community_id = #{condition.communityId,jdbcType=INTEGER}
+        </if>
+        <if test="condition.politicalStatusList !=null and condition.politicalStatusList.size() >0">
+            and political_status in (
+            <foreach item="itemListValue" collection="condition.politicalStatusList" separator=",">
+                #{itemListValue}
+            </foreach>
+            )
+        </if>
+        <if test="condition.partyMemberTypeList !=null and condition.partyMemberTypeList.size() >0">
+            and party_member_type in (
+            <foreach item="itemListValue" collection="condition.partyMemberTypeList" separator=",">
+                #{itemListValue}
+            </foreach>
+            )
+        </if>
     </sql>
     <select id="selectConditionCount" resultType="int">
         select count(*) from sc_party_member

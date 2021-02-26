@@ -71,7 +71,7 @@
     <if test="condition.createTimeStart !=null">
       and create_time >= #{condition.createTimeStart,jdbcType=TIMESTAMP}
     </if>
-    <if test="condition.validStatus !=null">
+    <if test="condition.createTimeEnd !=null">
       and create_time &lt; #{condition.createTimeEnd,jdbcType=TIMESTAMP}
     </if>
   </sql>
