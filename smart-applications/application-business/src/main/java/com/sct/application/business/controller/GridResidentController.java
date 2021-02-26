@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -66,6 +67,8 @@ public class GridResidentController {
     @ApiOperation("新增居民")
     @PostMapping
     public EmptyResourceResponse create(@RequestBody @ApiParam(value = "居民信息", required = true) ScResident body) {
+        Assert.notNull(body, "Require body");
+        Assert.notNull(body.getCardId(), "Require CardId");
         int add = gridResidentService.create(body);
         if (add > 0) {
             return EmptyResourceResponse.INSTANCE;

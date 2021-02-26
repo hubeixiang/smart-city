@@ -20,7 +20,8 @@ public class GridResidentServiceImpl {
 
 
     public int create(ScResident body) {
-        body.setId(this.generateId(body.getName(), body.getMobile()));
+        //居民省份证作为唯一标志
+        body.setId(this.generateId(body.getCardId()));
         return scResidentImpl.insert(body);
     }
 
