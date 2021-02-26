@@ -24,6 +24,7 @@
     <result column="pay_due" jdbcType="REAL" property="payDue" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="creator_name" jdbcType="VARCHAR" property="creatorName"/>
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
   <insert id="insert" parameterType="com.sct.service.database.entity.ScPartyDues">
@@ -37,14 +38,14 @@
       tax, car_subsidy, fringe_allowance, 
       pension, annuity, deduction, 
       pay_proportion, payable_due, pay_due, 
-      create_time, creator_id, modify_time
+      create_time,  creator_id, creator_name, modify_time
       )
     values (#{partyMemberId,jdbcType=INTEGER}, #{dueStage,jdbcType=DATE}, #{payDate,jdbcType=DATE}, 
       #{salary,jdbcType=REAL}, #{houseFund,jdbcType=REAL}, #{medicalInsure,jdbcType=REAL}, 
       #{tax,jdbcType=REAL}, #{carSubsidy,jdbcType=REAL}, #{fringeAllowance,jdbcType=REAL}, 
       #{pension,jdbcType=REAL}, #{annuity,jdbcType=REAL}, #{deduction,jdbcType=REAL}, 
       #{payProportion,jdbcType=REAL}, #{payableDue,jdbcType=REAL}, #{payDue,jdbcType=REAL}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}
+      #{createTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=INTEGER}, #{creatorName,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <select id="selectAll" resultMap="BaseResultMap">
@@ -55,7 +56,7 @@
     -->
     select party_member_id, due_stage, pay_date, salary, house_fund, medical_insure, 
     tax, car_subsidy, fringe_allowance, pension, annuity, deduction, pay_proportion, 
-    payable_due, pay_due, create_time, creator_id, modify_time
+    payable_due, pay_due, create_time,  creator_id, creator_name, modify_time
     from sc_party_dues
   </select>
 </mapper>

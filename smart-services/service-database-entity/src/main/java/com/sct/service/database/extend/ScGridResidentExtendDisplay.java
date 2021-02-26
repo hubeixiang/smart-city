@@ -3,7 +3,7 @@ package com.sct.service.database.extend;
 /**
  * 居民人口拓展属性
  */
-public class ScGridResidentExtendDisplay implements ExtendEntity {
+public class ScGridResidentExtendDisplay extends BaseExtend implements ExtendEntity {
     private Integer communityId;
     private String communityIdExt;
     private Integer gridId;

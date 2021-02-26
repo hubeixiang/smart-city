@@ -14,12 +14,13 @@
     <result column="evaluation_result" jdbcType="VARCHAR" property="evaluationResult" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="creator_name" jdbcType="VARCHAR" property="creatorName"/>
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
 
   <sql id="allColumns">grid_id, grid_manager_id, evaluation_type,
       evaluation_date, evaluation_result, create_time,
-      creator_id, modify_time
+       creator_id, creator_name, modify_time
   </sql>
 
   <delete id="deleteByPrimaryKey" parameterType="map">
@@ -40,10 +41,10 @@
     -->
     insert into sc_grid_evaluation (grid_id, grid_manager_id, evaluation_type, 
       evaluation_date, evaluation_result, create_time, 
-      creator_id, modify_time)
+       creator_id, creator_name, modify_time)
     values (#{gridId,jdbcType=INTEGER}, #{gridManagerId,jdbcType=INTEGER}, #{evaluationType,jdbcType=TINYINT}, 
       #{evaluationDate,jdbcType=DATE}, #{evaluationResult,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{creatorId,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP})
+      #{creatorId,jdbcType=INTEGER}, #{creatorName,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.sct.service.database.entity.ScGridEvaluation">
     <!--
@@ -57,6 +58,7 @@
       evaluation_result = #{evaluationResult,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       creator_id = #{creatorId,jdbcType=INTEGER},
+      creator_name = #{creatorName,jdbcType=VARCHAR},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where grid_id = #{gridId,jdbcType=INTEGER}
       and grid_manager_id = #{gridManagerId,jdbcType=INTEGER}
@@ -68,7 +70,7 @@
       This element was generated on Tue Feb 16 11:09:04 CST 2021.
     -->
     select grid_id, grid_manager_id, evaluation_type, evaluation_date, evaluation_result, 
-    create_time, creator_id, modify_time
+    create_time,  creator_id, creator_name, modify_time
     from sc_grid_evaluation
     where grid_id = #{gridId,jdbcType=INTEGER}
       and grid_manager_id = #{gridManagerId,jdbcType=INTEGER}
@@ -80,7 +82,7 @@
       This element was generated on Tue Feb 16 11:09:04 CST 2021.
     -->
     select grid_id, grid_manager_id, evaluation_type, evaluation_date, evaluation_result, 
-    create_time, creator_id, modify_time
+    create_time,  creator_id, creator_name, modify_time
     from sc_grid_evaluation
   </select>
 

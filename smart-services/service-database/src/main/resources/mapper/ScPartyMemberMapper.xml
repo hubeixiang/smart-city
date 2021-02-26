@@ -28,9 +28,10 @@
         <result column="comment" jdbcType="VARCHAR" property="comment"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="creator_id" jdbcType="INTEGER" property="creatorId"/>
+        <result column="creator_name" jdbcType="VARCHAR" property="creatorName"/>
         <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
     </resultMap>
-    <sql id="allNonColumns"> name, party_id, community_id, sex, nation, card_id, political_status, party_member_type, party_post, admin_post, birthday, join_date, pic_url, qualifications, marry_status, mobile, settle_address, comment, create_time, creator_id, modify_time</sql>
+    <sql id="allNonColumns"> name, party_id, community_id, sex, nation, card_id, political_status, party_member_type, party_post, admin_post, birthday, join_date, pic_url, qualifications, marry_status, mobile, settle_address, comment, create_time,  creator_id, creator_name, modify_time</sql>
     <sql id="allColumns">id,
         <include refid="allNonColumns"></include>
     </sql>
@@ -46,7 +47,7 @@
         #{partyPost,jdbcType=TINYINT}, #{adminPost,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE},
         #{joinDate,jdbcType=DATE}, #{picUrl,jdbcType=VARCHAR}, #{qualifications,jdbcType=TINYINT},
         #{marryStatus,jdbcType=TINYINT}, #{mobile,jdbcType=VARCHAR}, #{settleAddress,jdbcType=VARCHAR},
-        #{comment,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=INTEGER},
+        #{comment,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=INTEGER}, #{creatorName,jdbcType=VARCHAR},
         #{modifyTime,jdbcType=TIMESTAMP})
     </insert>
     <update id="updateByPrimaryKey" parameterType="com.sct.service.database.entity.ScPartyMember">
@@ -71,6 +72,7 @@
       comment = #{comment,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       creator_id = #{creatorId,jdbcType=INTEGER},
+      creator_name = #{creatorName,jdbcType=VARCHAR},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

@@ -3,7 +3,7 @@ package com.sct.service.database.extend;
 /**
  * 社会组织信息表需要转换映射的属性
  */
-public class ScOrganizationExtendDisplay implements ExtendEntity {
+public class ScOrganizationExtendDisplay extends BaseExtend implements ExtendEntity {
     private String orgTypeExt;
     private String communityIdExt;
     private String gridIdExt;

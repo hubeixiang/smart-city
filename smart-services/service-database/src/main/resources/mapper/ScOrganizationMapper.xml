@@ -26,11 +26,12 @@
         <result column="latitude" jdbcType="REAL" property="latitude"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="creator_id" jdbcType="INTEGER" property="creatorId"/>
+        <result column="creator_name" jdbcType="VARCHAR" property="creatorName"/>
         <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
         <result column="community_id_ext" jdbcType="VARCHAR" property="communityIdExt"/>
         <result column="grid_id_ext" jdbcType="VARCHAR" property="gridIdExt"/>
     </resultMap>
-    <sql id="allNonColumns"> name, org_type, community_id, grid_id, legal_name, legal_card_id, legal_mobile, credit_code, business_code, register_status, register_date, unregister_date, comment, marker_status, longitude, latitude, create_time, creator_id, modify_time </sql>
+    <sql id="allNonColumns"> name, org_type, community_id, grid_id, legal_name, legal_card_id, legal_mobile, credit_code, business_code, register_status, register_date, unregister_date, comment, marker_status, longitude, latitude, create_time,  creator_id, creator_name, modify_time </sql>
     <sql id="allColumns">id, <include refid="allNonColumns"></include> </sql>
     <sql id="allColumnsView">community_id_ext,grid_id_ext,<include refid="allColumns"></include> </sql>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -53,7 +54,7 @@
         #{businessCode,jdbcType=VARCHAR}, #{registerStatus,jdbcType=INTEGER}, #{registerDate,jdbcType=DATE},
         #{unregisterDate,jdbcType=DATE}, #{comment,jdbcType=VARCHAR}, #{markerStatus,jdbcType=TINYINT},
         #{longitude,jdbcType=REAL}, #{latitude,jdbcType=REAL}, #{createTime,jdbcType=TIMESTAMP},
-        #{creatorId,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP})
+        #{creatorId,jdbcType=INTEGER}, #{creatorName,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP})
     </insert>
     <update id="updateByPrimaryKey" parameterType="com.sct.service.database.entity.ScOrganization">
     update sc_organization
@@ -75,6 +76,7 @@
       latitude = #{latitude,jdbcType=REAL},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       creator_id = #{creatorId,jdbcType=INTEGER},
+      creator_name = #{creatorName,jdbcType=VARCHAR},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

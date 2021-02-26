@@ -19,6 +19,7 @@
     <result column="activity_status" jdbcType="TINYINT" property="activityStatus" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="creator_name" jdbcType="VARCHAR" property="creatorName"/>
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="map">
@@ -41,12 +42,12 @@
     insert into sc_party_activities (id, topic_id, party_id, 
       title, description, start_time, 
       content, comment, duration, 
-      activity_status, create_time, creator_id, 
+      activity_status, create_time,  creator_id, creator_name,
       modify_time)
     values (#{id,jdbcType=INTEGER}, #{topicId,jdbcType=INTEGER}, #{partyId,jdbcType=INTEGER}, 
       #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
       #{content,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR}, #{duration,jdbcType=REAL}, 
-      #{activityStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=INTEGER}, 
+      #{activityStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=INTEGER}, #{creatorName,jdbcType=VARCHAR},
       #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.sct.service.database.entity.ScPartyActivities">
@@ -65,6 +66,7 @@
       activity_status = #{activityStatus,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       creator_id = #{creatorId,jdbcType=INTEGER},
+      creator_name = #{creatorName,jdbcType=VARCHAR},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
       and topic_id = #{topicId,jdbcType=INTEGER}
@@ -77,7 +79,7 @@
       This element was generated on Tue Feb 16 11:09:04 CST 2021.
     -->
     select id, topic_id, party_id, title, description, start_time, content, comment, 
-    duration, activity_status, create_time, creator_id, modify_time
+    duration, activity_status, create_time,  creator_id, creator_name, modify_time
     from sc_party_activities
     where id = #{id,jdbcType=INTEGER}
       and topic_id = #{topicId,jdbcType=INTEGER}
@@ -90,7 +92,7 @@
       This element was generated on Tue Feb 16 11:09:04 CST 2021.
     -->
     select id, topic_id, party_id, title, description, start_time, content, comment, 
-    duration, activity_status, create_time, creator_id, modify_time
+    duration, activity_status, create_time,  creator_id, creator_name, modify_time
     from sc_party_activities
   </select>
 </mapper>

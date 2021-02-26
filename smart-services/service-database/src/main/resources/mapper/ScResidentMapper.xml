@@ -20,8 +20,6 @@
         <result column="marry_status" jdbcType="TINYINT" property="marryStatus"/>
         <result column="faith" jdbcType="TINYINT" property="faith"/>
         <result column="work_type" jdbcType="TINYINT" property="workType"/>
-        <result column="is_risk" jdbcType="TINYINT" property="isRisk"/>
-        <result column="risk_type" jdbcType="TINYINT" property="riskType"/>
         <result column="military_status" jdbcType="TINYINT" property="militaryStatus"/>
         <result column="is_settle" jdbcType="TINYINT" property="isSettle"/>
         <result column="birth_province_id" jdbcType="INTEGER" property="birthProvinceId"/>
@@ -37,6 +35,7 @@
         <result column="comment" jdbcType="VARCHAR" property="comment"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="creator_id" jdbcType="INTEGER" property="creatorId"/>
+        <result column="creator_name" jdbcType="VARCHAR" property="creatorName"/>
         <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
         <result column="community_id" jdbcType="INTEGER" property="communityId"/>
         <result column="community_id_ext" jdbcType="VARCHAR" property="communityIdExt"/>
@@ -48,7 +47,7 @@
         <result column="building_id_ext" jdbcType="VARCHAR" property="buildingIdExt"/>
 
     </resultMap>
-    <sql id="allNonColumns"> name, sex, nation, mobile, card_id, birthday, live_type, political_status, qualifications, marry_status, faith, work_type, is_risk, risk_type, military_status, is_settle, birth_province_id, birth_city_id, birth_county_id, settle_province_id, settle_city_id, settle_county_id, settle_address, register_status, register_date, unregister_date, comment, create_time, creator_id, modify_time</sql>
+    <sql id="allNonColumns"> name, sex, nation, mobile, card_id, birthday, live_type, political_status, qualifications, marry_status, faith, work_type, military_status, is_settle, birth_province_id, birth_city_id, birth_county_id, settle_province_id, settle_city_id, settle_county_id, settle_address, register_status, register_date, unregister_date, comment, create_time,  creator_id, creator_name, modify_time</sql>
     <sql id="allColumns">id, <include refid="allNonColumns"></include>
     </sql>
     <sql id="allColumnsView">community_id, community_id_ext, grid_id, grid_id_ext, estate_id, estate_id_ext, building_id, building_id_ext, <include
@@ -64,12 +63,12 @@
         #{nation,jdbcType=TINYINT}, #{mobile,jdbcType=VARCHAR}, #{cardId,jdbcType=VARCHAR},
         #{birthday,jdbcType=DATE}, #{liveType,jdbcType=TINYINT}, #{politicalStatus,jdbcType=TINYINT},
         #{qualifications,jdbcType=TINYINT}, #{marryStatus,jdbcType=TINYINT}, #{faith,jdbcType=TINYINT},
-        #{workType,jdbcType=TINYINT}, #{isRisk,jdbcType=TINYINT}, #{riskType,jdbcType=TINYINT},
+        #{workType,jdbcType=TINYINT},
         #{militaryStatus,jdbcType=TINYINT}, #{isSettle,jdbcType=TINYINT}, #{birthProvinceId,jdbcType=INTEGER},
         #{birthCityId,jdbcType=INTEGER}, #{birthCountyId,jdbcType=INTEGER}, #{settleProvinceId,jdbcType=INTEGER},
         #{settleCityId,jdbcType=INTEGER}, #{settleCountyId,jdbcType=INTEGER}, #{settleAddress,jdbcType=VARCHAR},
         #{registerStatus,jdbcType=TINYINT}, #{registerDate,jdbcType=DATE}, #{unregisterDate,jdbcType=DATE},
-        #{comment,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=INTEGER},
+        #{comment,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=INTEGER}, #{creatorName,jdbcType=VARCHAR},
         #{modifyTime,jdbcType=TIMESTAMP})
     </insert>
     <update id="updateByPrimaryKey" parameterType="com.sct.service.database.entity.ScResident">
@@ -86,8 +85,6 @@
         marry_status = #{marryStatus,jdbcType=TINYINT},
         faith = #{faith,jdbcType=TINYINT},
         work_type = #{workType,jdbcType=TINYINT},
-        is_risk = #{isRisk,jdbcType=TINYINT},
-        risk_type = #{riskType,jdbcType=TINYINT},
         military_status = #{militaryStatus,jdbcType=TINYINT},
         is_settle = #{isSettle,jdbcType=TINYINT},
         birth_province_id = #{birthProvinceId,jdbcType=INTEGER},
@@ -103,6 +100,7 @@
         comment = #{comment,jdbcType=VARCHAR},
         create_time = #{createTime,jdbcType=TIMESTAMP},
         creator_id = #{creatorId,jdbcType=INTEGER},
+        creator_name = #{creatorName,jdbcType=VARCHAR},
         modify_time = #{modifyTime,jdbcType=TIMESTAMP}
         where id = #{id,jdbcType=INTEGER}
     </update>

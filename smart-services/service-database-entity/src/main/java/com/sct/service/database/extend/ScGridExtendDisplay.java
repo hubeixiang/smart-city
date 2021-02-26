@@ -3,7 +3,7 @@ package com.sct.service.database.extend;
 /**
  * 拓展属性
  */
-public class ScGridExtendDisplay implements ExtendEntity {
+public class ScGridExtendDisplay extends BaseExtend implements ExtendEntity {
     private String communityIdExt;
     private String managerLeaderName;
     private String managerLeaderMobile;

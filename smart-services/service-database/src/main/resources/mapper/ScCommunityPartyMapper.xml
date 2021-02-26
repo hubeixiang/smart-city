@@ -21,6 +21,7 @@
     <result column="is_sub_party" jdbcType="TINYINT" property="isSubParty" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+    <result column="creator_name" jdbcType="VARCHAR" property="creatorName"/>
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
 
@@ -28,7 +29,7 @@
     parent_name, party_type, party_level,
     comment, contacts, mobile,
     email, community_id, is_sub_party,
-    create_time, creator_id, modify_time </sql>
+    create_time,  creator_id, creator_name, modify_time </sql>
   <sql id="allColumns">id, <include refid="allNonColumns"></include>
   </sql>
 
@@ -52,13 +53,13 @@
     parent_name, party_type, party_level,
     comment, contacts, mobile,
     email, community_id, is_sub_party,
-    create_time, creator_id, modify_time
+    create_time,  creator_id, creator_name, modify_time
     )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{nameShort,jdbcType=VARCHAR},
     #{parentName,jdbcType=VARCHAR}, #{partyType,jdbcType=TINYINT}, #{partyLevel,jdbcType=TINYINT},
     #{comment,jdbcType=VARCHAR}, #{contacts,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
     #{email,jdbcType=VARCHAR}, #{communityId,jdbcType=INTEGER}, #{isSubParty,jdbcType=TINYINT},
-    #{createTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}
+    #{createTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=INTEGER}, #{creatorName,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}
     )
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.sct.service.database.entity.ScCommunityParty">
@@ -81,6 +82,7 @@
     is_sub_party = #{isSubParty,jdbcType=TINYINT},
     create_time = #{createTime,jdbcType=TIMESTAMP},
     creator_id = #{creatorId,jdbcType=INTEGER},
+    creator_name = #{creatorName,jdbcType=VARCHAR},
     modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -91,7 +93,7 @@
       This element was generated on Tue Feb 16 11:09:04 CST 2021.
     -->
     select id, name, name_short, parent_name, party_type, party_level, comment, contacts,
-    mobile, email, community_id, is_sub_party, create_time, creator_id, modify_time
+    mobile, email, community_id, is_sub_party, create_time,  creator_id, creator_name, modify_time
     from sc_community_party
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -102,7 +104,7 @@
       This element was generated on Tue Feb 16 11:09:04 CST 2021.
     -->
     select id, name, name_short, parent_name, party_type, party_level, comment, contacts,
-    mobile, email, community_id, is_sub_party, create_time, creator_id, modify_time
+    mobile, email, community_id, is_sub_party, create_time,  creator_id, creator_name, modify_time
     from sc_community_party
   </select>
 
@@ -138,7 +140,7 @@
       This element was generated on Tue Feb 16 11:09:04 CST 2021.
     -->
     select id, name, name_short, parent_name, party_type, party_level, comment, contacts,
-    mobile, email, community_id, is_sub_party, create_time, creator_id, modify_time
+    mobile, email, community_id, is_sub_party, create_time,  creator_id, creator_name, modify_time
     from sc_community_party
     where community_id = #{communityId,jdbcType=INTEGER}
   </select>
