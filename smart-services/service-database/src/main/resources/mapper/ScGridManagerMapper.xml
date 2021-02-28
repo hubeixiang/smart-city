@@ -134,7 +134,7 @@
   </select>
 
   <select id="selectConditionCount" resultType="int">
-    select count(*) from sc_grid_manager
+    select count(*) from v_sc_grid_manager
     <where>
       <include refid="queryCondition"></include>
     </where>

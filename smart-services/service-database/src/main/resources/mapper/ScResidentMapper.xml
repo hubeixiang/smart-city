@@ -58,7 +58,7 @@
         where id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="com.sct.service.database.entity.ScResident">
-        insert into sc_resident (<include refid="allColumns"></include>)
+        insert into sc_resident (<include refid="allColumns"/>)
         values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT},
         #{nation,jdbcType=TINYINT}, #{mobile,jdbcType=VARCHAR}, #{cardId,jdbcType=VARCHAR},
         #{birthday,jdbcType=DATE}, #{liveType,jdbcType=TINYINT}, #{politicalStatus,jdbcType=TINYINT},
@@ -106,19 +106,19 @@
     </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
-        <include refid="allColumns"></include>
-        from sc_resident
+        <include refid="allColumnsView"/>
+        from v_sc_resident
         where id = #{id,jdbcType=INTEGER}
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
         select
-        <include refid="allColumns"></include>
-        from sc_resident
+        <include refid="allColumnsView"/>
+        from v_sc_resident
     </select>
 
     <select id="selectByCardId" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
-        <include refid="allColumns"></include>
+        <include refid="allColumns"/>
         from sc_resident
         where card_id = #{cardId,jdbcType=VARCHAR}
     </select>
@@ -158,10 +158,10 @@
             and register_status = #{condition.registerStatus}
         </if>
         <if test="condition.name !=null and condition.name != ''">
-            and name = #{condition.name}
+            and name like '%${condition.name}%'
         </if>
         <if test="condition.cardId !=null and condition.cardId != ''">
-            and card_id = #{condition.registerStatus}
+            and card_id like '%${condition.cardId}%'
         </if>
     </sql>
 
@@ -177,7 +177,7 @@
     <select id="selectConditionCount" resultType="int">
         select count(*) from v_sc_resident
         <where>
-            <include refid="queryCondition"></include>
+            <include refid="queryCondition"/>
         </where>
     </select>
     <select id="selectConditionPage" resultMap="BaseResultMap">

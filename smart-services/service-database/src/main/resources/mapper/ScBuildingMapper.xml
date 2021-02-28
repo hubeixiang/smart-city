@@ -27,6 +27,8 @@
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
     <result column="community_id_ext" jdbcType="VARCHAR" property="communityIdExt"/>
     <result column="grid_id_ext" jdbcType="VARCHAR" property="gridIdExt"/>
+    <result column="estate_id_ext" jdbcType="VARCHAR" property="estateIdExt"/>
+
   </resultMap>
 
   <sql id="allNonColumns"> name, estate_id,
@@ -36,7 +38,7 @@
       latitude, longitude, create_time,
       creator_id, creator_name, modify_time </sql>
   <sql id="allColumns">id, <include refid="allNonColumns"></include> </sql>
-  <sql id="allColumnsView">community_id_ext,grid_id_ext,<include refid="allColumns"></include> </sql>
+  <sql id="allColumnsView">community_id_ext, grid_id_ext, estate_id_ext, <include refid="allColumns"></include> </sql>
 
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -150,7 +152,7 @@
     </if>
   </sql>
   <select id="selectConditionCount" resultType="int">
-    select count(*) from sc_building
+    select count(*) from v_sc_building
     <where>
       <include refid="queryCondition"></include>
     </where>

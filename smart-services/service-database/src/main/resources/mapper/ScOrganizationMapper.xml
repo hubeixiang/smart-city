@@ -83,13 +83,13 @@
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
         <include refid="allColumnsView"></include>
-        from sc_organization
+        from v_sc_organization
         where id = #{id,jdbcType=INTEGER}
     </select>
     <select id="selectAll" resultMap="BaseResultMap">
         select
         <include refid="allColumnsView"></include>
-        from sc_organization
+        from v_sc_organization
     </select>
     <sql id="queryCondition">
         <if test="condition.communityIds !=null and condition.communityIds.size() >0">
@@ -121,7 +121,7 @@
         </if>
     </sql>
     <select id="selectConditionCount" resultType="int">
-        select count(*) from sc_organization
+        select count(*) from v_sc_organization
         <where>
             <include refid="queryCondition"></include>
         </where>

@@ -1,6 +1,9 @@
 package com.sct.service.database.mapper;
 
+import com.sct.service.database.condition.QPaging;
+import com.sct.service.database.condition.ScHouseCondition;
 import com.sct.service.database.entity.ScHouse;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -44,4 +47,12 @@ public interface ScHouseMapper {
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
     int updateByPrimaryKey(ScHouse record);
+
+    int deleteByPrimaryKeys(@Param("ids") List<Integer> ids);
+
+    int selectConditionCount(@Param("condition") ScHouseCondition condition);
+
+    List<ScHouse> selectConditionPage(@Param("condition") ScHouseCondition condition, @Param("qPaging") QPaging qPaging);
+
+    List<ScHouse> selectCondition(@Param("condition") ScHouseCondition condition);
 }

@@ -4,6 +4,7 @@ public class ScBuildingCondition implements ConditionQuery {
 
     private Integer communityId;
     private Integer gridId;
+    private Integer estateId;
     private String name;
     private Integer buildingType;
 
@@ -35,12 +36,19 @@ public class ScBuildingCondition implements ConditionQuery {
         this.gridId = gridId;
     }
 
-
     public Integer getBuildingType() {
         return buildingType;
     }
 
     public void setBuildingType(Integer buildingType) {
         this.buildingType = buildingType;
+    }
+
+    public Integer getEstateId() {
+        return estateId;
+    }
+
+    public void setEstateId(Integer estateId) {
+        this.estateId = estateId;
     }
 }
