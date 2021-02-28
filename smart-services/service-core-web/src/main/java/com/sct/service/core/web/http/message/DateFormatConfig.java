@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.sct.commons.file.location.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.boot.jackson.JsonComponent;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.util.Date;
 @JsonComponent
 public class DateFormatConfig {
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static String[] patterns = {"yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd"};
 
     /**
      * 日期格式化
@@ -40,7 +42,7 @@ public class DateFormatConfig {
                 if (StringUtils.isEmpty(text)) {
                     return null;
                 } else {
-                    return dateFormat.parse(jsonParser.getText());
+                    return DateUtils.parseDate(text, patterns);
                 }
             } catch (ParseException e) {
                 throw new RuntimeException(e);
