@@ -14,12 +14,31 @@ import org.springframework.boot.jackson.JsonComponent;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @JsonComponent
 public class DateFormatConfig {
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static String[] patterns = {"yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd"};
+    private static List<SimpleDateFormat> dateFormats = new ArrayList<>();
+
+    static {
+        dateFormats.add(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        dateFormats.add(new SimpleDateFormat("yyyy-MM-dd"));
+        dateFormats.add(new SimpleDateFormat("yyyy/MM/dd"));
+    }
+
+    private static Date parseDate(String text) throws ParseException {
+        for (SimpleDateFormat simpleDateFormat : dateFormats) {
+            try {
+                return simpleDateFormat.parse(text);
+            } catch (Exception e) {
+            }
+        }
+        throw new ParseException("Unable to parse the date: " + text, -1);
+    }
 
     /**
      * 日期格式化
@@ -27,7 +46,11 @@ public class DateFormatConfig {
     public static class DateJsonSerializer extends JsonSerializer<Date> {
         @Override
         public void serialize(Date date, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-            jsonGenerator.writeString(dateFormat.format(date));
+            if (date == null) {
+                jsonGenerator.writeString("");
+            } else {
+                jsonGenerator.writeString(dateFormat.format(date));
+            }
         }
     }
 
@@ -42,7 +65,7 @@ public class DateFormatConfig {
                 if (StringUtils.isEmpty(text)) {
                     return null;
                 } else {
-                    return DateUtils.parseDate(text, patterns);
+                    return parseDate(text);
                 }
             } catch (ParseException e) {
                 throw new RuntimeException(e);
