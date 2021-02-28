@@ -139,4 +139,10 @@
         set valid_status = #{validStatus,jdbcType=TINYINT}
         where id = #{id,jdbcType=INTEGER}
     </update>
+
+    <select id="selectByCommunityId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, name
+        from sc_grid
+        where community_id = #{communityId,jdbcType=INTEGER}
+    </select>
 </mapper>

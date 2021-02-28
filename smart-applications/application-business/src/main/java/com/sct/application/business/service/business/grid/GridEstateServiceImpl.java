@@ -156,4 +156,8 @@ public class GridEstateServiceImpl {
             throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, "删除主表数据与删除关系表数据个数不一致，取消");
         }
     }
+
+    public ResultVOEntity listEstatesByCommunityId(Integer communityId) {
+        return scEstateImpl.listEstatesByCommunityId(communityId);
+    }
 }

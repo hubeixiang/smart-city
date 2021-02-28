@@ -55,4 +55,6 @@ public interface ScBuildingMapper {
     List<ScBuilding> selectConditionPage(@Param("condition") ScBuildingCondition condition, @Param("qPaging") QPaging qPaging);
 
     List<ScBuilding> selectCondition(@Param("condition") ScBuildingCondition condition);
+
+    List selectByEstateId(@Param("estateId") Integer estateId);
 }

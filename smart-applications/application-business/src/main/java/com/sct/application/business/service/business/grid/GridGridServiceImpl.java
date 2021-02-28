@@ -149,4 +149,8 @@ public class GridGridServiceImpl {
     public int deleteEvaluation(Integer gridId, List<Integer> gridManagerIds) {
         return scGridEvaluationImpl.deletes(gridId, gridManagerIds);
     }
+
+    public ResultVOEntity listGridsByCommunityId(Integer communityId) {
+        return scGridImpl.listGridsByCommunityId(communityId);
+    }
 }

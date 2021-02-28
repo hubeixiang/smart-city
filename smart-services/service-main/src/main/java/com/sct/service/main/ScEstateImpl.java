@@ -10,7 +10,6 @@ import com.sct.service.database.condition.QPaging;
 import com.sct.service.database.condition.ScEstateCondition;
 import com.sct.service.database.entity.ScEstate;
 import com.sct.service.database.mapper.ScEstateMapper;
-import com.sct.service.database.mapper.ScEstateMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,5 +68,11 @@ public class ScEstateImpl {
 
     public ScEstate select(Integer id) {
         return scEstateMapper.selectByPrimaryKey(id);
+    }
+
+    public ResultVOEntity listEstatesByCommunityId(Integer communityId) {
+        List data = scEstateMapper.selectByCommunityId(communityId);
+        List<String> columns = QPagingUtil.parserResultColumns(data);
+        return ResultVOEntity.of(columns, data);
     }
 }

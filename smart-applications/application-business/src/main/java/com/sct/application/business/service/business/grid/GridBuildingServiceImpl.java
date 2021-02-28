@@ -63,8 +63,11 @@ public class GridBuildingServiceImpl {
     }
 
     //查询详情
-    @Transactional
     public ScBuilding select(Integer id) {
         return scBuildingImpl.select(id);
+    }
+
+    public ResultVOEntity listBuildingsByEstateId(Integer estateId) {
+        return scBuildingImpl.listBuildingsByEstateId(estateId);
     }
 }

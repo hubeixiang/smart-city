@@ -174,4 +174,10 @@
       <include refid="queryCondition"/>
     </where>
   </select>
+
+  <select id="selectByEstateId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name
+    from sc_building
+    where estate_id = #{estateId,jdbcType=INTEGER}
+  </select>
 </mapper>

@@ -55,4 +55,6 @@ public interface ScEstateMapper {
     List<ScEstate> selectConditionPage(@Param("condition") ScEstateCondition condition, @Param("qPaging") QPaging qPaging);
 
     List<ScEstate> selectCondition(@Param("condition") ScEstateCondition condition);
+
+    List selectByCommunityId(@Param("communityId") Integer communityId);
 }

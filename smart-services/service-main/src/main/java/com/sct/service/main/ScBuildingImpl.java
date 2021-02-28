@@ -66,4 +66,10 @@ public class ScBuildingImpl {
     public ScBuilding select(Integer id) {
         return scBuildingMapper.selectByPrimaryKey(id);
     }
+
+    public ResultVOEntity listBuildingsByEstateId(Integer estateId) {
+        List data = scBuildingMapper.selectByEstateId(estateId);
+        List<String> columns = QPagingUtil.parserResultColumns(data);
+        return ResultVOEntity.of(columns, data);
+    }
 }

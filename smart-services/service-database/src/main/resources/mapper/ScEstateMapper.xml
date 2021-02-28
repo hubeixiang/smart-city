@@ -140,4 +140,10 @@
       <include refid="queryCondition"/>
     </where>
   </select>
+
+  <select id="selectByCommunityId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name
+    from sc_estate
+    where community_id = #{communityId,jdbcType=INTEGER}
+  </select>
 </mapper>

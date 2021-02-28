@@ -36,7 +36,7 @@ import java.util.List;
 public class GridGridController {
 
     @Autowired
-    private GridGridServiceImpl gridEstateService;
+    private GridGridServiceImpl gridGridService;
 
     @ApiOperation("页面初始化")
     @GetMapping
@@ -44,24 +44,24 @@ public class GridGridController {
         return SimpleResourceResponse.of("网格化管理->网格管理");
     }
 
-    @ApiOperation("分页查询")
+    @ApiOperation("分页查询网格")
     @GetMapping("/page")
     public PageResultVO list(@ApiParam(value = "分页请求") PageRecord paging, @ApiParam(value = "查询条件") ScGridCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
-        return gridEstateService.listPage(paging, condition);
+        return gridGridService.listPage(paging, condition);
     }
 
-    @ApiOperation("全部查询")
+    @ApiOperation("全部网格查询")
     @GetMapping("/all")
     public ResultVOEntity listAll(@ApiParam(value = "查询条件") ScGridCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
-        return gridEstateService.list(condition);
+        return gridGridService.list(condition);
     }
 
-    @ApiOperation("查看详情")
+    @ApiOperation("查看网格详情")
     @GetMapping("/detail/{id}")
     public ScGridAll detail(@PathVariable("id") @ApiParam(value = "网格id", required = true) Integer id) {
-        ScGridAll select = gridEstateService.select(id);
+        ScGridAll select = gridGridService.select(id);
         if (select != null) {
             return select;
         } else {
@@ -72,7 +72,7 @@ public class GridGridController {
     @ApiOperation("新增网格")
     @PostMapping
     public EmptyResourceResponse create(@RequestBody @ApiParam(value = "网格信息", required = true) ScGrid body) {
-        int add = gridEstateService.create(body);
+        int add = gridGridService.create(body);
         if (add > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
@@ -84,7 +84,7 @@ public class GridGridController {
     @PatchMapping("/{id}")
     public EmptyResourceResponse update(@PathVariable("id") @ApiParam(value = "网格id", required = true) Integer id, @RequestBody @ApiParam(value = "网格信息", required = true) ScGrid body) {
         body.setId(id);
-        int update = gridEstateService.update(body);
+        int update = gridGridService.update(body);
         if (update > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
@@ -95,7 +95,7 @@ public class GridGridController {
     @ApiOperation("删除网格")
     @DeleteMapping("/{id}")
     public EmptyResourceResponse delete(@PathVariable("id") @ApiParam(value = "网格id", required = true) Integer id) {
-        int delete = gridEstateService.delete(id);
+        int delete = gridGridService.delete(id);
         if (delete > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
@@ -107,7 +107,7 @@ public class GridGridController {
     @DeleteMapping
     public EmptyResourceResponse batchDelete(@RequestBody @ApiParam(value = "网格id列表", required = true) List<Integer> ids) {
         int size = ids == null ? 0 : ids.size();
-        int delete = gridEstateService.delete(ids);
+        int delete = gridGridService.delete(ids);
         if (delete == size) {
             return EmptyResourceResponse.INSTANCE;
         } else {
@@ -118,7 +118,7 @@ public class GridGridController {
     @ApiOperation("启用和停用网格")
     @PatchMapping("/validStatus/{id}")
     public EmptyResourceResponse update(@PathVariable("id") @ApiParam(value = "网格id", required = true) Integer id, @RequestParam @ApiParam(value = "1启用，0禁用", required = true) Integer validStatus) {
-        int update = gridEstateService.updateValidStatus(id, validStatus);
+        int update = gridGridService.updateValidStatus(id, validStatus);
         if (update > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
@@ -126,19 +126,25 @@ public class GridGridController {
         }
     }
 
+    @ApiOperation("获取网格下拉列表")
+    @GetMapping("/listGridsByCommunityId")
+    public ResultVOEntity listGridsByCommunityId(@ApiParam(value = "社区id", required = true) Integer communityId) {
+        return gridGridService.listGridsByCommunityId(communityId);
+    }
+
 
     @ApiOperation("分页查询网格员")
     @GetMapping("/manager/page")
     public PageResultVO listManager(@ApiParam(value = "分页请求") PageRecord paging, @ApiParam(value = "查询条件") ScGridManagerCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
-        return gridEstateService.listGridManagerPage(paging, condition);
+        return gridGridService.listGridManagerPage(paging, condition);
     }
 
     @ApiOperation("新增网格员")
     @PostMapping("/manager")
     public EmptyResourceResponse createManager(@RequestBody @ApiParam(value = "网格员信息", required = true) ScGridManager body) {
         Assert.notNull(body.getGridId(), "Require grid id");
-        int add = gridEstateService.createManager(body);
+        int add = gridGridService.createManager(body);
         if (add > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
@@ -151,7 +157,7 @@ public class GridGridController {
     public EmptyResourceResponse updateManager(@PathVariable("id") @ApiParam(value = "网格员id", required = true) Integer id, @RequestBody @ApiParam(value = "网格员信息", required = true) ScGridManager body) {
         Assert.notNull(body.getId(), "Require grid manager id");
         body.setId(id);
-        int update = gridEstateService.updateManager(body);
+        int update = gridGridService.updateManager(body);
         if (update > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
@@ -162,7 +168,7 @@ public class GridGridController {
     @ApiOperation("删除网格员")
     @DeleteMapping("/manager/{id}")
     public EmptyResourceResponse deleteManager(@PathVariable("id") @ApiParam(value = "网格员id", required = true) Integer id) {
-        int delete = gridEstateService.deleteManager(id);
+        int delete = gridGridService.deleteManager(id);
         if (delete > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
@@ -174,7 +180,7 @@ public class GridGridController {
     @DeleteMapping("/manager")
     public EmptyResourceResponse batchDeleteManager(@RequestBody @ApiParam(value = "网格员id列表", required = true) List<Integer> ids) {
         int size = ids == null ? 0 : ids.size();
-        int delete = gridEstateService.deleteManager(ids);
+        int delete = gridGridService.deleteManager(ids);
         if (delete == size) {
             return EmptyResourceResponse.INSTANCE;
         } else {
@@ -185,13 +191,13 @@ public class GridGridController {
     @ApiOperation("分页查询网格员考评信息")
     @GetMapping("/evaluation/page")
     public PageResultVO listEvaluation(@ApiParam(value = "分页请求") PageRecord paging, @ApiParam(value = "查询条件") ScGridEvaluationCondition condition) {
-        return gridEstateService.listGridEvaluationPage(paging, condition);
+        return gridGridService.listGridEvaluationPage(paging, condition);
     }
 
     @ApiOperation("新增考评信息")
     @PostMapping("/evaluation")
     public EmptyResourceResponse createEvaluation(@RequestBody @ApiParam(value = "考评信息", required = true) ScGridEvaluation body) {
-        int add = gridEstateService.createEvaluation(body);
+        int add = gridGridService.createEvaluation(body);
         if (add > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
@@ -204,7 +210,7 @@ public class GridGridController {
     public EmptyResourceResponse updateEvaluation(@PathVariable("gridId") @ApiParam(value = "网格id", required = true) Integer gridId, @PathVariable("gridManagerId") @ApiParam(value = "网格员id", required = true) Integer gridManagerId, @RequestBody @ApiParam(value = "考评信息", required = true) ScGridEvaluation body) {
         body.setGridId(gridId);
         body.setGridManagerId(gridManagerId);
-        int update = gridEstateService.updateEvaluation(body);
+        int update = gridGridService.updateEvaluation(body);
         if (update > 0) {
             return EmptyResourceResponse.INSTANCE;
         } else {
@@ -215,7 +221,7 @@ public class GridGridController {
     @ApiOperation("删除考评信息")
     @DeleteMapping("/evaluation/{gridId}/{gridManagerId}")
     public EmptyResourceResponse deleteEvaluation(@PathVariable("gridId") @ApiParam(value = "网格id", required = true) Integer gridId, @PathVariable("gridManagerId") @ApiParam(value = "网格员id", required = true) Integer gridManagerId) {
-        int delete = gridEstateService.deleteEvaluation(gridId, gridManagerId);
+        int delete = gridGridService.deleteEvaluation(gridId, gridManagerId);
         if (delete == 1) {
             return EmptyResourceResponse.INSTANCE;
         } else {
@@ -227,7 +233,7 @@ public class GridGridController {
     @DeleteMapping("/evaluation")
     public EmptyResourceResponse batchDeleteEvaluation(@RequestParam("gridId") @ApiParam(value = "网格id", required = true) Integer gridId, @RequestParam("gridManagerIds") @ApiParam(value = "网格员id列表", required = true) List<Integer> gridManagerIds) {
         int size = gridManagerIds == null ? 0 : gridManagerIds.size();
-        int delete = gridEstateService.deleteEvaluation(gridId, gridManagerIds);
+        int delete = gridGridService.deleteEvaluation(gridId, gridManagerIds);
         if (delete == size) {
             return EmptyResourceResponse.INSTANCE;
         } else {

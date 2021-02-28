@@ -39,21 +39,21 @@ public class GridBuildingController {
         return SimpleResourceResponse.of("网格化管理->建筑管理");
     }
 
-    @ApiOperation("分页查询")
+    @ApiOperation("分页查询建筑")
     @GetMapping("/page")
     public PageResultVO list(@ApiParam(value = "分页请求") PageRecord paging, @ApiParam(value = "查询条件") ScBuildingCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
         return gridBuildingService.listPage(paging, condition);
     }
 
-    @ApiOperation("全部查询")
+    @ApiOperation("全部建筑查询")
     @GetMapping("/all")
     public ResultVOEntity listAll(@ApiParam(value = "查询条件") ScBuildingCondition condition) {
         condition.checkSQLinjectionException(condition.getName());
         return gridBuildingService.list(condition);
     }
 
-    @ApiOperation("查看详情")
+    @ApiOperation("查看建筑详情")
     @GetMapping("/detail/{id}")
     public ScBuilding detail(@PathVariable("id") @ApiParam(value = "建筑id", required = true) Integer id) {
         ScBuilding select = gridBuildingService.select(id);
@@ -108,5 +108,11 @@ public class GridBuildingController {
         } else {
             throw APIException.of(ExceptionCode.SERVER_API_BUSINESS_ERROR, String.format("实际删除数据[%d]少于计划删除[%d],可能原因：以前删除过", delete, size));
         }
+    }
+
+    @ApiOperation("通过小区id获取建筑下拉列表")
+    @GetMapping("/listBuildingsByEstateId")
+    public ResultVOEntity listBuildingsByEstateId(@ApiParam(value = "小区id", required = true) Integer estateId) {
+        return gridBuildingService.listBuildingsByEstateId(estateId);
     }
 }

@@ -73,4 +73,10 @@ public class ScGridImpl {
     public int updateValidStatus(Integer id, Integer validStatus) {
         return scGridMapper.updateValidStatusByPrimaryKey(id, validStatus);
     }
+
+    public ResultVOEntity listGridsByCommunityId(Integer communityId) {
+        List data = scGridMapper.selectByCommunityId(communityId);
+        List<String> columns = QPagingUtil.parserResultColumns(data);
+        return ResultVOEntity.of(columns, data);
+    }
 }

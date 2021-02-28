@@ -113,6 +113,14 @@ public class GridEstateController {
         }
     }
 
+
+    @ApiOperation("通过社区id获取小区下拉列表")
+    @GetMapping("/listEstatesByCommunityId")
+    public ResultVOEntity listEstatesByCommunityId(@ApiParam(value = "社区id", required = true) Integer communityId) {
+        return gridEstateService.listEstatesByCommunityId(communityId);
+    }
+
+
     @ApiOperation("分页查询物业人员")
     @GetMapping("/staff/page")
     public PageResultVO listStaff(@ApiParam(value = "分页请求") PageRecord paging, @ApiParam(value = "查询条件") ScPropertyStaffCondition condition) {
