@@ -15,3 +15,6 @@
 ## 开发说明
 
 在develop分支上开发
+
+* 仓库从github迁移到gitee上
+* 迁移后地址: https://github.com/hubeixiang/smart-city.git
