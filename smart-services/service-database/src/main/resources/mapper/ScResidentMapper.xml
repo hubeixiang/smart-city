@@ -45,13 +45,12 @@
         <result column="estate_id_ext" jdbcType="VARCHAR" property="estateIdExt"/>
         <result column="building_id" jdbcType="INTEGER" property="buildingId"/>
         <result column="building_id_ext" jdbcType="VARCHAR" property="buildingIdExt"/>
-
+        <result column="house_id" jdbcType="INTEGER" property="houseId"/>
     </resultMap>
     <sql id="allNonColumns"> name, sex, nation, mobile, card_id, birthday, live_type, political_status, qualifications, marry_status, faith, work_type, military_status, is_settle, birth_province_id, birth_city_id, birth_county_id, settle_province_id, settle_city_id, settle_county_id, settle_address, register_status, register_date, unregister_date, comment, create_time,  creator_id, creator_name, modify_time</sql>
-    <sql id="allColumns">id, <include refid="allNonColumns"></include>
+    <sql id="allColumns">id, <include refid="allNonColumns"/>
     </sql>
-    <sql id="allColumnsView">community_id, community_id_ext, grid_id, grid_id_ext, estate_id, estate_id_ext, building_id, building_id_ext, <include
-            refid="allColumns"></include>
+    <sql id="allColumnsView">community_id, community_id_ext, grid_id, grid_id_ext, estate_id, estate_id_ext, building_id, building_id_ext, house_id, <include refid="allColumns"/>
     </sql>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete from sc_resident
@@ -162,6 +161,9 @@
         </if>
         <if test="condition.cardId !=null and condition.cardId != ''">
             and card_id like '%${condition.cardId}%'
+        </if>
+        <if test="condition.houseId !=null ">
+            and house_id = #{condition.houseId}
         </if>
     </sql>
 

@@ -45,4 +45,6 @@ public interface ScUserHouseRelMapper {
      * @mbg.generated Tue Feb 16 11:09:04 CST 2021
      */
     int updateByPrimaryKey(ScUserHouseRel record);
+
+    int deleteByPrimaryKeys(@Param("userIds") List<Integer> userIds, @Param("houseId") Integer houseId);
 }

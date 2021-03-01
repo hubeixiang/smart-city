@@ -75,4 +75,13 @@
     select user_id, house_id, owner_rel, valid_time, create_time,  creator_id, creator_name, modify_time
     from sc_user_house_rel
   </select>
+
+  <delete id="deleteByPrimaryKeys" parameterType="map">
+    delete from sc_user_house_rel
+    where user_id in (
+    <foreach item="itemListValue" collection="userIds" separator=",">
+      #{itemListValue}
+    </foreach>
+    ) and house_id = #{houseId,jdbcType=INTEGER}
+  </delete>
 </mapper>

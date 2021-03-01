@@ -8,6 +8,7 @@ public class ScResidentCondition implements ConditionQuery {
     private Integer registerStatus;
     private String name;
     private String cardId;
+    private Integer houseId;
 /*    private Integer sex;
     private String mobile;
     private Integer birthProvinceId;
@@ -76,6 +77,14 @@ public class ScResidentCondition implements ConditionQuery {
 
     public void setCardId(String cardId) {
         this.cardId = cardId;
+    }
+
+    public Integer getHouseId() {
+        return houseId;
+    }
+
+    public void setHouseId(Integer houseId) {
+        this.houseId = houseId;
     }
 
     /*public Integer getSex() {

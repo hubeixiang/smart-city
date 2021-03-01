@@ -3,6 +3,7 @@ package com.sct.service.main;
 import com.sct.service.core.service.QPagingUtil;
 import com.sct.service.core.web.support.collection.PageResultVO;
 import com.sct.service.core.web.support.collection.ResultVOEntity;
+import com.sct.service.core.web.support.collection.pages.PageRecord;
 import com.sct.service.core.web.support.collection.pages.PageResponse;
 import com.sct.service.core.web.support.collection.pages.Paging;
 import com.sct.service.database.condition.QPaging;
@@ -65,5 +66,12 @@ public class ScResidentImpl {
 
     public ScResident select(Integer id) {
         return scResidentMapper.selectByPrimaryKey(id);
+    }
+
+    //通过房屋查居住人员
+    public List<ScResident> selectByHouseId(Integer houseId) {
+        ScResidentCondition condition = new ScResidentCondition();
+        condition.setHouseId(houseId);
+        return scResidentMapper.selectCondition(condition);
     }
 }
