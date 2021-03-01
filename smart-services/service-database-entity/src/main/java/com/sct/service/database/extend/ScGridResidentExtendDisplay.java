@@ -8,10 +8,12 @@ public class ScGridResidentExtendDisplay extends BaseExtend implements ExtendEnt
     private String communityIdExt;
     private Integer gridId;
     private String gridIdExt;
+    private String gridNo;
     private Integer estateId;
     private String estateIdExt;
     private Integer buildingId;
     private String buildingIdExt;
+    private Integer houseId;
 
     public Integer getCommunityId() {
         return communityId;
@@ -75,5 +77,21 @@ public class ScGridResidentExtendDisplay extends BaseExtend implements ExtendEnt
 
     public void setEstateIdExt(String estateIdExt) {
         this.estateIdExt = estateIdExt;
+    }
+
+    public Integer getHouseId() {
+        return houseId;
+    }
+
+    public void setHouseId(Integer houseId) {
+        this.houseId = houseId;
+    }
+
+    public String getGridNo() {
+        return gridNo;
+    }
+
+    public void setGridNo(String gridNo) {
+        this.gridNo = gridNo;
     }
 }

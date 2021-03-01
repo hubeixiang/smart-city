@@ -25,6 +25,7 @@
     <result column="community_id_ext" jdbcType="VARCHAR" property="communityIdExt"/>
     <result column="grid_id" jdbcType="INTEGER" property="gridId"/>
     <result column="grid_id_ext" jdbcType="VARCHAR" property="gridIdExt"/>
+    <result column="grid_no" jdbcType="VARCHAR" property="gridNo"/>
     <result column="estate_id" jdbcType="INTEGER" property="estateId"/>
     <result column="estate_id_ext" jdbcType="VARCHAR" property="estateIdExt"/>
     <result column="building_id_ext" jdbcType="VARCHAR" property="buildingIdExt"/>
@@ -38,7 +39,7 @@
       modify_time</sql>
   <sql id="allColumns">id, <include refid="allNonColumns"/>
   </sql>
-  <sql id="allColumnsView">community_id, community_id_ext, grid_id, grid_id_ext, estate_id, estate_id_ext, building_id_ext, owner_id_ext, <include refid="allColumns"/>
+  <sql id="allColumnsView">community_id, community_id_ext, grid_id, grid_id_ext, estate_id, estate_id_ext, grid_no, building_id_ext, owner_id_ext, <include refid="allColumns"/>
   </sql>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

@@ -126,7 +126,7 @@ public class GridGridController {
         }
     }
 
-    @ApiOperation("获取网格下拉列表")
+    @ApiOperation("通过社区id获取网格下拉列表")
     @GetMapping("/listGridsByCommunityId")
     public ResultVOEntity listGridsByCommunityId(@ApiParam(value = "社区id", required = true) Integer communityId) {
         return gridGridService.listGridsByCommunityId(communityId);

@@ -6,6 +6,7 @@ package com.sct.service.database.extend;
 public class ScGridBuildingExtendDisplay extends BaseExtend implements ExtendEntity {
     private String communityIdExt;
     private String gridIdExt;
+    private String gridNo;
     private String estateIdExt;
 
     public String getCommunityIdExt() {
@@ -30,5 +31,13 @@ public class ScGridBuildingExtendDisplay extends BaseExtend implements ExtendEnt
 
     public void setEstateIdExt(String estateIdExt) {
         this.estateIdExt = estateIdExt;
+    }
+
+    public String getGridNo() {
+        return gridNo;
+    }
+
+    public void setGridNo(String gridNo) {
+        this.gridNo = gridNo;
     }
 }

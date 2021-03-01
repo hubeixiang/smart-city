@@ -4,7 +4,6 @@ public class ScHouseCondition implements ConditionQuery {
 
     private Integer communityId;
     private Integer gridId;
-    private Integer ownerId;
     private String ownerIdExt;
     private String buildingIdExt;
     private String unit;
@@ -47,14 +46,6 @@ public class ScHouseCondition implements ConditionQuery {
 
     public void setUnit(String unit) {
         this.unit = unit;
-    }
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
     }
 
     public String getOwnerIdExt() {

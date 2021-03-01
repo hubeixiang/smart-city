@@ -30,10 +30,11 @@
         <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
         <result column="community_id_ext" jdbcType="VARCHAR" property="communityIdExt"/>
         <result column="grid_id_ext" jdbcType="VARCHAR" property="gridIdExt"/>
+        <result column="grid_no" jdbcType="VARCHAR" property="gridNo"/>
     </resultMap>
     <sql id="allNonColumns"> name, org_type, community_id, grid_id, legal_name, legal_card_id, legal_mobile, credit_code, business_code, register_status, register_date, unregister_date, comment, marker_status, longitude, latitude, create_time,  creator_id, creator_name, modify_time </sql>
     <sql id="allColumns">id, <include refid="allNonColumns"></include> </sql>
-    <sql id="allColumnsView">community_id_ext,grid_id_ext,<include refid="allColumns"></include> </sql>
+    <sql id="allColumnsView">community_id_ext,grid_id_ext,grid_no,<include refid="allColumns"></include> </sql>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sc_organization
     where id = #{id,jdbcType=INTEGER}

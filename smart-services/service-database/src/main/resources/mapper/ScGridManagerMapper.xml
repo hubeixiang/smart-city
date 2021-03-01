@@ -22,6 +22,7 @@
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
     <result column="community_id_ext" jdbcType="VARCHAR" property="communityIdExt"/>
     <result column="grid_id_ext" jdbcType="VARCHAR" property="gridIdExt"/>
+    <result column="grid_no" jdbcType="VARCHAR" property="gridNo"/>
   </resultMap>
 
 
@@ -29,9 +30,8 @@
       mobile, pic_url, employ_date,
       leave_date, leave_reason, is_leader,
       create_time,  creator_id, creator_name, modify_time </sql>
-  <sql id="allColumns">id, <include refid="allNonColumns"></include> </sql>
-  <sql id="allColumnsView">community_id_ext, grid_id_ext, <include
-          refid="allColumns"></include>
+  <sql id="allColumns">id, <include refid="allNonColumns"/> </sql>
+  <sql id="allColumnsView">community_id_ext, grid_id_ext, grid_no, <include refid="allColumns"/>
   </sql>
 
   <sql id="queryCondition">
