@@ -41,6 +41,7 @@
         <result column="community_id_ext" jdbcType="VARCHAR" property="communityIdExt"/>
         <result column="grid_id" jdbcType="INTEGER" property="gridId"/>
         <result column="grid_id_ext" jdbcType="VARCHAR" property="gridIdExt"/>
+        <result column="grid_no" jdbcType="VARCHAR" property="gridNo"/>
         <result column="estate_id" jdbcType="INTEGER" property="estateId"/>
         <result column="estate_id_ext" jdbcType="VARCHAR" property="estateIdExt"/>
         <result column="building_id" jdbcType="INTEGER" property="buildingId"/>
@@ -50,7 +51,7 @@
     <sql id="allNonColumns"> name, sex, nation, mobile, card_id, birthday, live_type, political_status, qualifications, marry_status, faith, work_type, military_status, is_settle, birth_province_id, birth_city_id, birth_county_id, settle_province_id, settle_city_id, settle_county_id, settle_address, register_status, register_date, unregister_date, comment, create_time,  creator_id, creator_name, modify_time</sql>
     <sql id="allColumns">id, <include refid="allNonColumns"/>
     </sql>
-    <sql id="allColumnsView">community_id, community_id_ext, grid_id, grid_id_ext, estate_id, estate_id_ext, building_id, building_id_ext, house_id, <include refid="allColumns"/>
+    <sql id="allColumnsView">community_id, community_id_ext, grid_id, grid_id_ext, grid_no, estate_id, estate_id_ext, building_id, building_id_ext, house_id, <include refid="allColumns"/>
     </sql>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete from sc_resident

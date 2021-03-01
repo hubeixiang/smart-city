@@ -7,6 +7,7 @@ public class ScOrganizationExtendDisplay extends BaseExtend implements ExtendEnt
     private String orgTypeExt;
     private String communityIdExt;
     private String gridIdExt;
+    private String gridNo;
     private String registerStatusExt;
     private String markerStatusExt;
 
@@ -48,5 +49,13 @@ public class ScOrganizationExtendDisplay extends BaseExtend implements ExtendEnt
 
     public void setMarkerStatusExt(String markerStatusExt) {
         this.markerStatusExt = markerStatusExt;
+    }
+
+    public String getGridNo() {
+        return gridNo;
+    }
+
+    public void setGridNo(String gridNo) {
+        this.gridNo = gridNo;
     }
 }

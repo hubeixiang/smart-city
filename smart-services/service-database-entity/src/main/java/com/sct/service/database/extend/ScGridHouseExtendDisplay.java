@@ -8,6 +8,7 @@ public class ScGridHouseExtendDisplay extends BaseExtend implements ExtendEntity
     private String communityIdExt;
     private Integer gridId;
     private String gridIdExt;
+    private String gridNo;
     private Integer estateId;
     private String estateIdExt;
     private String buildingIdExt;
@@ -67,5 +68,21 @@ public class ScGridHouseExtendDisplay extends BaseExtend implements ExtendEntity
 
     public void setBuildingIdExt(String buildingIdExt) {
         this.buildingIdExt = buildingIdExt;
+    }
+
+    public String getGridNo() {
+        return gridNo;
+    }
+
+    public void setGridNo(String gridNo) {
+        this.gridNo = gridNo;
+    }
+
+    public String getOwnerIdExt() {
+        return ownerIdExt;
+    }
+
+    public void setOwnerIdExt(String ownerIdExt) {
+        this.ownerIdExt = ownerIdExt;
     }
 }
